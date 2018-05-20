@@ -1,3 +1,5 @@
+#include "static.cpp"
+
 using namespace std;
 
 void cpuid(unsigned info, unsigned *eax, unsigned *ebx, unsigned *ecx, unsigned *edx)
