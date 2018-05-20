@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include "static.cpp"
 
 using namespace std;
