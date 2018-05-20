@@ -4,7 +4,7 @@ LIBFORMAT = static_pic
 CPLEXDIR = ../../../../../opt/ibm/ILOG/CPLEX_Studio128/cplex
 CONCERTDIR = ../../../../../opt/ibm/ILOG/CPLEX_Studio128/concert
 
-CCC = g++ -O0
+CCC = g++ -O0 -std=c++11
 CCOPT = -m64 -O -fPIC -fno-strict-aliasing -fexceptions -DNDEBUG -DIL_STD
 
 CPLEXLIBDIR = $(CPLEXDIR)/lib/$(SYSTEM)/$(LIBFORMAT)
