@@ -16,13 +16,18 @@ CPLEXINCDIR   = $(CPLEXDIR)/include
 CCFLAGS = $(CCOPT) -I$(CPLEXINCDIR) -I$(CONCERTINCDIR)
 CCLNFLAGS = -lconcert -lilocplex -lcplex -lm -lpthread -ldl
 
-CPP_EX = blend
+CPP_EX = blend pcmul_test
 
 all: $(CPP_EX)
 
-execute: $(CPP_EX) ./blend
+execute: $(CPP_EX) ./blend ./pcmul_test
 
 blend: blend.o
 	$(CCC) $(CCFLAGS) $(CCLNDIRS) -o blend blend.o $(CCLNFLAGS)
 blend.o: blend.cpp
 	$(CCC) -c $(CCFLAGS) blend.cpp -o blend.o
+	
+pcmul_test: pcmul_test
+	$(CCC) $(CCFLAGS) -o pcmul_test pcmul_test.o
+pcmul_test.o: pcmul_test.cpp
+	$(CCC) -c $(CCFLAGS) pcmul_test.cpp -o pcmul_test.o
