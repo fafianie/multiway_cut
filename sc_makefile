@@ -1,0 +1,63 @@
+all: main random yes no_disjoint no_cluster exp_performance exp_compression table_measure
+
+#exp_zzl
+
+main: main.cpp galois.o tutte.o compression.o static.o preprocessor.o reader.o
+	c++ -std=c++11 main.cpp galois.o gauss.o tutte.o compression.o static.o preprocessor.o reader.o -o cycle
+
+exp_performance: exp_performance.cpp algorithms.o compression.o static.o tutte.o gauss.o galois.o preprocessor.o reader.o
+	c++ -std=c++11 -lboost_filesystem -lboost_system exp_performance.cpp algorithms.o compression.o static.o tutte.o gauss.o galois.o preprocessor.o reader.o -o exp_performance 
+
+exp_compression: exp_compression.cpp algorithms.o compression.o static.o tutte.o gauss.o galois.o preprocessor.o reader.o
+	c++ -std=c++11 -lboost_filesystem -lboost_system exp_compression.cpp algorithms.o compression.o static.o tutte.o gauss.o galois.o preprocessor.o reader.o -o exp_compression 
+	
+#exp_zzl: exp_zzl.cpp algorithms.o compression.o static.o tutte.o gauss.o galois.o preprocessor.o #reader.o
+#	c++ -std=c++11 exp_zzl.cpp algorithms.o compression.o static.o tutte.o gauss.o galois.o #preprocessor.o reader.o -o exp_zzl
+
+random: random_connected_instance.cpp instancegen.o writer.o
+	c++ -std=c++11 random_connected_instance.cpp instancegen.o writer.o -o random_connected_instance
+
+yes: yes_instance.cpp instancegen.o writer.o
+	c++ -std=c++11 yes_instance.cpp instancegen.o writer.o -o yes_instance
+
+no_disjoint: no_disjoint_instance.cpp instancegen.o writer.o
+	c++ -std=c++11 no_disjoint_instance.cpp instancegen.o writer.o -o no_disjoint_instance
+
+no_cluster: no_cluster_instance.cpp instancegen.o writer.o
+	c++ -std=c++11 no_cluster_instance.cpp instancegen.o writer.o -o no_cluster_instance
+
+table_measure: table_measure.cpp galois.o
+	c++ -std=c++11 table_measure.cpp galois.o -o table_measure
+
+algorithms.o: algorithms.cpp algorithms.h compression.o static.o tutte.o gauss.o galois.o preprocessor.o reader.o
+	c++ -std=c++11 -c algorithms.cpp
+
+compression.o: compression.cpp compression.h gauss.o
+	c++ -std=c++11 -c compression.cpp
+
+tutte.o: tutte.cpp tutte.h galois.o
+	c++ -std=c++11 -c tutte.cpp
+
+gauss.o: gauss.cpp gauss.h galois.o
+	c++ -std=c++11 -c gauss.cpp
+
+galois.o: galois.cpp galois.h static.o
+	c++ -std=c++11 -c galois.cpp
+
+static.o: static.cpp
+	c++ -std=c++11 -c static.cpp
+
+preprocessor.o: preprocessor.cpp preprocessor.h
+	c++ -std=c++11 -c preprocessor.cpp
+
+instancegen.o: instancegen.cpp instancegen.h
+	c++ -std=c++11 -c instancegen.cpp
+
+reader.o: reader.cpp reader.h
+	c++ -std=c++11 -c reader.cpp
+
+writer.o: writer.cpp writer.h
+	c++ -std=c++11 -c writer.cpp
+
+clean:
+	\rm *.o *~ cycle random_connected_instance yes_instance no_cluster_instance no_disjoint_instance exp_performance
