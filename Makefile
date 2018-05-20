@@ -29,5 +29,8 @@ blend.o: blend.cpp
 	
 pcmul_test: pcmul_test.o
 	$(CCC) $(CCFLAGS) -o pcmul_test pcmul_test.o
-pcmul_test.o: pcmul_test.cpp
+pcmul_test.o: pcmul_test.cpp static.o
 	$(CCC) -c $(CCFLAGS) pcmul_test.cpp -o pcmul_test.o
+	
+static.o: static.cpp
+	$(CCC) -c $(CCFLAGS) static.cpp -o static.o
