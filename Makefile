@@ -34,3 +34,8 @@ pcmul_test.o: pcmul_test.cpp static.o
 	
 static.o: static.cpp
 	$(CCC) -c $(CCFLAGS) static.cpp -o static.o
+	
+clean :
+	\rm *.o *~ *.class
+	\rm $(CPP_EX)
+	\rm -rf *.mps *.ord *.sos *.lp *.sav *.net *.msg *.log *.clp
