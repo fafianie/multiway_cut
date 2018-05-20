@@ -7,7 +7,7 @@ CONCERTDIR = ../../../../../opt/ibm/ILOG/CPLEX_Studio128/concert
 CCC = g++ -O0
 #CC = gcc -O0
 
-CCOPT = -m64 -O -fPIC - fno-strict-aliasing -fexceptions -DNDEBUG -DIL_STD
+CCOPT = -m64 -O -fPIC -fno-strict-aliasing -fexceptions -DNDEBUG -DIL_STD
 
 CPLEXBINDIR = $(CPLEXDIR)/bin/$(BINDIST)
 CPLEXLIBDIR = $(CPLEXDIR)/lib/$(SYSTEM)/$(LIBFORMAT)
