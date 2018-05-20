@@ -1,4 +1,4 @@
-SYSTEM = x86-64_linnux
+SYSTEM = x86-64_linux
 LIBFORMAT = static_pic
 
 CPLEXDIR = ../../../../../opt/ibm/ILOG/CPLEX_Studio128/cplex
