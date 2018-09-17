@@ -1,5 +1,6 @@
-cmake_minimum_required(VERSION 3.11)
+cmake_minimum_required(VERSION 3.6.2)
 project(multiwaycut)
+enable_language(C ASM)
 
 enable_testing()
 add_subdirectory(main)
