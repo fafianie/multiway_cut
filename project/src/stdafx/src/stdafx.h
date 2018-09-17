@@ -4,8 +4,6 @@
 #include <random>
 #include <string>
 #include <random>
-#include <stdio.h>
-#include <tchar.h>
 #include <iostream>
 #include <cstdint>
 #include <fstream>
