@@ -16,6 +16,16 @@ uint64_t CarrylessMultiplierGalois::multiply(uint64_t leftOperand, uint64_t righ
 	uint64_t mask = pwm1[32];
 	uint64_t x1x0, x2, x3;
   
+	/* __asm__ (
+		//carry-less multiplication
+		"movd %3, %%xmm0;" 
+	 	"movd %4, %%xmm1;"
+		"pclmulqdq $0, %%xmm0, %%xmm1;" 
+		"movd %%xmm0, %0;"
+ 
+		: "=r" (x1x0)
+		: "r" (leftOperand), "r" (rightOperand)
+	)*/
 	__asm__ ( 	//carry-less multiplication
 		"movd %3, %%xmm1;" 
 	 	"movd %4, %%xmm2;"
@@ -38,6 +48,29 @@ uint64_t CarrylessMultiplierGalois::multiply(uint64_t leftOperand, uint64_t righ
 		: "=r" (x1x0), "=r" (x2), "=r" (x3)
 		: "r" (leftOperand), "r" (rightOperand), "r" (mask)		
 	);
+	
+	/*__asm__ ( 	//carry-less multiplication
+		"movd %3, %%xmm0;" 
+	 	"movd %4, %%xmm1;"
+		"pclmulqdq $0, %%xmm0, %%xmm1;" 
+
+		//fetch first 64 bits
+		"movd %%xmm0, %0;"
+                
+		//fetch 32 more bits
+        "psrldq $8, %%xmm0;"
+		"movd %%xmm0, %1;"
+
+		//fetch last 32 bits
+        "psrldq $4, %%xmm0;"
+		"movd %%xmm0, %2;"          
+
+		: "=r" (x1x0), "=r" (x2unmasked), "=r" (x3)
+		: "r" (leftOperand), "r" (rightOperand)
+	);*/
+	
+	//mask x2
+	//uint64_t x2 = x2unmasked ^ mask;
 
 	//modulo primitive polynomial
 	uint64_t x3d = (x3 << 32) ^ (x3 >> 31) ^ (x3 >> 29) ^ (x3 >> 28) ^ x2;

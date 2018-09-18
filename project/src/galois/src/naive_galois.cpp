@@ -17,7 +17,7 @@ uint64_t NaiveGalois::divide(uint64_t arg1, uint64_t arg2)
 uint64_t NaiveGalois::multiply(uint64_t arg1, uint64_t arg2)
 {
 	uint64_t a = arg1;
-	uint64_t b = arg2; 
+	uint64_t b = arg2;
 	uint64_t p = 0;
 
 	for (int i = 0; i < w; i++)
