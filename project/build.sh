@@ -1,0 +1,1 @@
+./clean.sh;./make.sh;cd build;make test

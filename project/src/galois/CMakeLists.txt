@@ -1,4 +1,4 @@
-enable_language(C ASM)
+
 #set_source_files_properties(src/pclmul.asm PROPERTIES COMPILE_FLAGS "-x assembler-with-cpp" )
 #set_property(SOURCE src/pclmul.asm PROPERTY LANGUAGE C)
 #target_include_directories(pclmul PUBLIC ./src)

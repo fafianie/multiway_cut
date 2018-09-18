@@ -1,8 +1,5 @@
-#include <bitset>
-#include <iostream>
+#include "stdafx.h"
 #include "galois.h"
-#include <string>
-#include <random>
 #include "powers.cpp"
 #include "primitives.cpp"
 
