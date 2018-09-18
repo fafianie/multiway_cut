@@ -19,8 +19,8 @@ class Galois
     uint64_t logtb_divide(uint64_t, uint64_t);
     uint64_t clmul_divide(uint64_t, uint64_t);
     uint64_t inverse(uint64_t); //shared method
-    uint64_t log(uint64_t); //shared
-    uint64_t ilog(uint64_t); //shared
+    uint64_t log(uint64_t); //private
+    uint64_t ilog(uint64_t); //private
     uint64_t uniform_random_element(); //shared method
     void seed(); //call from constructor
 
