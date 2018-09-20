@@ -1,4 +1,14 @@
-add_library(igalois STATIC src/igalois.cpp src/naive_galois.cpp src/carryless_multiplier_galois.cpp src/table_galois.cpp src/logarithm_table_galois.cpp)
+enable_language(C ASM)
+
+set(SOURCES 
+	src/igalois.cpp
+	src/naive_galois.cpp
+	src/carryless_multiplier_galois.cpp
+	src/table_galois.cpp
+	src/logarithm_table_galois.cpp
+	src/pclmul.s)
+
+add_library(igalois STATIC ${SOURCES})
 target_link_libraries(igalois stdafx constants)
 target_include_directories(igalois PUBLIC ./src)
 

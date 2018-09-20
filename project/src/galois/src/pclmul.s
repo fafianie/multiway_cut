@@ -1,20 +1,25 @@
-.CODE
-pclmul PROC
-   movd xmm0, rcx
-   movd xmm1, rdx
-   pclmulqdq xmm0, xmm1, 0
-   movd rax, xmm0
-   ret
-pclmul ENDP 
-fetch1 PROC
-   psrldq xmm0, 8
-   movd rax, xmm0
-   and rax, rcx
-   ret
-fetch1 ENDP 
-fetch2 PROC
-   psrldq xmm0, 4
-   movd rax, xmm0
-   ret
-fetch2 ENDP 
-END 
+.section .text
+
+.global pclmul
+
+pclmul:	
+		movd 		%rcx, %xmm0
+		movd 		%rdx, %xmm1
+		pclmulqdq 	$0, %xmm0, %xmm1
+		movd 		%xmm0,%rax
+		ret
+
+.global fetch1		
+		
+fetch1: 
+		psrldq  	$8, %xmm0
+		movd  		%xmm0, %rax
+		and  		%rcx, %rax
+		ret
+
+.global fetch2		
+		
+fetch2: 
+		psrldq 		$4, %xmm0
+		movd  		%xmm0, %rax
+		ret
