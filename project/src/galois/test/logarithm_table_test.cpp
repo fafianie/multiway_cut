@@ -34,6 +34,11 @@ int main(int argc, char* argv[]) {
 		}
 	}
 	
+	delete[] leftOperands;
+	delete[] rightOperands;
+	delete naiveGalois;
+	delete logarithmTableGalois;
+	
 	if (succesful) {
 		return 0;
 	}
