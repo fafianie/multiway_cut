@@ -4,8 +4,8 @@
 #include "stdafx.h"
 #include "igalois.h"
 
-class LogarithmTableGalois : public IGalois
-{
+class LogarithmTableGalois : public IGalois {
+	
 	public:
 		LogarithmTableGalois(const int w);
 		~LogarithmTableGalois();

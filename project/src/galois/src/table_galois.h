@@ -4,8 +4,8 @@
 #include "stdafx.h"
 #include "igalois.h"
 
-class TableGalois : public IGalois
-{
+class TableGalois : public IGalois {
+	
 	public:
 		TableGalois(const int w);
 		~TableGalois();

@@ -5,6 +5,7 @@
 #include "igalois.h"
 
 class CarrylessMultiplierGalois : public IGalois {
+	
 	public:
 		CarrylessMultiplierGalois();
 		~CarrylessMultiplierGalois();

@@ -4,8 +4,9 @@
 #include "stdafx.h"
 
 class IGalois {
+	
 	public:
-		IGalois(const int); //also deal with destructor abstractly
+		IGalois(const int);
 		virtual ~IGalois();
 		
 		uint64_t add(uint64_t, uint64_t);

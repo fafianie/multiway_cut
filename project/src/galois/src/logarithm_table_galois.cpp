@@ -4,7 +4,6 @@
 #include "primitives.cpp"
 
 LogarithmTableGalois::LogarithmTableGalois(const int winit) : IGalois(winit) {
-	
 	int size = pw[w];
 	logarithmTable = new uint64_t[size];
 	inverseLogarithmTable = new uint64_t[size];
@@ -26,35 +25,35 @@ LogarithmTableGalois::~LogarithmTableGalois() {
 	delete[] inverseLogarithmTable;
 }
 	
-uint64_t LogarithmTableGalois::divide(uint64_t arg1, uint64_t arg2) {
-	if (arg1 == 0) {
+uint64_t LogarithmTableGalois::divide(uint64_t leftOperand, uint64_t rightOperand) {
+	if (leftOperand == 0) {
 		return 0; 
 	}
-	if (arg2 == 0) {
+	if (rightOperand == 0) {
 		return -1; 
 	}
-	uint64_t difference = logarithm(arg1) - logarithm(arg2);
-	if (logarithm(arg1) < logarithm(arg2)) {
+	uint64_t difference = logarithm(leftOperand) - logarithm(rightOperand);
+	if (logarithm(leftOperand) < logarithm(rightOperand)) {
 		difference += pwm1[w]; 
 	}
 	return inverseLogarithm(difference);
 }
 
-uint64_t LogarithmTableGalois::multiply(uint64_t arg1, uint64_t arg2) {
-	if (arg1 == 0 || arg2 == 0) {
+uint64_t LogarithmTableGalois::multiply(uint64_t leftOperand, uint64_t rightOperand) {
+	if (leftOperand == 0 || rightOperand == 0) {
 		return 0;
 	}
-	uint64_t sum = logarithm(arg1) + logarithm(arg2);
+	uint64_t sum = logarithm(leftOperand) + logarithm(rightOperand);
 	if (sum >= pwm1[w]) {
 		sum -= pwm1[w];
 	}
 	return inverseLogarithm(sum);
 }
 
-uint64_t LogarithmTableGalois::logarithm(uint64_t arg1) { 
-  return logarithmTable[arg1];
+uint64_t LogarithmTableGalois::logarithm(uint64_t leftOperand) { 
+  return logarithmTable[leftOperand];
 }
 
-uint64_t LogarithmTableGalois::inverseLogarithm(uint64_t arg1) {
-  return inverseLogarithmTable[arg1];
+uint64_t LogarithmTableGalois::inverseLogarithm(uint64_t leftOperand) {
+  return inverseLogarithmTable[leftOperand];
 }
