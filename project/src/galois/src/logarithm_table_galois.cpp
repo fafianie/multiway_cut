@@ -50,10 +50,10 @@ uint64_t LogarithmTableGalois::multiply(uint64_t leftOperand, uint64_t rightOper
 	return inverseLogarithm(sum);
 }
 
-uint64_t LogarithmTableGalois::logarithm(uint64_t leftOperand) { 
-  return logarithmTable[leftOperand];
+uint64_t LogarithmTableGalois::logarithm(uint64_t operand) { 
+  return logarithmTable[operand];
 }
 
-uint64_t LogarithmTableGalois::inverseLogarithm(uint64_t leftOperand) {
-  return inverseLogarithmTable[leftOperand];
+uint64_t LogarithmTableGalois::inverseLogarithm(uint64_t operand) {
+  return inverseLogarithmTable[operand];
 }
