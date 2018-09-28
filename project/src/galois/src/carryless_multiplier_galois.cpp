@@ -2,7 +2,7 @@
 #include "carryless_multiplier_galois.h"
 #include "powers.cpp"
 
-CarrylessMultiplierGalois::CarrylessMultiplierGalois() : IGalois(64) {}
+CarrylessMultiplierGalois::CarrylessMultiplierGalois() : Galois(64) {}
 
 CarrylessMultiplierGalois::~CarrylessMultiplierGalois() {}
 

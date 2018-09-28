@@ -2,9 +2,9 @@
 #define MULTIWAY_CUT_SRC_GALOIS_SRC_LOGARITHM_TABLE_GALOIS_H
 
 #include "stdafx.h"
-#include "igalois.h"
+#include "galois.h"
 
-class LogarithmTableGalois : public IGalois {
+class LogarithmTableGalois : public Galois {
 	
 	public:
 		LogarithmTableGalois(const int w);

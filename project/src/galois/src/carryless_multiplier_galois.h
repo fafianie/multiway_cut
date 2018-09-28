@@ -2,9 +2,9 @@
 #define MULTIWAY_CUT_SRC_GALOIS_SRC_CARRYLESS_MULTIPLIER_GALOIS_H
 
 #include "stdafx.h"
-#include "igalois.h"
+#include "galois.h"
 
-class CarrylessMultiplierGalois : public IGalois {
+class CarrylessMultiplierGalois : public Galois {
 	
 	public:
 		CarrylessMultiplierGalois();

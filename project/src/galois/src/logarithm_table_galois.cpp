@@ -3,7 +3,7 @@
 #include "powers.cpp"
 #include "primitives.cpp"
 
-LogarithmTableGalois::LogarithmTableGalois(const int winit) : IGalois(winit) {
+LogarithmTableGalois::LogarithmTableGalois(const int winit) : Galois(winit) {
 	int size = pw[w];
 	logarithmTable = new uint64_t[size];
 	inverseLogarithmTable = new uint64_t[size];

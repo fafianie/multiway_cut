@@ -2,9 +2,9 @@
 #define MULTIWAY_CUT_SRC_GALOIS_SRC_TABLE_GALOIS_H
 
 #include "stdafx.h"
-#include "igalois.h"
+#include "galois.h"
 
-class TableGalois : public IGalois {
+class TableGalois : public Galois {
 	
 	public:
 		TableGalois(const int w);

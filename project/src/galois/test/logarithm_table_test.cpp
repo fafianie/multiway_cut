@@ -9,8 +9,8 @@ int main(int argc, char* argv[]) {
 
 	int repetitions = 1000;
 
-	IGalois* naiveGalois = new NaiveGalois(16);
-	IGalois* logarithmTableGalois = new LogarithmTableGalois(16);
+	Galois* naiveGalois = new NaiveGalois(16);
+	Galois* logarithmTableGalois = new LogarithmTableGalois(16);
 	
 	uint64_t* leftOperands = new uint64_t[repetitions];
 	uint64_t* rightOperands = new uint64_t[repetitions];

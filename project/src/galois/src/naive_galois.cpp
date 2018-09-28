@@ -3,7 +3,7 @@
 #include "powers.cpp"
 #include "primitives.cpp"
 
-NaiveGalois::NaiveGalois(const int winit) : IGalois(winit) {}
+NaiveGalois::NaiveGalois(const int winit) : Galois(winit) {}
 
 NaiveGalois::~NaiveGalois() {}
 
