@@ -1,5 +1,4 @@
-#ifndef MULTIWAY_CUT_SRC_GALOIS_SRC_GALOIS_H
-#define MULTIWAY_CUT_SRC_GALOIS_SRC_GALOIS_H
+#pragma once
 
 #include "stdafx.h"
 
@@ -20,5 +19,3 @@ class Galois {
 		std::mt19937 randomGenerator;
 		int w;
 };
-
-#endif

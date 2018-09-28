@@ -1,5 +1,4 @@
-#ifndef MULTIWAY_CUT_SRC_GALOIS_SRC_LOGARITHM_TABLE_GALOIS_H
-#define MULTIWAY_CUT_SRC_GALOIS_SRC_LOGARITHM_TABLE_GALOIS_H
+#pragma once
 
 #include "stdafx.h"
 #include "galois.h"
@@ -19,5 +18,3 @@ class LogarithmTableGalois : public Galois {
 		uint64_t*  logarithmTable;
 		uint64_t*  inverseLogarithmTable;
 };
-
-#endif
