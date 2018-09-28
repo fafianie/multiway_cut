@@ -17,7 +17,6 @@ uint64_t Galois::add(uint64_t leftOperand, uint64_t rightOperand) {
 }
 
 uint64_t Galois::inverse(uint64_t operand) {
-	//TODO:fix for small w?? CHECK IF TEST WORKS
 	uint64_t square = multiply(operand, operand); 
 	uint64_t result = square;
 	for (int i = 0; i < (w-2); i++) {

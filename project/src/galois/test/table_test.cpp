@@ -1,13 +1,13 @@
 #include "stdafx.h"
-#include "logarithm_table_galois.h"
+#include "table_galois.h"
 #include "naive_galois.h"
 
 int main(int argc, char* argv[]) {
 
 	int repetitions = 1000;
 
-	Galois* naiveGalois = new NaiveGalois(16);
-	Galois* logarithmTableGalois = new LogarithmTableGalois(16);
+	Galois* naiveGalois = new NaiveGalois(8);
+	Galois* tableGalois = new TableGalois(8);
 	
 	uint64_t* leftOperands = new uint64_t[repetitions];
 	uint64_t* rightOperands = new uint64_t[repetitions];
@@ -20,13 +20,13 @@ int main(int argc, char* argv[]) {
 	bool succesful = true;
 	for (int repetition = 0; repetition < repetitions; repetition++) {
 		uint64_t naiveMultiplication = naiveGalois -> multiply(leftOperands[repetition], rightOperands[repetition]);
-		uint64_t logarithmTableMultiplication = logarithmTableGalois -> multiply(leftOperands[repetition], rightOperands[repetition]);
+		uint64_t tableMultiplication = tableGalois -> multiply(leftOperands[repetition], rightOperands[repetition]);
 		uint64_t naiveDivision = naiveGalois -> divide(leftOperands[repetition], rightOperands[repetition]);
-		uint64_t logarithmTableDivision = logarithmTableGalois -> divide(leftOperands[repetition], rightOperands[repetition]);
-		if (naiveMultiplication != logarithmTableMultiplication) {
+		uint64_t tableDivision = tableGalois -> divide(leftOperands[repetition], rightOperands[repetition]);
+		if (naiveMultiplication != tableMultiplication) {
 			succesful = false;
 		}
-		if (naiveDivision != logarithmTableDivision) {
+		if (naiveDivision != tableDivision) {
 			succesful = false;
 		}
 	}
@@ -34,7 +34,7 @@ int main(int argc, char* argv[]) {
 	delete[] leftOperands;
 	delete[] rightOperands;
 	delete naiveGalois;
-	delete logarithmTableGalois;
+	delete tableGalois;
 	
 	if (succesful) {
 		return 0;

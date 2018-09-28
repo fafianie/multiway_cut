@@ -1,9 +1,6 @@
 #include "stdafx.h"
 #include "carryless_multiplier_galois.h"
 #include "naive_galois.h"
-#include "powers.cpp"
-
-using namespace std;
 
 int main(int argc, char* argv[]) {
 
