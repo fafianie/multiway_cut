@@ -2,42 +2,23 @@
 #include "carryless_multiplier_galois.h"
 #include "naive_galois.h"
 
+static const int repetitions = 1000;
+static const int power = 64;
+
 int main(int argc, char* argv[]) {
-
-	int repetitions = 1000;
-
-	Galois* naiveGalois = new NaiveGalois(64);
-	Galois* carrylessMultiplierGalois = new CarrylessMultiplierGalois();
-	
-	uint64_t* leftOperands = new uint64_t[repetitions];
-	uint64_t* rightOperands = new uint64_t[repetitions];
-	
+	Galois *naiveGalois = new NaiveGalois(power);
+	Galois *carrylessMultiplierGalois = new CarrylessMultiplierGalois();
 	for (int repetition = 0; repetition < repetitions; repetition++) {
-		leftOperands[repetition] = naiveGalois -> uniformRandomElement();
-		rightOperands[repetition] = naiveGalois -> uniformRandomElement();
-	}
-	
-	bool succesful = true;
-	for (int repetition = 0; repetition < repetitions; repetition++) {
-		uint64_t naiveMultiplication = naiveGalois -> multiply(leftOperands[repetition], rightOperands[repetition]);
-		uint64_t logarithmTableMultiplication = carrylessMultiplierGalois -> multiply(leftOperands[repetition], rightOperands[repetition]);
-		uint64_t naiveDivision = naiveGalois -> divide(leftOperands[repetition], rightOperands[repetition]);
-		uint64_t logarithmTableDivision = carrylessMultiplierGalois -> divide(leftOperands[repetition], rightOperands[repetition]);
-		if (naiveMultiplication != logarithmTableMultiplication) {
-			succesful = false;
+		uint64_t leftOperand = naiveGalois -> uniformRandomElement();
+		uint64_t rightOperand = naiveGalois -> uniformRandomElement();
+		if (naiveGalois -> multiply(leftOperand, rightOperand) != carrylessMultiplierGalois -> multiply(leftOperand, rightOperand)) {
+			return 1;
 		}
-		if (naiveDivision != logarithmTableDivision) {
-			succesful = false;
+		if (naiveGalois -> divide(leftOperand, rightOperand) != carrylessMultiplierGalois -> divide(leftOperand, rightOperand)) {
+			return 1;
 		}
 	}
-	
-	delete[] leftOperands;
-	delete[] rightOperands;	
 	delete naiveGalois;
 	delete carrylessMultiplierGalois;
-	
-	if (succesful) {
-		return 0;
-	}
-	return 1;
+	return 0;
 }

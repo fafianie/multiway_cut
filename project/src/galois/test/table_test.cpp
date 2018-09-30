@@ -2,42 +2,32 @@
 #include "table_galois.h"
 #include "naive_galois.h"
 
-int main(int argc, char* argv[]) {
+static const int repetitions = 1000;
+static const int powers = 8;
 
-	int repetitions = 1000;
-
-	Galois* naiveGalois = new NaiveGalois(8);
-	Galois* tableGalois = new TableGalois(8);
-	
-	uint64_t* leftOperands = new uint64_t[repetitions];
-	uint64_t* rightOperands = new uint64_t[repetitions];
-	
+bool testPower(int power) {
+	Galois *naiveGalois = new NaiveGalois(power);
+	Galois *tableGalois = new TableGalois(power);
 	for (int repetition = 0; repetition < repetitions; repetition++) {
-		leftOperands[repetition] = naiveGalois -> uniformRandomElement();
-		rightOperands[repetition] = naiveGalois -> uniformRandomElement();
-	}
-	
-	bool succesful = true;
-	for (int repetition = 0; repetition < repetitions; repetition++) {
-		uint64_t naiveMultiplication = naiveGalois -> multiply(leftOperands[repetition], rightOperands[repetition]);
-		uint64_t tableMultiplication = tableGalois -> multiply(leftOperands[repetition], rightOperands[repetition]);
-		uint64_t naiveDivision = naiveGalois -> divide(leftOperands[repetition], rightOperands[repetition]);
-		uint64_t tableDivision = tableGalois -> divide(leftOperands[repetition], rightOperands[repetition]);
-		if (naiveMultiplication != tableMultiplication) {
-			succesful = false;
+		uint64_t leftOperand = naiveGalois -> uniformRandomElement();
+		uint64_t rightOperand = naiveGalois -> uniformRandomElement();
+		if (naiveGalois -> multiply(leftOperand, rightOperand) != tableGalois -> multiply(leftOperand, rightOperand)) {
+			return false;
 		}
-		if (naiveDivision != tableDivision) {
-			succesful = false;
+		if (naiveGalois -> divide(leftOperand, rightOperand) != tableGalois -> divide(leftOperand, rightOperand)) {
+			return false;
 		}
 	}
-	
-	delete[] leftOperands;
-	delete[] rightOperands;
 	delete naiveGalois;
 	delete tableGalois;
-	
-	if (succesful) {
-		return 0;
+	return true;
+}
+
+int main(int argc, char* argv[]) {
+	for (int power = 1; power <= powers; power++) {
+		if (!testPower(power)) {
+			return 1;
+		}
 	}
-	return 1;
+	return 0;
 }

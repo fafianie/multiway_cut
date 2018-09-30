@@ -9,8 +9,6 @@ add_library(galois STATIC ${SOURCES})
 target_link_libraries(galois stdafx constants)
 target_include_directories(galois PUBLIC ./src)
 
-
-
 add_executable(inversion_test test/inversion_test.cpp)
 target_link_libraries(inversion_test galois stdafx)
 add_test(InversionWorks inversion_test)
