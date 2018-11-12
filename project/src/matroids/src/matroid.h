@@ -5,12 +5,15 @@
 class Matroid {
 	
 	public:
-		Matroid(uint64_t **representation);
+		Matroid(int, int);
 		~Matroid();
 	
 		void swapElements(int, int);
+		bool allZero(); //TODO: remove this method
 	
 	private:
 		uint64_t **representation;
-		uint64_t *aliases;
-}
+		int *aliases;
+		int elements;
+		int rank;
+};

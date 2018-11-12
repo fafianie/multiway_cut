@@ -4,7 +4,7 @@
 #include "powers.cpp"
 #include "primitives.cpp"
 
-TableGalois::TableGalois(const int winit) : Galois(winit) {
+TableGalois::TableGalois(const int initW) : Galois(initW) {
 	Galois * galois = new NaiveGalois(w);
 		
 	uint64_t size = pw[w];

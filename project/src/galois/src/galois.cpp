@@ -5,7 +5,7 @@
 
 using namespace std;
 
-Galois::Galois(const int winit) : w(winit) {
+Galois::Galois(const int initW) : w(initW) {
 	random_device rd;  
 	randomGenerator.seed(rd());   
 }

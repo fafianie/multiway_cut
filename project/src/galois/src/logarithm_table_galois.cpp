@@ -3,13 +3,12 @@
 #include "powers.cpp"
 #include "primitives.cpp"
 
-LogarithmTableGalois::LogarithmTableGalois(const int winit) : Galois(winit) {
+LogarithmTableGalois::LogarithmTableGalois(const int initW) : Galois(initW) {
 	int size = pw[w];
 	logarithmTable = new uint64_t[size];
 	inverseLogarithmTable = new uint64_t[size];
 
 	uint64_t b = 1;
-
 	for (int log = 0; log < (size-1); log++) {
 		logarithmTable[b] = (unsigned int) log;
 		inverseLogarithmTable[log] = (unsigned int) b;
