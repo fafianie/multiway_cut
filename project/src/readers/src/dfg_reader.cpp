@@ -1,8 +1,6 @@
 #include "stdafx.h"
 #include "graph.h"
 #include "dfg_reader.h"
-#include <windows.h>
-#include <dirent.h>
 
 using namespace std;
 
