@@ -12,10 +12,18 @@ class Graph {
 		void addEdge(int, int);
 		void addTerminal(int);
 		
+		bool isOutNeighbor(int, int);
+		bool isInNeighbor(int, int);
+		bool isTerminal(int);
+		int getVertices();
+		int getEdges();
+		int getNumberOfTerminals();
+		std::unordered_set<int> getTerminals();
+		
 	private:
 		bool **adjacent;
 		int vertices;
 		int edges;
 		int numberOfTerminals;
-		std::vector<int> terminals;
+		std::unordered_set<int> terminals;
 };

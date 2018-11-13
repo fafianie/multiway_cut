@@ -27,8 +27,36 @@ void Graph::addEdge(int leftVertex, int rightVertex) {
 }
 
 void Graph::addTerminal(int terminal) {
-	terminals.push_back(terminal);
+	terminals.insert(terminal);
 	numberOfTerminals++;
+}
+
+bool Graph::isOutNeighbor(int vertex, int outNeighbor) {
+	return adjacent[vertex][outNeighbor];
+}
+
+bool Graph::isInNeighbor(int vertex, int inNeighbor) {
+	return adjacent[inNeighbor][vertex];
+}
+
+bool Graph::isTerminal(int vertex) {
+	return terminals.find(vertex) != terminals.end();
+}
+
+unordered_set<int> Graph::getTerminals() {
+	return terminals;
+}
+
+int Graph::getVertices() {
+	return vertices;
+}
+
+int Graph::getEdges() {
+	return edges;
+}
+
+int Graph::getNumberOfTerminals() {
+	return numberOfTerminals;
 }
 
 bool Graph::isIndependentSet() {
