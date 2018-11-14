@@ -6,8 +6,8 @@ static const int repetitions = 1000;
 static const int power = 64;
 
 int main(int argc, char* argv[]) {
-	Galois *naiveGalois = new NaiveGalois(power);
-	Galois *carrylessMultiplierGalois = new CarrylessMultiplierGalois();
+	Galois* naiveGalois = new NaiveGalois(power);
+	Galois* carrylessMultiplierGalois = new CarrylessMultiplierGalois();
 	for (int repetition = 0; repetition < repetitions; repetition++) {
 		uint64_t leftOperand = naiveGalois -> uniformRandomElement();
 		uint64_t rightOperand = naiveGalois -> uniformRandomElement();

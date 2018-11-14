@@ -2,7 +2,7 @@
 #include "matroid.h"
 
 int main(int argc, char* argv[]) {
-	Matroid matroid = Matroid(10, 8);
+	Matroid matroid(10, 8);
 	if (!matroid.allZero()) {
 		return 1;
 	}
