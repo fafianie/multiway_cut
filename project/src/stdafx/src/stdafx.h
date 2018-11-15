@@ -12,4 +12,5 @@
 #include <queue>
 #include <unordered_set>
 #include <stack>
+#include <algorithm>
 //#include <ilcplex/ilocplex.h> TODO: include only in runner

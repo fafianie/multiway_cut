@@ -7,10 +7,15 @@ class Matroid {
 	public:
 		Matroid(int, int);
 		~Matroid();
+		Matroid(const Matroid&);
 	
 		void swapElements(int, int);
 		void setField(int, int, uint64_t);
+		uint64_t getField(int, int);
 		bool allZero(); //TODO: remove this method
+		int getElements();
+		int getRank();
+		int getAlias(int);
 	
 	private:
 		uint64_t** representation;
