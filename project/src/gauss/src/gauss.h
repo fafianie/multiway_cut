@@ -9,5 +9,8 @@ class Gauss{
 		static bool isIndependentSet(std::vector<int>&, int, Matroid, Galois*);
 
 	private:
-		static void swapRows(int, int, int, int, Matroid&);
+		static void swapColumns(int, int, int, int, Matroid&);
+		static int findPivot(std::vector<int>&, int, Matroid&);
+		static int findNonZeroRowIndex(int,	std::unordered_set<int>&, Matroid&);
+		static bool swipeNonZeroRows(int, std::vector<int>&, int, std::unordered_set<int>&, Matroid& matroid, Galois* galois);
 };

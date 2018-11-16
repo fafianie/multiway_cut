@@ -11,5 +11,5 @@ target_link_libraries(matroid_copy_constructor_test matroids stdafx)
 add_test(MatroidCopyConstructorWorks matroid_copy_constructor_test)
 
 add_executable(uniform_matroid_test test/uniform_matroid_test.cpp)
-target_link_libraries(uniform_matroid_test galois matroids stdafx)
+target_link_libraries(uniform_matroid_test gauss galois matroids constants stdafx)
 add_test(UniformMatroidWorks uniform_matroid_test)
