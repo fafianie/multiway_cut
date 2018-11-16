@@ -6,14 +6,13 @@
 using namespace std;
 
 bool Gauss::isIndependentSet(vector<int>& elements, 
-							 int rows, 
 							 Matroid matroid, 
 							 Galois* galois) {
-	if (rows < elements.size()) {
+	if (matroid.getRank() < elements.size()) {
 		return false;
 	}
 	unordered_set<int> nonZeroRows;
-	for (int row = 0; row < rows; row++) {
+	for (int row = 0; row < matroid.getRank(); row++) {
 		nonZeroRows.insert(row);
 	}
 	for (int elementIndex = 0; elementIndex < elements.size(); elementIndex++) {

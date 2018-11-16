@@ -6,10 +6,40 @@
 
 using namespace std;
 
+const int repetitions = 1000;
+const int edges = 200;
+const int numberOfSinks = 40;
+
 int main(int argc, char* argv[]) {
 	Galois* galois = new CarrylessMultiplierGalois();
-	Graph graph(10);
-	Matroid matroid = TransversalMatroid::generate(graph, galois);
+	
+	vector<int> sinks;
+	for (int sink = 0; sink < numberOfSinks; sink++) {
+		sinks.push_back(sink);
+	}
+	
+	for (int repetition = 0; repetition < repetitions; repetition++) {
+		Graph graph(2 * numberOfSinks);
+		random_shuffle(sinks.begin(), sinks.end());
+		
+		for (int sink = 0; sink < numberOfSinks; sink++) {
+			graph.addEdge(sinks.at(sink), numberOfSinks + sink);
+		};
+		Matroid matroid = TransversalMatroid::generate(graph, galois, sinks);
+		
+		bool independent = Gauss::isIndependentSet(sinks, matroid, galois);
+		if (!independent) {
+			cout << "dependent" << endl;
+			return 1;
+		}
+		cout << "independent" << endl;
+	}
+
+	//TEST POSITIVE BY GENERATING GRAPHS WITH PLANTED MATCHINGS
+	
+	//TEST NEGATIVE BY GENERATING GRAPHS THAT DON"T HAVE ENOUGH COMMON NEIGHBORS
+	
+	
 	delete galois;
 	return 0;
 }

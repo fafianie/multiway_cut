@@ -6,7 +6,7 @@
 class Gauss{
 	
 	public:
-		static bool isIndependentSet(std::vector<int>&, int, Matroid, Galois*);
+		static bool isIndependentSet(std::vector<int>&, Matroid, Galois*);
 
 	private:
 		static void swapColumns(int, int, int, int, Matroid&);

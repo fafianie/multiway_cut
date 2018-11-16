@@ -20,7 +20,7 @@ int main(int argc, char* argv[]) {
 				candidates.push_back(elementIndex);
 			}
 		}
-		bool independent = Gauss::isIndependentSet(candidates, matroidRank, matroid, galois);
+		bool independent = Gauss::isIndependentSet(candidates, matroid, galois);
 		if ((candidates.size() > matroidRank) == independent) {
 			return 1;
 		}

@@ -7,6 +7,6 @@
 class TransversalMatroid {
 	
 	public:
-		static Matroid generate(Graph&, Galois*);
+		static Matroid generate(Graph&, Galois*, std::vector<int>&);
 
 };
