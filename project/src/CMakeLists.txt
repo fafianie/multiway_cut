@@ -13,9 +13,13 @@ add_subdirectory(graphs)
 add_subdirectory(readers)
 
 add_library(cplex SHARED IMPORTED)
-set_target_properties(cplex PROPERTIES IMPORTED_LOCATION "/opt/ibm/ILOG/CPLEX_Studio128/cplex")
+set_target_properties(cplex PROPERTIES 
+	IMPORTED_LOCATION "/opt/ibm/ILOG/CPLEX_Studio128/cplex"
+	INTERFACE_INCLUDE_DIRECTORIES "/opt/ibm/ILOG/CPLEX_Studio128/cplex/include/ilcplex")
 add_library(concert SHARED IMPORTED)
-set_target_properties(cplex PROPERTIES IMPORTED_LOCATION "/opt/ibm/ILOG/CPLEX_Studio128/concert")
+set_target_properties(concert PROPERTIES 
+	IMPORTED_LOCATION "/opt/ibm/ILOG/CPLEX_Studio128/concert"
+	INTERFACE_INCLUDE_DIRECTORIES "/opt/ibm/ILOG/CPLEX_Studio128/concert/include/ilconcert")
 
 add_subdirectory(solvers)
 #if (NOT CPLEX)
