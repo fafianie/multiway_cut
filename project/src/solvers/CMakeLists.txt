@@ -1,6 +1,9 @@
 set(SOURCES
 	src/blend.cpp)
 	
+set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -m64 -O -fPIC -fno-strict-aliasing -fexceptions -DNDEBUG -DIL_STD")
+message("FLAGS: ${CMAKE_CXX_FLAGS}")
+
 add_library(solvers STATIC ${SOURCES})
 target_link_libraries(solvers cplex concert stdafx)
 target_include_directories(solvers PUBLIC ./src)
