@@ -5,5 +5,5 @@ target_link_libraries(dummy_test stdafx)
 add_test(DummyTests dummy_test)
 
 add_executable(blend test/blend.cpp) 
-target_link_libraries(blend stdafx)
+target_link_libraries(blend cplex concert stdafx)
 add_test(BlendWorks blend)
