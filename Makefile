@@ -1,8 +1,8 @@
 SYSTEM = x86-64_linux
 LIBFORMAT = static_pic
 
-CPLEXDIR = ../../../../../opt/ibm/ILOG/CPLEX_Studio128/cplex
-CONCERTDIR = ../../../../../opt/ibm/ILOG/CPLEX_Studio128/concert
+CPLEXDIR = /opt/ibm/ILOG/CPLEX_Studio128/cplex
+CONCERTDIR = /opt/ibm/ILOG/CPLEX_Studio128/concert
 
 CCC = g++ -O0 -std=c++11
 CCOPT = -m64 -O -fPIC -fno-strict-aliasing -fexceptions -DNDEBUG -DIL_STD
