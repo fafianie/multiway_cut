@@ -14,6 +14,15 @@ add_subdirectory(readers)
 
 find_library(CPLEX ilcplex)
 find_library(CONCERT ilconcert)
+
+if (LINUX) 
+	message("LINUX")
+endif()
+if (UNIX)
+	message ("UNIX")
+endif()
+
+
 if (NOT CPLEX)
 	message("could not find CPLEX")
 elseif (NOT CONCERT)
