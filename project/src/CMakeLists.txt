@@ -11,3 +11,7 @@ add_subdirectory(gauss)
 add_subdirectory(matroids)
 add_subdirectory(graphs)
 add_subdirectory(readers)
+
+find_library(CPLEX cplex)
+find_library(CONCERT concert)
+#add_subdirectory(solvers)
