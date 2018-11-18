@@ -13,15 +13,18 @@ add_subdirectory(matroids)
 add_subdirectory(graphs)
 add_subdirectory(readers)
 
-add_library(cplex SHARED IMPORTED)
+add_library(cplex UNKNOWN IMPORTED)
 set_target_properties(cplex PROPERTIES 
-	IMPORTED_LOCATION "/opt/ibm/ILOG/CPLEX_Studio128/cplex/lib/x86-64_linux/static_pic/libilocplex.a"
+	IMPORTED_LOCATION "/opt/ibm/ILOG/CPLEX_Studio128/cplex/lib/x86-64_linux/static_pic"
 	INTERFACE_INCLUDE_DIRECTORIES "/opt/ibm/ILOG/CPLEX_Studio128/cplex/include")
-add_library(concert SHARED IMPORTED)
+add_library(concert UNKNOWN IMPORTED)
 set_target_properties(concert PROPERTIES 
-	IMPORTED_LOCATION "/opt/ibm/ILOG/CPLEX_Studio128/concert/lib/x86-64_linux/static_pic/libconcert.a"
+	IMPORTED_LOCATION "/opt/ibm/ILOG/CPLEX_Studio128/concert/lib/x86-64_linux/static_pic"
 	INTERFACE_INCLUDE_DIRECTORIES "/opt/ibm/ILOG/CPLEX_Studio128/concert/include")
 
+#IDEAS: add other .a files somehow
+#		use find_library instead
+	
 add_subdirectory(solvers)
 #if (NOT CPLEX)
 #	message("could not find CPLEX")
