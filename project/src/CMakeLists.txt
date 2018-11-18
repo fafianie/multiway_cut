@@ -17,7 +17,7 @@ set_target_properties(cplex PROPERTIES IMPORTED_LOCATION "/opt/ibm/ILOG/CPLEX_St
 add_library(concert SHARED IMPORTED)
 set_target_properties(cplex PROPERTIES IMPORTED_LOCATION "/opt/ibm/ILOG/CPLEX_Studio128/concert")
 
-
+add_subdirectory(solvers)
 #if (NOT CPLEX)
 #	message("could not find CPLEX")
 #elseif (NOT CONCERT)
