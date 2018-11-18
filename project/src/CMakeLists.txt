@@ -15,11 +15,11 @@ add_subdirectory(readers)
 
 add_library(cplex SHARED IMPORTED)
 set_target_properties(cplex PROPERTIES 
-	IMPORTED_LOCATION "/opt/ibm/ILOG/CPLEX_Studio128/cplex/lib/x86-64_linux/static_pic"
+	IMPORTED_LOCATION "/opt/ibm/ILOG/CPLEX_Studio128/cplex/lib/x86-64_linux/static_pic/libilocplex.a"
 	INTERFACE_INCLUDE_DIRECTORIES "/opt/ibm/ILOG/CPLEX_Studio128/cplex/include")
 add_library(concert SHARED IMPORTED)
 set_target_properties(concert PROPERTIES 
-	IMPORTED_LOCATION "/opt/ibm/ILOG/CPLEX_Studio128/concert/lib/x86-64_linux/static_pic"
+	IMPORTED_LOCATION "/opt/ibm/ILOG/CPLEX_Studio128/concert/lib/x86-64_linux/static_pic/libconcert.a"
 	INTERFACE_INCLUDE_DIRECTORIES "/opt/ibm/ILOG/CPLEX_Studio128/concert/include")
 
 add_subdirectory(solvers)
