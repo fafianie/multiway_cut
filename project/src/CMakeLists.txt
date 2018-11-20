@@ -16,6 +16,7 @@ add_subdirectory(readers)
 add_library(cplex SHARED IMPORTED)
 set_target_properties(cplex PROPERTIES
 	IMPORTED_LOCATION "/opt/ibm/ILOG/CPLEX_Studio128/cplex/lib/x86-64_linux/static_pic/cplex.a"
+	INTERFACE_INCLUDE_DIRECTORIES "opt/ibm/ILOG/CPLEX_Studio128/cplex/include")
 add_library(ilocplex SHARED IMPORTED)
 set_target_properties(ilocplex PROPERTIES 
 	IMPORTED_LOCATION "/opt/ibm/ILOG/CPLEX_Studio128/cplex/lib/x86-64_linux/static_pic/ilocplex.a"
