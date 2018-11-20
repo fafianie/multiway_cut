@@ -13,6 +13,10 @@ add_subdirectory(matroids)
 add_subdirectory(graphs)
 add_subdirectory(readers)
 
+add_library(cplexdistmip SHARED IMPORTED)
+set_target_properties(cplexdistmip PROPERTIES
+	IMPORTED_LOCATION "/opt/ibm/ILOG/CPLEX_Studio128/cplex/lib/x86-64_linux/static_pic/libcplexdistmip.a"
+	INTERFACE_INCLUDE_DIRECTORIES "/opt/ibm/ILOG/CPLEX_Studio128/cplex/include")
 add_library(cplex SHARED IMPORTED)
 set_target_properties(cplex PROPERTIES
 	IMPORTED_LOCATION "/opt/ibm/ILOG/CPLEX_Studio128/cplex/lib/x86-64_linux/static_pic/libcplex.a"
