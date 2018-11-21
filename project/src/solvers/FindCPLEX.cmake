@@ -145,6 +145,7 @@ if (CPLEX_FOUND AND NOT TARGET cplex-library)
     set(CPLEX_LINK_LIBRARIES ${CPLEX_LINK_LIBRARIES} m)
   endif ()
   add_library(cplex-library STATIC IMPORTED GLOBAL)
+  message("CMAKE_DL_LIBS: " ${CMAKE_DL_LIBS})
   set_target_properties(cplex-library PROPERTIES
     IMPORTED_LOCATION "${CPLEX_LIBRARY}"
     IMPORTED_LOCATION_DEBUG "${CPLEX_LIBRARY_DEBUG}"
