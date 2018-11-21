@@ -1,10 +1,12 @@
 include(FindCPLEX.cmake)
+
+
+if(NOT CPLEX_LIBRARY)
+	return()
+endif()
+
 set(SOURCES
 	src/blend.cpp)
-
-if(CPLEX_LIBRARY)
-	message("CPLEX WAS FOUND") 
-endif()
 	
 add_library(solvers STATIC ${SOURCES})
 target_link_libraries(solvers ilocplex stdafx)
