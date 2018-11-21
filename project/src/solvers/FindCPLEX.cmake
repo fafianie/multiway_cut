@@ -139,18 +139,17 @@ find_package_handle_standard_args(
 mark_as_advanced(CPLEX_LIBRARY CPLEX_LIBRARY_DEBUG CPLEX_INCLUDE_DIR)
 
 if (CPLEX_FOUND AND NOT TARGET cplex-library)
-  set(CPLEX_LINK_LIBRARIES ${CMAKE_THREAD_LIBS_INIT})
+  set(CPLEX_LINK_LIBRARIES ${CMAKE_THREAD_LIBS_INIT} ${CMAKE_DL_LIBS})
   check_library_exists(m floor "" HAVE_LIBM)
   if (HAVE_LIBM)
     set(CPLEX_LINK_LIBRARIES ${CPLEX_LINK_LIBRARIES} m)
   endif ()
   add_library(cplex-library STATIC IMPORTED GLOBAL)
-  message("CMAKE_DL_LIBS: " ${CMAKE_DL_LIBS})
   set_target_properties(cplex-library PROPERTIES
     IMPORTED_LOCATION "${CPLEX_LIBRARY}"
     IMPORTED_LOCATION_DEBUG "${CPLEX_LIBRARY_DEBUG}"
     INTERFACE_INCLUDE_DIRECTORIES "${CPLEX_INCLUDE_DIR}"
-    INTERFACE_LINK_LIBRARIES "${CPLEX_LINK_LIBRARIES} ${CMAKE_DL_LIBS}")
+    INTERFACE_LINK_LIBRARIES "${CPLEX_LINK_LIBRARIES}")
 endif ()
 
 # ----------------------------------------------------------------------------
