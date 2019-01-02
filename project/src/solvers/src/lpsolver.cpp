@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "lpsolver.h"
+#include <ilcplex/ilocplex.h>
 
 ILOSTLBEGIN
 //using namespace std;
