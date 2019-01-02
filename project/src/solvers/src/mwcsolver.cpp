@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include <ilcplex/ilocplex.h>
 #include "mwcsolver.h"
 #include "lpsolver.h"
 
