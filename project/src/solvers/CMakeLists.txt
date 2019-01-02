@@ -7,7 +7,7 @@ endif()
 
 set(SOURCES
 	src/lpsolver.cpp
-	src/mcwsolver.cpp
+	src/mwcsolver.cpp
 	src/blend.cpp)
 	
 add_library(solvers STATIC ${SOURCES})
