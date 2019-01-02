@@ -6,6 +6,8 @@ if(NOT CPLEX_LIBRARY)
 endif()
 
 set(SOURCES
+	src/lpsolver.cpp
+	src/mcwsolver.cpp
 	src/blend.cpp)
 	
 add_library(solvers STATIC ${SOURCES})
