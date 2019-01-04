@@ -1,6 +1,5 @@
 include(FindCPLEX.cmake)
 
-
 if(NOT CPLEX_LIBRARY)
 	return()
 endif()

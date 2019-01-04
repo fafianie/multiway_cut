@@ -1,5 +1,6 @@
 set(SOURCES
-	src/graph.cpp)
+	src/graph.cpp
+	src/planted_instance.cpp)
 	
 add_library(graphs STATIC ${SOURCES})
 target_link_libraries(graphs stdafx)

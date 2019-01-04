@@ -46,7 +46,7 @@ uint64_t Galois::uniformRandomElement() {
 }
 
 string Galois::toString(uint64_t operand) {
-	std::bitset<64> x(operand);
+	bitset<64> x(operand);
 	string s = x.to_string();
 	return s.substr(64-w, w);
 }
