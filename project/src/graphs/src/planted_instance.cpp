@@ -25,7 +25,7 @@ PlantedInstance::PlantedInstance(const int initVertices,
 	int offset = hubSize;
 	vector<tuple<int, int>> edgeCandidates;
 	for (int cluster = 0; cluster < clusters - 1; cluster++) {
-		if (maxTerminals < getNumberOfTerminals) {
+		if (maxTerminals < getNumberOfTerminals()) {
 			addTerminal(offset);
 		}
 		createSpanningTree(offset, offset + clusterSize);
@@ -39,7 +39,7 @@ PlantedInstance::PlantedInstance(const int initVertices,
 	}
 	
 	//LAST CLUSTER
-	if (maxTerminals < getNumberOfTerminals) {
+	if (maxTerminals < getNumberOfTerminals()) {
 			addTerminal(offset);
 	}
 	createSpanningTree(offset, initVertices);
