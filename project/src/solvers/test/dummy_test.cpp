@@ -21,7 +21,7 @@ int main(int argc, char* argv[]) {
 		}
 	}
 	
-	MCWsolver solver = MCWSolver(planted.getVertices(), 
+	MCWsolver solver = new MCWSolver(planted.getVertices(), 
 								 graph.getNumberOfTerminals(), 
 								 graph.getTerminals(),
 								 adjacency);
