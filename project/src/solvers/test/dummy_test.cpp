@@ -10,9 +10,9 @@ int main(int argc, char* argv[]) {
 	Graph* graph = new PlantedInstance(100, 7, 5, 300 ,10, 20, 4);
 	
 	int** adjacency = new int*[];
-	for (int i = 0; i < graph.getVertices(), i++) {
+	for (int i = 0; i < graph -> getVertices(), i++) {
 		adjacency[i] = new int[];
-		for (int j = 0; j < graph.getVertices(), j++) {
+		for (int j = 0; j < graph -> getVertices(), j++) {
 			if (graph.isOutNeighbor(i, j)){
 				adjacency[i][j] = 1;
 			} else {
@@ -21,9 +21,9 @@ int main(int argc, char* argv[]) {
 		}
 	}
 	
-	MCWsolver solver = new MCWSolver(planted.getVertices(), 
-								 graph.getNumberOfTerminals(), 
-								 graph.getTerminals(),
+	MCWsolver solver = new MCWSolver(graph -> getVertices(), 
+								 graph -> getNumberOfTerminals(), 
+								 graph -> getTerminals(),
 								 adjacency);
 	int solution = solver.solve();
 	if (solution > 4) {
