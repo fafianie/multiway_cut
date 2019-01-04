@@ -47,8 +47,6 @@ unordered_set<int> Graph::getTerminals() {
 	return terminals;
 }
 
-vector<
-
 int Graph::getVertices() {
 	return vertices;
 }
