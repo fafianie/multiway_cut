@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "graph.h"
 #include "planted_instance.h"
-#include "mcwsolver.h"
+#include "mwcsolver.h"
 
 using namespace std;
 
