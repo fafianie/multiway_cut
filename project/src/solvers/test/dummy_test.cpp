@@ -1,4 +1,6 @@
 #include "stdafx.h"
+#include "graph.h"
+#include "planted_instance.h"
 
 using namespace std;
 
