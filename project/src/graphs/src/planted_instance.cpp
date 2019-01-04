@@ -5,7 +5,7 @@ using namespace std;
 
 PlantedInstance::PlantedInstance(const int initVertices,
 								 const int clusters,
-								 const int terminals,
+								 const int maxTerminals,
 								 const int edges,
 								 const int hubSize,
 								 const int hubEdges,
@@ -25,6 +25,9 @@ PlantedInstance::PlantedInstance(const int initVertices,
 	int offset = hubSize;
 	vector<tuple<int, int>> edgeCandidates;
 	for (int cluster = 0; cluster < clusters - 1; cluster++) {
+		if (maxTerminals < terminal) {
+			addTerminal(offset);
+		}
 		createSpanningTree(offset, offset + clusterSize);
 		edgeBudget -= (clusterSize - 1);
 		createEdgeCandidates(edgeCandidates, offset, offset + clusterSize);
@@ -36,6 +39,9 @@ PlantedInstance::PlantedInstance(const int initVertices,
 	}
 	
 	//LAST CLUSTER
+	if (maxTerminals < terminal) {
+			addTerminal(offset);
+	}
 	createSpanningTree(offset, initVertices);
 	edgeBudget -= ((initVertices - offset) - 1);
 	createEdgeCandidates(edgeCandidates, offset, initVertices);
