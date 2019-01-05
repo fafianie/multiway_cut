@@ -26,11 +26,11 @@ int main(int argc, char* argv[]) {
 	}
 	
 	
-	MWCSolver solver = new MWCSolver(graph -> getVertices(), 
+	MWCSolver* solver = new MWCSolver(graph -> getVertices(), 
 								 graph -> getNumberOfTerminals(),
 								 terminals,
 								 adjacency);
-	int solution = solver.solve();
+	int solution = solver -> solve();
 	if (solution > 4) {
 		return 1;
 	}
