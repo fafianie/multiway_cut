@@ -1,4 +1,6 @@
 #pragma once
+#include <ilcplex/ilocplex.h>
+
 class LPSolver
 {
 public:
