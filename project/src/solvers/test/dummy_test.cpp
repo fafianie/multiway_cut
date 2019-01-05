@@ -21,7 +21,7 @@ int main(int argc, char* argv[]) {
 		}
 	}
 	
-	MWCsolver solver = new MWCSolver(graph -> getVertices(), 
+	MWCSolver solver = new MWCSolver(graph -> getVertices(), 
 								 graph -> getNumberOfTerminals(), 
 								 graph -> getTerminals(),
 								 adjacency);
