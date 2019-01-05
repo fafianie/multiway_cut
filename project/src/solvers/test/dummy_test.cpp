@@ -32,7 +32,7 @@ int main(int argc, char* argv[]) {
 										  terminals,
 										  adjacency);
 		int solution = solver -> solve();
-		if (solution > 4) {
+		if (solution == 4) {
 			return 1;
 		}
 	
