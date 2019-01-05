@@ -13,7 +13,7 @@ int main(int argc, char* argv[]) {
 	for (int i = 0; i < graph -> getVertices(), i++) {
 		adjacency[i] = new int[];
 		for (int j = 0; j < graph -> getVertices(), j++) {
-			if (graph.isOutNeighbor(i, j)){
+			if (graph -> isOutNeighbor(i, j)){
 				adjacency[i][j] = 1;
 			} else {
 				adjacency[i][j] = 0;
