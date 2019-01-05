@@ -20,7 +20,7 @@ int main(int argc, char* argv[]) {
 			}
 		}
 	}
-	vector terminals;
+	vector<int> terminals;
 	for (auto terminal : graph -> getTerminals()) {
 		terminals.push_back(terminal);
 	}
