@@ -11,12 +11,12 @@ LPSolver::LPSolver()
 {
 }
 
-LPSolver::LPSolver(Graph& graph, vector<int> termlist, int** adj)
+LPSolver::LPSolver(Graph& graph, vector<int> termlist)
 {
-	init(graph, termlist, adj);
+	init(graph, termlist);
 }
 
-void LPSolver::init(Graph& graph, vector<int> termlist, int** adj)
+void LPSolver::init(Graph& graph, vector<int> termlist)
 {
 	try 
 	{
@@ -62,7 +62,7 @@ void LPSolver::init(Graph& graph, vector<int> termlist, int** adj)
 		{
 			for (int v = 0; v < nodes; v++)
 			{
-				if (adj[u][v] == 1) 
+				if (graph.isOutNeighbor(u, v)) 
 				{
 					for (int j = 0; j < terminals; j++)
 					{

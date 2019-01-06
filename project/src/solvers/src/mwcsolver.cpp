@@ -28,7 +28,7 @@ int MWCSolver::solve(Graph& graph, int n, int t, vector<int>& tlist, int** adj)
 	termlist = tlist;
 	adjacency = adj;
 	
-	lps.init(graph, termlist, adjacency);
+	lps.init(graph, termlist);
 
 	//set up auxiliary data structures
 	boundary = new int[nodes];
@@ -112,7 +112,7 @@ int MWCSolver::solve(Graph& graph, int n, int t, vector<int>& tlist, int** adj)
 	//verify correctness
 
 	LPSolver lps2;
-	lps2.init(graph, termlist, adjacency);
+	lps2.init(graph, termlist);
 
 	for (auto v : opt_sol)
 	{
