@@ -20,23 +20,22 @@ void LPSolver::init(Graph& graph, int nodes, int terminals, vector<int> termlist
 {
 	try 
 	{
-		//IloModel m(env);
-		//model = m;
-		model(env);
+		IloModel initialModel(environment);
+		model = initialModel;
 
-		IloNumVarArray d(env, nodes, 0.0, IloInfinity); //TODO check difference in runtime using 1.0 as upper bound
+		IloNumVarArray d(environment, nodes, 0.0, IloInfinity); //TODO check difference in runtime using 1.0 as upper bound
 		/*for (int i = 0; i < terminals; i++)
 		{
 			d[termlist[i] - 1] = IloNumVar(env, 0.0, 0.0);
 		}*/
 		dist = d;
 
-		IloNumVarArray y(env, nodes*terminals, 0.0, IloInfinity);
+		IloNumVarArray y(environment, nodes*terminals, 0.0, IloInfinity);
 
 
 		// initialize for warm start
-		IloNumVarArray wd(env);
-		IloNumArray wv(env);
+		IloNumVarArray wd(environment);
+		IloNumArray wv(environment);
 		for (int i = 0; i < nodes; i++)
 		{
 			wd.add(d[i]);
@@ -51,9 +50,9 @@ void LPSolver::init(Graph& graph, int nodes, int terminals, vector<int> termlist
 		model.add(d);
 		model.add(y);
 
-		model.add(IloMinimize(env, IloSum(d)));
+		model.add(IloMinimize(environment, IloSum(d)));
 
-		IloRangeArray c(env);
+		IloRangeArray c(environment);
 
 		//neighbor distance constraints
 		for (int u = 0; u < nodes; u++)
@@ -103,8 +102,8 @@ void LPSolver::init(Graph& graph, int nodes, int terminals, vector<int> termlist
 
 		IloCplex cp(model);
 		cplex = cp;
-		cplex.setOut(env.getNullStream());
-		cplex.setWarning(env.getNullStream());
+		cplex.setOut(environment.getNullStream());
+		cplex.setWarning(environment.getNullStream());
 	}
 	catch (IloException& e) {
 		cerr << "Concert exception caught: " << e << endl;
@@ -117,7 +116,7 @@ void LPSolver::init(Graph& graph, int nodes, int terminals, vector<int> termlist
 
 void LPSolver::block(int v)
 {
-	IloRangeArray c(env);
+	IloRangeArray c(environment);
 	c.add(dist[v] == 0);
 	model.add(c);
 	q.push(c);
@@ -129,7 +128,7 @@ void LPSolver::block(int v)
 
 void LPSolver::select(int v)
 {
-	IloRangeArray c(env);
+	IloRangeArray c(environment);
 	c.add(dist[v] == 1);
 	model.add(c);
 	q.push(c);
@@ -177,7 +176,7 @@ double LPSolver::solve()
 
 bool LPSolver::isZero(int v)
 {
-	IloNumArray vals(env);
+	IloNumArray vals(environment);
 	cplex.getValues(vals, dist);
 	return (vals[v] == 0);
 }
@@ -185,7 +184,7 @@ bool LPSolver::isZero(int v)
 
 LPSolver::~LPSolver()
 {
-	env.end();
+	environment.end();
 }
 
 /*void LPSolver::unSelect(int v)

@@ -6,7 +6,7 @@
 class LPSolver
 {
 public:
-	IloEnv env;
+	IloEnv environment;
 	IloModel model;
 	IloCplex cplex;
 	IloNumVarArray dist;
