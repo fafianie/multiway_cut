@@ -20,8 +20,9 @@ void LPSolver::init(Graph& graph, int nodes, int terminals, vector<int> termlist
 {
 	try 
 	{
-		IloModel m(env);
-		model = m;
+		//IloModel m(env);
+		//model = m;
+		model(env);
 
 		IloNumVarArray d(env, nodes, 0.0, IloInfinity); //TODO check difference in runtime using 1.0 as upper bound
 		/*for (int i = 0; i < terminals; i++)
