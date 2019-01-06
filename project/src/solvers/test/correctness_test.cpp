@@ -18,7 +18,7 @@ int main(int argc, char* argv[]) {
 	instances.push_back({"23__sparse_fvs100_4.dgf", 19});
 	
 	MWCSolver* solver;
-	for (pair<string, int> instances : instances) {
+	for (pair<string, int> instance : instances) {
 		Graph graph = DGFReader::read("../../resources/test/correctness/", instance.first);	
 		
 		int** adjacency = new int*[graph.getVertices()];
