@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "graph.h"
-#include "dfg_reader.h"
+#include "dgf_reader.h"
 
 using namespace std;
 
