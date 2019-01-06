@@ -2,6 +2,7 @@
 #include "graph.h"
 #include "planted_instance.h"
 #include "mwcsolver.h"
+#include "dgf_reader.h"
 
 using namespace std;
 
