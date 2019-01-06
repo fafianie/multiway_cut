@@ -7,7 +7,7 @@ using namespace std;
 
 int main(int argc, char* argv[]) {
 	
-	vector<pair<string, int> instances;
+	vector<pair<string, int>> instances;
 	instances.push_back({"3__sparse_planar600_3.dgf", 3});
 	instances.push_back({"10__sparse_codeminer_4.dgf", 10});
 	instances.push_back({"11__sparse_fvs056_4.dgf", 11});
