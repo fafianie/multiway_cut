@@ -20,25 +20,25 @@ void LPSolver::init(Graph& graph, vector<int> terminals)
 {
 	try 
 	{
-		int nodes = graph.getVertices();
+		int vertices = graph.getVertices();
 		
 		IloModel initialModel(environment);
 		model = initialModel;
 
-		IloNumVarArray d(environment, nodes, 0.0, IloInfinity); //TODO check difference in runtime using 1.0 as upper bound
+		IloNumVarArray d(environment, vertices, 0.0, IloInfinity); //TODO check difference in runtime using 1.0 as upper bound
 		/*for (int i = 0; i < terminals; i++)
 		{
 			d[termlist[i] - 1] = IloNumVar(env, 0.0, 0.0);
 		}*/
 		dist = d;
 
-		IloNumVarArray y(environment, nodes*terminals, 0.0, IloInfinity);
+		IloNumVarArray y(environment, vertices*terminals.size(), 0.0, IloInfinity);
 
 
 		// initialize for warm start
 		IloNumVarArray wd(environment);
 		IloNumArray wv(environment);
-		for (int i = 0; i < nodes; i++)
+		for (int i = 0; i < vertices; i++)
 		{
 			wd.add(d[i]);
 			wv.add(0.0);
@@ -57,15 +57,15 @@ void LPSolver::init(Graph& graph, vector<int> terminals)
 		IloRangeArray c(environment);
 
 		//neighbor distance constraints
-		for (int u = 0; u < nodes; u++)
+		for (int u = 0; u < vertices; u++)
 		{
-			for (int v = 0; v < nodes; v++)
+			for (int v = 0; v < vertices; v++)
 			{
 				if (graph.isOutNeighbor(u, v)) 
 				{
 					for (int j = 0; j < terminals.size(); j++)
 					{
-						int offset = j*nodes;
+						int offset = j*vertices;
 						c.add(y[offset + v] - y[offset + u] - d[v] <= 0);
 						c.add(y[offset + u] - y[offset + v] - d[u] <= 0);
 					}
@@ -76,14 +76,14 @@ void LPSolver::init(Graph& graph, vector<int> terminals)
 		//terminal distance constraints
 		for (int j = 0; j < terminals.size(); j++)
 		{
-			int offset = j*nodes;
+			int offset = j*vertices;
 			c.add(y[offset+(terminals[j])] == 0);
 		}
 
 		//terminal seperation constraints
 		for (int i = 0; i < terminals.size(); i++)
 		{
-			int offset = i*nodes;
+			int offset = i*vertices;
 			for (int j = 0; j < terminals.size(); j++) 
 			{
 				if (i != j)
