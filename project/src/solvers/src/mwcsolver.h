@@ -1,6 +1,7 @@
 #pragma once
 
 #include "lpsolver.h"
+#include "graph.h"
 
 class MWCSolver
 {

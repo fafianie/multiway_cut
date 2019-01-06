@@ -1,5 +1,7 @@
 #pragma once
+
 #include <ilcplex/ilocplex.h>
+#include "graph.h"
 
 class LPSolver
 {
