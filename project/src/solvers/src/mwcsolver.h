@@ -29,7 +29,7 @@ public:
 
 	std::unordered_set<int>* neighborhood;
 
-	MWCSolver(int, int, std::vector<int>&, int**);
+	MWCSolver(Graph&, int, int, std::vector<int>&, int**);
 	~MWCSolver();
 	std::vector<int> contract(int);
 	void select(int);

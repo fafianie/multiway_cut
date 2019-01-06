@@ -22,7 +22,7 @@ public:
 	void block(int);
 	void select(int);
 	void pop();
-	void init(int, int, std::vector<int>, int**);
+	void init(Graph&, int, int, std::vector<int>, int**);
 	void constraints();
 	void addNeighbor(int);
 	void remNeighbor(int);

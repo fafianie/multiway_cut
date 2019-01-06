@@ -37,7 +37,8 @@ int main(int argc, char* argv[]) {
 			terminals.push_back(terminal);
 		}
 	
-		MWCSolver* solver = new MWCSolver(graph.getVertices(), 
+		MWCSolver* solver = new MWCSolver(graph,
+										  graph.getVertices(), 
 										  graph.getNumberOfTerminals(),
 										  terminals,
 										  adjacency);

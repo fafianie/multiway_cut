@@ -16,7 +16,7 @@ LPSolver::LPSolver(int nodes, int terminals, vector<int> termlist, int** adj)
 	init(nodes, terminals, termlist, adj);
 }
 
-void LPSolver::init(int nodes, int terminals, vector<int> termlist, int** adj)
+void LPSolver::init(Graph& graph, int nodes, int terminals, vector<int> termlist, int** adj)
 {
 	try 
 	{

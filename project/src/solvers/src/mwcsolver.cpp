@@ -9,7 +9,7 @@
 
 using namespace std;
 
-MWCSolver::MWCSolver(int n, int t, vector<int>& tlist, int** adj)
+MWCSolver::MWCSolver(Graph& graph, int n, int t, vector<int>& tlist, int** adj)
 {
 	//load input only
 	//TODO: push this to solve function
