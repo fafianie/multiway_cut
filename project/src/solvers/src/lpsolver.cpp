@@ -21,7 +21,7 @@ void LPSolver::init(Graph& graph, vector<int> termlist, int** adj)
 	try 
 	{
 		int nodes = graph.getVertices();
-		int terminals = graph.getTerminals();
+		int terminals = termlist.size();
 		
 		IloModel initialModel(environment);
 		model = initialModel;
