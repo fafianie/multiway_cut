@@ -17,14 +17,14 @@ public:
 
 
 	LPSolver();
-	LPSolver(Graph&, int, int, std::vector<int>, int**);
+	LPSolver(Graph&, std::vector<int>, int**);
 	double solve();
 	bool isZero(int);
 	~LPSolver();
 	void block(int);
 	void select(int);
 	void pop();
-	void init(Graph&, int, int, std::vector<int>, int**);
+	void init(Graph&, std::vector<int>, int**);
 	void constraints();
 	void addNeighbor(int);
 	void remNeighbor(int);

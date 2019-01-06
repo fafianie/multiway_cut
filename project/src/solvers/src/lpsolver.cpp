@@ -11,15 +11,18 @@ LPSolver::LPSolver()
 {
 }
 
-LPSolver::LPSolver(Graph& graph, int nodes, int terminals, vector<int> termlist, int** adj)
+LPSolver::LPSolver(Graph& graph, vector<int> termlist, int** adj)
 {
-	init(graph, nodes, terminals, termlist, adj);
+	init(graph, termlist, adj);
 }
 
-void LPSolver::init(Graph& graph, int nodes, int terminals, vector<int> termlist, int** adj)
+void LPSolver::init(Graph& graph, vector<int> termlist, int** adj)
 {
 	try 
 	{
+		int nodes = graph.getVertices();
+		int terminals = graph.getTerminals();
+		
 		IloModel initialModel(environment);
 		model = initialModel;
 
