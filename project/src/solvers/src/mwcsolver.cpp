@@ -167,7 +167,7 @@ void MWCSolver::step(bool calc)
 		vector<vector<int>> all_actions;
 		vector<int> easy_contractions;
 
-		for (auto c : candidates)
+		/*for (auto c : candidates)
 		{
 			if (lps.isZero(c))
 			{
@@ -197,10 +197,10 @@ void MWCSolver::step(bool calc)
 			}
 			
 			return;
-		}
+		}*/
 
 		
-		/*for (auto c : candidates)
+		for (auto c : candidates)
 		{
 			if (lps.isZero(c))
 			{
@@ -213,7 +213,7 @@ void MWCSolver::step(bool calc)
 			}
 		}
 		
-		//*/
+		//
 
 		//TODO: experiment: look for easy candidates only*/
 		
