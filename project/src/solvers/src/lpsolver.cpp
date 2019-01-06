@@ -63,7 +63,7 @@ void LPSolver::init(Graph& graph, vector<int> terminals)
 			{
 				if (graph.isOutNeighbor(u, v)) 
 				{
-					for (int j = 0; j < terminals; j++)
+					for (int j = 0; j < terminals.size(); j++)
 					{
 						int offset = j*nodes;
 						c.add(y[offset + v] - y[offset + u] - d[v] <= 0);
