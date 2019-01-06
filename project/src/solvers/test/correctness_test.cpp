@@ -19,7 +19,7 @@ int main(int argc, char* argv[]) {
 	
 	MWCSolver* solver;
 	for (pair<string, int> instances : instances) {
-		Graph graph = DFGReader::read("../../resources/test/correctness/", instance.first);	
+		Graph graph = DGFReader::read("../../resources/test/correctness/", instance.first);	
 		
 		int** adjacency = new int*[graph.getVertices()];
 		for (int i = 0; i < graph.getVertices(); i++) {

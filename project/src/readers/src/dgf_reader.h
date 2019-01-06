@@ -2,7 +2,7 @@
 
 #include "graph.h"
 
-class DFGReader {
+class DGFReader {
 
 	public:
 		static Graph read(std::string, std::string);

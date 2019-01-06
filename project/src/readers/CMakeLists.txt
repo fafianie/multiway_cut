@@ -1,5 +1,5 @@
 set(SOURCES
-	src/dfg_reader.cpp)
+	src/dgf_reader.cpp)
 	
 add_library(readers STATIC ${SOURCES})
 target_link_libraries(readers graphs stdafx)

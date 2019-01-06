@@ -1,11 +1,11 @@
 #include "stdafx.h"
 #include "graph.h"
-#include "dfg_reader.h"
+#include "dgf_reader.h"
 
 using namespace std;
 
 int main(int argc, char* argv[]) {	
-	Graph graph = DFGReader::read("../../resources/test/readers/", "reader_test.dgf");	
+	Graph graph = DGFReader::read("../../resources/test/readers/", "reader_test.dgf");	
 	if (graph.getVertices() != 10) {
 		return 1;
 	}
