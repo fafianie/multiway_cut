@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include <ilcplex/ilocplex.h>
 #include "lpsolver.h"
+#include "graph.h"
 
 ILOSTLBEGIN
 //using namespace std;

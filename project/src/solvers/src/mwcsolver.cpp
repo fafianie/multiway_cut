@@ -2,6 +2,7 @@
 #include <ilcplex/ilocplex.h>
 #include "mwcsolver.h"
 #include "lpsolver.h"
+#include "graph.h"
 
 
 //victory condition: LP cost is 0

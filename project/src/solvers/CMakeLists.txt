@@ -10,7 +10,7 @@ set(SOURCES
 	src/blend.cpp)
 	
 add_library(solvers STATIC ${SOURCES})
-target_link_libraries(solvers ilocplex stdafx)
+target_link_libraries(solvers graphs ilocplex stdafx)
 target_include_directories(solvers PUBLIC ./src)
 
 add_executable(correctness_test test/correctness_test.cpp)
