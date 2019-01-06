@@ -16,12 +16,11 @@ LPSolver::LPSolver(Graph& graph, vector<int> termlist)
 	init(graph, termlist);
 }
 
-void LPSolver::init(Graph& graph, vector<int> termlist)
+void LPSolver::init(Graph& graph, vector<int> terminals)
 {
 	try 
 	{
 		int nodes = graph.getVertices();
-		int terminals = termlist.size();
 		
 		IloModel initialModel(environment);
 		model = initialModel;
@@ -75,29 +74,29 @@ void LPSolver::init(Graph& graph, vector<int> termlist)
 		}
 
 		//terminal distance constraints
-		for (int j = 0; j < terminals; j++)
+		for (int j = 0; j < terminals.size(); j++)
 		{
 			int offset = j*nodes;
-			c.add(y[offset+(termlist[j])] == 0);
+			c.add(y[offset+(terminals[j])] == 0);
 		}
 
 		//terminal seperation constraints
-		for (int i = 0; i < terminals; i++)
+		for (int i = 0; i < terminals.size(); i++)
 		{
 			int offset = i*nodes;
-			for (int j = 0; j < terminals; j++) 
+			for (int j = 0; j < terminals.size(); j++) 
 			{
 				if (i != j)
 				{
-					c.add(y[offset+(termlist[j])] >= 1);
+					c.add(y[offset+(terminals[j])] >= 1);
 				}
 			}
 		}
 
 		//ban terminals from solution
-		for (int i = 0; i < terminals; i++)
+		for (int i = 0; i < terminals.size(); i++)
 		{
-			c.add(d[(termlist[i])] == 0);
+			c.add(d[(terminals[i])] == 0);
 		}
 
 		model.add(c);
