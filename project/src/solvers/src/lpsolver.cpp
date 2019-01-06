@@ -74,7 +74,7 @@ void LPSolver::init(int nodes, int terminals, vector<int> termlist, int** adj)
 		for (int j = 0; j < terminals; j++)
 		{
 			int offset = j*nodes;
-			c.add(y[offset+(termlist[j]-1)] == 0);
+			c.add(y[offset+(termlist[j])] == 0);
 		}
 
 		//terminal seperation constraints
@@ -85,7 +85,7 @@ void LPSolver::init(int nodes, int terminals, vector<int> termlist, int** adj)
 			{
 				if (i != j)
 				{
-					c.add(y[offset+(termlist[j] - 1)] >= 1);
+					c.add(y[offset+(termlist[j])] >= 1);
 				}
 			}
 		}
@@ -93,7 +93,7 @@ void LPSolver::init(int nodes, int terminals, vector<int> termlist, int** adj)
 		//ban terminals from solution
 		for (int i = 0; i < terminals; i++)
 		{
-			c.add(d[(termlist[i]) - 1] == 0);
+			c.add(d[(termlist[i])] == 0);
 		}
 
 		model.add(c);
