@@ -17,7 +17,7 @@ public:
 
 
 	LPSolver();
-	LPSolver(int, int, std::vector<int>, int**);
+	LPSolver(Graph&, int, int, std::vector<int>, int**);
 	double solve();
 	bool isZero(int);
 	~LPSolver();
