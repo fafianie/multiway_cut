@@ -112,7 +112,7 @@ int MWCSolver::solve(Graph& graph, int n, int t, vector<int>& tlist, int** adj)
 	//verify correctness
 
 	LPSolver lps2;
-	lps2.init(nodes, terminals, termlist, adjacency);
+	lps2.init(graph, nodes, terminals, termlist, adjacency);
 
 	for (auto v : opt_sol)
 	{
