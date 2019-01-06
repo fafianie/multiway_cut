@@ -49,9 +49,9 @@ int MWCSolver::solve()
 
 	for (auto t : termlist)
 	{
-		status[t-1] = 0;
-		cout << "TERMINAL " << t - 1 << " with neighborhood";
-		for (auto n : neighborhood[t - 1])
+		status[t] = 0;
+		cout << "TERMINAL " << t << " with neighborhood";
+		for (auto n : neighborhood[t])
 		{
 			cout << " " << n;
 		}
@@ -64,10 +64,10 @@ int MWCSolver::solve()
 	//check feasibility and set up neighborhoods
 	for (int i = 0; i < terminals; i++)
 	{
-		int t = termlist[i] - 1;
+		int t = termlist[i];
 		for (int j = i + 1; j < terminals; j++)
 		{
-			int t2 = termlist[j] - 1;
+			int t2 = termlist[j];
 			if (adjacency[t][t2] == 1)
 			{
 				//infeasible
