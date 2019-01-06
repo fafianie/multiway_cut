@@ -30,13 +30,13 @@ public:
 
 	std::unordered_set<int>* neighborhood;
 
-	MWCSolver(Graph&, int, int, std::vector<int>&, int**);
+	MWCSolver();
 	~MWCSolver();
 	std::vector<int> contract(int);
 	void select(int);
 	void undo_contract(int, std::vector<int>);
 	void undo_select(int);
-	int solve();
+	int solve(Graph&, int, int, std::vector<int>&, int**);
 	void step(bool);
 
 	void addCandidate(int);

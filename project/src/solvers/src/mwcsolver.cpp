@@ -9,14 +9,10 @@
 
 using namespace std;
 
-MWCSolver::MWCSolver(Graph& graph, int n, int t, vector<int>& tlist, int** adj)
+MWCSolver::MWCSolver()
 {
 	//load input only
 	//TODO: push this to solve function
-	nodes = n;
-	terminals = t;
-	termlist = tlist;
-	adjacency = adj;
 }
 
 
@@ -25,9 +21,14 @@ MWCSolver::~MWCSolver()
 
 }
 
-int MWCSolver::solve()
+int MWCSolver::solve(Graph& graph, int n, int t, vector<int>& tlist, int** adj)
 {
-	lps.init(nodes, terminals, termlist, adjacency);
+	nodes = n;
+	terminals = t;
+	termlist = tlist;
+	adjacency = adj;
+	
+	lps.init(graph, nodes, terminals, termlist, adjacency);
 
 	//set up auxiliary data structures
 	boundary = new int[nodes];

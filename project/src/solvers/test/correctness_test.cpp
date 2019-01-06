@@ -37,12 +37,12 @@ int main(int argc, char* argv[]) {
 			terminals.push_back(terminal);
 		}
 	
-		MWCSolver* solver = new MWCSolver(graph,
+		MWCSolver* solver = new MWCSolver();
+		int solution = solver -> solve(graph,
 										  graph.getVertices(), 
 										  graph.getNumberOfTerminals(),
 										  terminals,
 										  adjacency);
-		int solution = solver -> solve();
 		if (!(solution == instance.second)) {
 			return 1;
 		}
