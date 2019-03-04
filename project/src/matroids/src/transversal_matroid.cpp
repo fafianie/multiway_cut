@@ -15,7 +15,7 @@ Matroid TransversalMatroid::generate(Graph& graph, Galois* galois, vector<int>& 
 				matroid.setField(vertex, sinkIndex, galois -> uniformRandomElement());
 			}
 		}
-		matroid.setField(sinkIndex, sinks.at(sinkIndex), 0L);
+		matroid.setField(sinkIndex, sinks.at(sinkIndex), galois -> uniformRandomElement());
 	}
 	return matroid;
 }
