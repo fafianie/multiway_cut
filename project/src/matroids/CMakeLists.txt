@@ -1,7 +1,8 @@
 set(SOURCES
 	src/matroid.cpp
 	src/uniform_matroid.cpp
-	src/transversal_matroid.cpp)
+	src/transversal_matroid.cpp
+	src/dual_matroid.cpp)
 	
 add_library(matroids STATIC ${SOURCES})
 target_link_libraries(matroids graphs galois stdafx)
@@ -18,3 +19,7 @@ add_test(UniformMatroidWorks uniform_matroid_test)
 add_executable(transversal_matroid_test test/transversal_matroid_test.cpp)
 target_link_libraries(transversal_matroid_test gauss galois matroids stdafx)
 add_test(TransversalMatroidWorks transversal_matroid_test)
+
+add_executable(gammoid_test test/gammoid_test.cpp)
+target_link_libraries(gammoid_test gauss galois matroids stdafx)
+add_test(GammoidWorks gammoid_test)

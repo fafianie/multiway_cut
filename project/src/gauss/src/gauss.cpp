@@ -5,6 +5,10 @@
 
 using namespace std;
 
+//TODO: replace with independent set class
+//TODO: then implement stuff for dual matroid here
+//TODO: basic matroid should have extract vector option
+//TODO: avoid alias swaps if we can
 bool Gauss::isIndependentSet(vector<int>& elements, 
 							 Matroid matroid, 
 							 Galois* galois) {
@@ -84,19 +88,19 @@ int Gauss::findPivot(vector<int>& elements,
 }
 
 //TODO: figure out what is happening here, can we just swap the aliases instead of everything?
-void Gauss::swapColumns(int element, 
-					 int otherElement, 
-					 int startingRow,
-					 int rows,
-					 Matroid& matroid) {
-	for (int row = startingRow; row < rows; row++) {
-		uint64_t oldValue = matroid.getField(element, row);
-		uint64_t otherOldValue = matroid.getField(otherElement, row);
-		matroid.setField(element, row, otherOldValue);
-		matroid.setField(otherElement, row, oldValue);
-	}
-	matroid.swapElements(element, otherElement);
-}
+//void Gauss::swapColumns(int element, 
+//					 int otherElement, 
+//					 int startingRow,
+//					 int rows,
+//					 Matroid& matroid) {
+//	for (int row = startingRow; row < rows; row++) {
+//		uint64_t oldValue = matroid.getField(element, row);
+//		uint64_t otherOldValue = matroid.getField(otherElement, row);
+//		matroid.setField(element, row, otherOldValue);
+//		matroid.setField(otherElement, row, oldValue);
+//	}
+//	matroid.swapElements(element, otherElement);
+//}
 
 
 

@@ -64,6 +64,10 @@ int Matroid::getAlias(int element) {
 	return aliases[element];
 }
 
+uint64_t* Matroid::getElementColumn(int element) {
+	return representation[aliases[element]];
+}
+
 bool Matroid::allZero() { //TODO: remove this method
 	for (int i = 0; i < elements; i++) {
 		if (aliases[i] != i) {

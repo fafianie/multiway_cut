@@ -16,6 +16,7 @@ class Matroid {
 		int getElements();
 		int getRank();
 		int getAlias(int);
+		uint64_t* getElementColumn(int);
 	
 	private:
 		uint64_t** representation;

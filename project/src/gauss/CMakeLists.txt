@@ -1,5 +1,6 @@
 set(SOURCES
-	src/gauss.cpp)
+	src/gauss.cpp
+	src/independent_set.cpp)
 	
 add_library(gauss STATIC ${SOURCES})
 target_link_libraries(gauss matroids galois stdafx)
