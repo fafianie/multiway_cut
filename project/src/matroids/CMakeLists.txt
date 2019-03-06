@@ -5,7 +5,7 @@ set(SOURCES
 	src/dual_matroid.cpp)
 	
 add_library(matroids STATIC ${SOURCES})
-target_link_libraries(matroids graphs galois stdafx)
+target_link_libraries(matroids graphs galois gauss stdafx)
 target_include_directories(matroids PUBLIC ./src)
 
 add_executable(matroid_copy_constructor_test test/matroid_copy_constructor_test.cpp)

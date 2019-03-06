@@ -2,6 +2,7 @@
 
 #include "stdafx.h"
 #include "galois.h"
+#include "matroid.h"
 
 class IndependentSet {
 
@@ -10,7 +11,6 @@ class IndependentSet {
 		~IndependentSet();
 		bool addColumn(uint64_t*);
 
-	
 	private:
 		int findNonZeroRowIndex(uint64_t*);
 		void applyPivot(int, uint64_t*);

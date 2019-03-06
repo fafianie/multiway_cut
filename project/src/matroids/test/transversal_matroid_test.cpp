@@ -1,8 +1,8 @@
 #include "stdafx.h"
 #include "carryless_multiplier_galois.h"
 #include "matroid.h"
-#include "gauss.h"
 #include "transversal_matroid.h"
+#include "independent_set.h"
 
 using namespace std;
 
@@ -12,12 +12,10 @@ const int numberOfSinks = 40;
 
 int main(int argc, char* argv[]) {
 	Galois* galois = new CarrylessMultiplierGalois();
-	
 	vector<int> sinks;
 	for (int sink = 0; sink < numberOfSinks; sink++) {
 		sinks.push_back(sink);
 	}
-	
 	for (int repetition = 0; repetition < repetitions; repetition++) {
 		Graph graph(2 * numberOfSinks);
 		random_shuffle(sinks.begin(), sinks.end());
@@ -27,7 +25,8 @@ int main(int argc, char* argv[]) {
 		};
 		Matroid matroid = TransversalMatroid::generate(graph, galois, sinks);
 		
-		bool independent = Gauss::isIndependentSet(sinks, matroid, galois);
+		bool independent = matroid.isIndependent(sinks, galois);
+		
 		if (!independent) {
 			cout << "dependent" << endl;
 			return 1;

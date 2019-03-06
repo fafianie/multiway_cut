@@ -1,6 +1,7 @@
 #pragma once
 
 #include "stdafx.h"
+#include "galois.h"
 
 class Matroid {
 	
@@ -17,6 +18,7 @@ class Matroid {
 		int getRank();
 		int getAlias(int);
 		uint64_t* getElementColumn(int);
+		bool isIndependent(std::vector<int>, Galois*);
 	
 	private:
 		uint64_t** representation;

@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "matroid.h"
+#include "independent_set.h"
 
 using namespace std;
 
@@ -81,3 +82,17 @@ bool Matroid::allZero() { //TODO: remove this method
 	}
 	return true;
 }
+
+bool Matroid::isIndependent(std::vector<int> elements, Galois* galois) {
+	IndependentSet independentSet(rank, galois);
+	for (const auto &element : elements) {
+		uint64_t* column = representation[aliases[element]];
+		if (!independentSet.addColumn(column)) {
+			return false;
+		}
+	}
+	return true;
+}
+
+
+
