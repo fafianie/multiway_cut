@@ -16,22 +16,20 @@ int main(int argc, char* argv[]) {
 	for (int sink = 0; sink < numberOfSinks; sink++) {
 		sinks.push_back(sink);
 	}
+	vector<int> sources;
+		for (int source = numberOfSinks; source < 2 * numberOfSinks; source++) {
+			sources.push_back(source);
+		}
 	for (int repetition = 0; repetition < repetitions; repetition++) {
 		Graph graph(2 * numberOfSinks);
 		random_shuffle(sinks.begin(), sinks.end());
-		
 		for (int sink = 0; sink < numberOfSinks; sink++) {
 			graph.addEdge(sinks.at(sink), numberOfSinks + sink);
 		};
 		Matroid matroid = TransversalMatroid::generate(graph, galois, sinks);
-		
-		bool independent = matroid.isIndependent(sinks, galois);
-		
-		if (!independent) {
-			cout << "dependent" << endl;
+		if (!matroid.isIndependent(sources, galois)) {
 			return 1;
 		}
-		cout << "independent" << endl;
 	}
 
 	//TEST POSITIVE BY GENERATING GRAPHS WITH PLANTED MATCHINGS
