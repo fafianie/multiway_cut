@@ -7,8 +7,12 @@
 
 using namespace std;
 
+const int repetitions = 1000;
+const int edges = 200;
+const int numberOfTerminals = 40;
+
 int main(int argc, char* argv[]) {
-	Galois* galois = new NaiveGalois(8);
+	Galois* galois = new CarrylessMultiplierGalois();
 	
 	Matroid matroid(12, 8);
 	
@@ -27,6 +31,24 @@ int main(int argc, char* argv[]) {
 
 	Matroid dualMatroid = DualMatroid::generate(matroid, galois);
 
+	
+	
+	
+	
+	
+	//TODO: create positive test cases 
+	//hardcode a bunch of paths and add some noise
+	
+	
+	//TODO: create negative test cases
+	//??
+	
+	
+	
+	
+	
+	
+	
 	delete galois;
 	return 0;
 }

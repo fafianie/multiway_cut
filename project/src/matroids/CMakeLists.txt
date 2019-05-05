@@ -2,7 +2,8 @@ set(SOURCES
 	src/matroid.cpp
 	src/uniform_matroid.cpp
 	src/transversal_matroid.cpp
-	src/dual_matroid.cpp)
+	src/dual_matroid.cpp
+	src/gammoid.cpp)
 	
 add_library(matroids STATIC ${SOURCES})
 target_link_libraries(matroids graphs galois gauss stdafx)
