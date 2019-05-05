@@ -94,5 +94,12 @@ bool Matroid::isIndependent(std::vector<int> elements, Galois* galois) {
 	return true;
 }
 
-
-
+void Matroid::display(Galois* galois) {
+	for (int row = 0; row < rank; row++) {
+		for (int column = 0; column < elements; column++) {
+			string value = galois -> toString(getField(column, row));
+			cout << value << " ";
+		}
+		cout << endl;
+	}
+}

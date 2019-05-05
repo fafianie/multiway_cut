@@ -15,32 +15,32 @@ Matroid DualMatroid::generate(Matroid& inputMatroid, Galois* galois) {
 			uint64_t value = inputMatroid.getField(column, row);
 			outputMatroid.setField(column, row, value);
 		}
-	} 
+	}
 	swipeDown(outputMatroid, galois);
 	swipeUp(outputMatroid, galois);
 	normalize(outputMatroid, galois);
-	return transpose(outputMatroid);
+	return transpose(outputMatroid);;
 }
 
 void DualMatroid::swipeDown(Matroid& matroid, Galois* galois) {
 	int elements = matroid.getElements();
 	int rank = matroid.getRank();
-	int maxColumn = min(elements, rank);
-	for (int currentColumn = 0; currentColumn < maxColumn; currentColumn++) {
+	int diagonal = min(elements, rank);
+	for (int currentColumn = 0; currentColumn < diagonal; currentColumn++) {
 		int pivot = findPivot(matroid, currentColumn);
 		if (pivot == -1) {
 			throw "Could not find pivot";
 		}
 		matroid.swapElements(currentColumn, pivot);
-		swipeRows(matroid, galois, currentColumn, currentColumn + 1, maxColumn);
+		swipeRows(matroid, galois, currentColumn, currentColumn + 1, diagonal - 1);
 	}
 }
 
 void DualMatroid::swipeUp(Matroid& matroid, Galois* galois) {
 	int elements = matroid.getElements();
 	int rank = matroid.getRank();
-	int maxColumn = min(elements, rank);
-	for (int currentColumn = 0; currentColumn < maxColumn; currentColumn++) {
+	int diagonal = min(elements, rank);
+	for (int currentColumn = 0; currentColumn < diagonal; currentColumn++) {
 		int pivot = findPivot(matroid, currentColumn);
 		if (pivot == -1) {
 			throw "Could not find pivot";
@@ -81,7 +81,7 @@ void DualMatroid::swipeRows(Matroid& matroid, Galois* galois, int pivot, int fir
 			uint64_t ratio = galois -> divide(matroid.getField(pivot, row), divisor);
 			for (int column = pivot; column < matroid.getElements(); column++) {
 				uint64_t oldFieldValue = matroid.getField(column, row);
-				uint64_t factor = galois -> multiply(oldFieldValue, ratio);
+				uint64_t factor = galois -> multiply(divisor, ratio);
 				uint64_t newFieldValue = galois -> add(oldFieldValue, factor);
 				matroid.setField(column, row, newFieldValue);
 			}
@@ -94,20 +94,14 @@ Matroid DualMatroid::transpose(Matroid& matroid) {
 	int rank = matroid.getRank();
 	int newRank = elements - rank; 
 	Matroid transposed(elements, newRank);
-	
 	for (int newColumn = 0; newColumn < rank; newColumn++) {
 		for (int newRow = 0; newRow < newRank; newRow++) {
-			uint64_t newValue = matroid.getField(rank + newRank, newColumn);
+			uint64_t newValue = matroid.getField(rank + newRow, newColumn);
 			transposed.setField(newColumn, newRow, newValue);
 		}
 	}
-	
-	for (int newColumn = 0; newColumn < elements; newColumn++) {
+	for (int newColumn = 0; newColumn < newRank; newColumn++) {
 			transposed.setField(rank + newColumn, newColumn, 1);
-	}
-		
-	//TODO: aliases?
-	
-	
+	}	
 	return transposed;
 }

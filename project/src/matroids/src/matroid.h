@@ -19,6 +19,7 @@ class Matroid {
 		int getAlias(int);
 		uint64_t* getElementColumn(int);
 		bool isIndependent(std::vector<int>, Galois*);
+		void display(Galois*);
 	
 	private:
 		uint64_t** representation;
