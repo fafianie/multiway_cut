@@ -8,14 +8,14 @@
 
 using namespace std;
 
-Matroid Gammoid::generate(Graph& graph, Galois* galois) {
-	vector<int> sinks;
+Matroid Gammoid::generate(Graph& graph, Galois* galois, unordered_set<int> sinks) {
+	vector<int> transversalSinks;
 	for (int vertex = 0; vertex < graph.getVertices(); vertex++) {
-		if (graph.isTerminal(vertex)) {
-			sinks.push_back(vertex);
+		if (sinks.find(vertex) == sinks.end()) {
+			transversalSinks.push_back(vertex);
 		}
 	}
-	Matroid transversal = TransversalMatroid::generate(graph, galois, sinks);
+	Matroid transversal = TransversalMatroid::generate(graph, galois, transversalSinks);
 	Matroid gammoid = DualMatroid::generate(transversal, galois);
 	return gammoid;
 }

@@ -7,6 +7,6 @@
 class Gammoid {
 	
 	public:
-		static Matroid generate(Graph&, Galois*);
+		static Matroid generate(Graph&, Galois*, std::unordered_set<int>);
 	
 };
