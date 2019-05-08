@@ -4,6 +4,7 @@
 #include "matroid.h"
 #include "gauss.h"
 #include "dual_matroid.h"
+#include "gammoid.h"
 
 using namespace std;
 
@@ -31,6 +32,24 @@ int main(int argc, char* argv[]) {
 
 	Matroid dualMatroid = DualMatroid::generate(matroid, galois);
 
+	Graph graph(100);
+	unordered_set<int> sinks;
+	vector<int> sources;
+	
+	for (int path = 0; path < 10; path++) {
+		for (int vertex = 0; vertex < 9; vertex++) {
+			int pathVertex = (path * 10) + vertex;
+			graph.addEdge(pathVertex, pathVertex + 1);
+		}
+		sinks.insert(path * 10);
+		sources.push_back((path * 10) + 9);
+	}
+	
+	Matroid gammoid = Gammoid::generate(graph, galois, sinks);
+	//if (!gammoid.isIndependent(sources, galois)) {
+	//	return 1;
+	//}
+	
 	
 	
 	
