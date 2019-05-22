@@ -4,25 +4,15 @@
 using namespace std;
 
 Graph::Graph(const int initVertices) : vertices(initVertices), edges(0), numberOfTerminals(0) {
-	adjacent = new bool*[vertices];
-	for (int i = 0; i < vertices; i++) {
-		adjacent[i] = new bool[vertices];
-		for (int j = 0; j < vertices; j++) {
-			adjacent[i][j] = false;
-		}
-	}
+	adjacent.assign(vertices * vertices, false);
 }
 
 Graph::~Graph() {
-	for (int i = 0; i < vertices; i++) {
-		delete[] adjacent[i];
-	}
-	delete[] adjacent;
 }
 
 void Graph::addEdge(int leftVertex, int rightVertex) {
-	adjacent[leftVertex][rightVertex] = true;
-	adjacent[rightVertex][leftVertex] = true;
+	adjacent[vertices * leftVertex + rightVertex] = true;
+	adjacent[vertices * rightVertex + leftVertex] = true;
 	edges++;
 }
 
@@ -32,11 +22,11 @@ void Graph::addTerminal(int terminal) {
 }
 
 bool Graph::isOutNeighbor(int vertex, int outNeighbor) {
-	return adjacent[vertex][outNeighbor];
+	return adjacent[vertices * vertex + outNeighbor];
 }
 
 bool Graph::isInNeighbor(int vertex, int inNeighbor) {
-	return adjacent[inNeighbor][vertex];
+	return adjacent[vertices * inNeighbor + vertex];
 }
 
 bool Graph::isTerminal(int vertex) {
@@ -62,7 +52,7 @@ int Graph::getNumberOfTerminals() {
 bool Graph::isIndependentSet() {
 	for (int i = 0; i < vertices; i++) {
 		for(int j = 0; j < vertices; j++) {
-			if (adjacent[i][j]) {
+			if (adjacent[vertices * i + j]) {
 				return false;
 			}
 		}

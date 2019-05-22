@@ -16,10 +16,23 @@ Matroid DualMatroid::generate(Matroid& inputMatroid, Galois* galois) {
 			outputMatroid.setField(column, row, value);
 		}
 	}
+cout << "input:" << endl;
+outputMatroid.display(galois);
 	swipeDown(outputMatroid, galois);
+cout << "swiped down:" << endl;
+outputMatroid.display(galois);
 	swipeUp(outputMatroid, galois);
+cout << "swiped up:" << endl;
+outputMatroid.display(galois);
 	normalize(outputMatroid, galois);
-	return transpose(outputMatroid);;
+cout << "normalized:" << endl;
+outputMatroid.display(galois);
+Matroid transposed = transpose(outputMatroid);
+cout << "transposed:" << endl;
+transposed.display(galois);
+
+cout << "returning dual matroid" << endl;
+	return transposed;
 }
 
 void DualMatroid::swipeDown(Matroid& matroid, Galois* galois) {
@@ -29,7 +42,7 @@ void DualMatroid::swipeDown(Matroid& matroid, Galois* galois) {
 	for (int currentColumn = 0; currentColumn < diagonal; currentColumn++) {
 		int pivot = findPivot(matroid, currentColumn);
 		if (pivot == -1) {
-			throw "Could not find pivot";
+			throw runtime_error("Could not find pivot while swiping down");
 		}
 		matroid.swapElements(currentColumn, pivot);
 		swipeRows(matroid, galois, currentColumn, currentColumn + 1, diagonal - 1);
@@ -43,7 +56,7 @@ void DualMatroid::swipeUp(Matroid& matroid, Galois* galois) {
 	for (int currentColumn = 0; currentColumn < diagonal; currentColumn++) {
 		int pivot = findPivot(matroid, currentColumn);
 		if (pivot == -1) {
-			throw "Could not find pivot";
+			throw runtime_error("Could not find pivot while swiping up");
 		}
 		matroid.swapElements(currentColumn, pivot);
 		swipeRows(matroid, galois, currentColumn, 0, currentColumn -1);
@@ -79,9 +92,11 @@ void DualMatroid::swipeRows(Matroid& matroid, Galois* galois, int pivot, int fir
 	for (int row = firstRow; row <= lastRow; row++) {
 		if (matroid.getField(pivot, row) != 0L) {
 			uint64_t ratio = galois -> divide(matroid.getField(pivot, row), divisor);
+			
 			for (int column = pivot; column < matroid.getElements(); column++) {
+				uint64_t factor = galois -> multiply(matroid.getField(column, pivot), ratio);
 				uint64_t oldFieldValue = matroid.getField(column, row);
-				uint64_t factor = galois -> multiply(divisor, ratio);
+//TODO: factor must apply to pivot row value!
 				uint64_t newFieldValue = galois -> add(oldFieldValue, factor);
 				matroid.setField(column, row, newFieldValue);
 			}
@@ -94,6 +109,7 @@ Matroid DualMatroid::transpose(Matroid& matroid) {
 	int rank = matroid.getRank();
 	int newRank = elements - rank; 
 	Matroid transposed(elements, newRank);
+	
 	for (int newColumn = 0; newColumn < rank; newColumn++) {
 		for (int newRow = 0; newRow < newRank; newRow++) {
 			uint64_t newValue = matroid.getField(rank + newRow, newColumn);
@@ -103,5 +119,8 @@ Matroid DualMatroid::transpose(Matroid& matroid) {
 	for (int newColumn = 0; newColumn < newRank; newColumn++) {
 			transposed.setField(rank + newColumn, newColumn, 1);
 	}	
+	transposed.aliases = matroid.aliases;
+	//TODO: what happens with the aliases?
+
 	return transposed;
 }

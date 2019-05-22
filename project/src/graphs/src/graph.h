@@ -21,7 +21,7 @@ class Graph {
 		std::unordered_set<int> getTerminals();
 		
 	private:
-		bool **adjacent;
+		std::vector<bool> adjacent;
 		int vertices;
 		int edges;
 		int numberOfTerminals;

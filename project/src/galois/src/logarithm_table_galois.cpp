@@ -5,8 +5,8 @@
 
 LogarithmTableGalois::LogarithmTableGalois(const int initW) : Galois(initW) {
 	int size = pw[w];
-	logarithmTable = new uint64_t[size];
-	inverseLogarithmTable = new uint64_t[size];
+	logarithmTable.resize(size, 0L);
+	inverseLogarithmTable.resize(size, 0L);
 
 	uint64_t b = 1;
 	for (int log = 0; log < (size-1); log++) {
@@ -20,8 +20,6 @@ LogarithmTableGalois::LogarithmTableGalois(const int initW) : Galois(initW) {
 }
 
 LogarithmTableGalois::~LogarithmTableGalois() {
-	delete[] logarithmTable;
-	delete[] inverseLogarithmTable;
 }
 	
 uint64_t LogarithmTableGalois::divide(uint64_t leftOperand, uint64_t rightOperand) {

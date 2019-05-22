@@ -15,6 +15,6 @@ class LogarithmTableGalois : public Galois {
 		uint64_t inverseLogarithm(uint64_t); 
 		
 	private:
-		uint64_t*  logarithmTable;
-		uint64_t*  inverseLogarithmTable;
+		std::vector<uint64_t> logarithmTable;
+		std::vector<uint64_t> inverseLogarithmTable;
 };

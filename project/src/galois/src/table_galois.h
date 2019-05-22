@@ -13,6 +13,6 @@ class TableGalois : public Galois {
 		uint64_t divide(uint64_t, uint64_t);
 		
 	private:
-		uint64_t** multiplicationTable;
-		uint64_t** divisionTable;
+		std::vector<uint64_t> multiplicationTable;
+		std::vector<uint64_t> divisionTable;
 };

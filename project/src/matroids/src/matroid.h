@@ -17,13 +17,15 @@ class Matroid {
 		int getElements();
 		int getRank();
 		int getAlias(int);
-		uint64_t* getElementColumn(int);
+		std::vector<uint64_t> getElementColumn(int);
 		bool isIndependent(std::vector<int>, Galois*);
 		void display(Galois*);
-	
+
+std::vector<int> aliases; //TODO: move to private or encapsulate
+
 	private:
-		uint64_t** representation;
-		int* aliases;
+		std::vector<uint64_t> representation;
+		//std::vector<int> aliases;
 		int elements;
 		int rank;
 };

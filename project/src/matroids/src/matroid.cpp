@@ -5,45 +5,28 @@
 using namespace std;
 
 Matroid::Matroid(const int initElements, const int initRank) : elements(initElements), rank(initRank) {
-	representation = new uint64_t*[elements];
-	aliases = new int[elements];
-	      
+cout << "creating matroid" << endl;
+	representation.assign(elements * rank, 0L);
 	for (int i = 0; i < elements; i++) {
-		aliases[i] = i;
-		representation[i] = new uint64_t[rank]; 
-		for (int j = 0; j < rank; j++) {
-			representation[i][j] = 0L;
-		}
+		aliases.push_back(i);
 	}
+cout << "finished creating matroid" << endl;
 }
 
 Matroid::~Matroid() {
-	for (int i = 0; i < elements; i++) {
-		delete[] representation[i];
-	}
-	delete[] representation;
-	delete[] aliases;
 }
 
 Matroid::Matroid(const Matroid& oldMatroid) : elements(oldMatroid.elements), rank(oldMatroid.rank) { 
-	representation = new uint64_t*[elements];
-	aliases = new int[elements];
-
-	for (int i = 0; i < elements; i++) {
-		aliases[i] = oldMatroid.aliases[i];
-		representation[i] = new uint64_t[rank];
-		for (int j = 0; j < rank; j++) {
-			representation[i][j] = oldMatroid.representation[i][j];
-		}
-	}
+	aliases = oldMatroid.aliases;
+	representation = oldMatroid.representation;
 }
 
 void Matroid::setField(int column, int row, uint64_t value) {
-	representation[aliases[column]][row] = value;
+	representation[rank * aliases[column] + row] = value;
 }
 
 uint64_t Matroid::getField(int column, int row) {
-	return representation[aliases[column]][row];
+	return representation[rank * aliases[column] + row];
 }
 
 void Matroid::swapElements(int leftElement, int rightElement) {
@@ -65,8 +48,12 @@ int Matroid::getAlias(int element) {
 	return aliases[element];
 }
 
-uint64_t* Matroid::getElementColumn(int element) {
-	return representation[aliases[element]];
+vector<uint64_t> Matroid::getElementColumn(int element) {
+	vector<uint64_t> result;
+	for (int row = 0; row < rank; row++) {
+		result.push_back(representation[rank*aliases[element] + row]);
+	}
+	return result;
 }
 
 bool Matroid::allZero() { //TODO: remove this method
@@ -75,7 +62,7 @@ bool Matroid::allZero() { //TODO: remove this method
 			return false;
 		}
 		for (int j = 0; j < rank; j++) {
-			if (representation[i][j] != 0L) {
+			if (representation[rank*i+j] != 0L) {
 				return false;
 			}
 		}
@@ -86,15 +73,27 @@ bool Matroid::allZero() { //TODO: remove this method
 bool Matroid::isIndependent(std::vector<int> elements, Galois* galois) {
 	IndependentSet independentSet(rank, galois);
 	for (const auto &element : elements) {
-		uint64_t* column = representation[aliases[element]];
+		vector<uint64_t> column = getElementColumn(element);
+cout << "grabbed column for element " << element << endl;
+for (int row = 0; row < rank; row++) {
+string value = galois -> toString(column[row]);
+cout << value << " ";
+}
+cout << endl;
 		if (!independentSet.addColumn(column)) {
+cout << "not independent" << endl;
 			return false;
 		}
 	}
+cout << "independent" << endl;
 	return true;
 }
 
 void Matroid::display(Galois* galois) {
+	for (int column = 0; column < elements; column++) {
+		cout << aliases[column] << " ";
+	}
+	cout << endl;
 	for (int row = 0; row < rank; row++) {
 		for (int column = 0; column < elements; column++) {
 			string value = galois -> toString(getField(column, row));
