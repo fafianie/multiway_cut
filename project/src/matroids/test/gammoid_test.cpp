@@ -139,8 +139,8 @@ int main(int argc, char* argv[]) {
 
 	//*
 	
-	int paths = 2;
-	int pathLength = 2;
+	int paths = 10;
+	int pathLength = 10;
 
 	Graph graph(paths * pathLength);
 	unordered_set<int> sinks;
@@ -149,12 +149,12 @@ int main(int argc, char* argv[]) {
 	Galois* galois = new NaiveGalois(16);
 
 	for (int path = 0; path < paths; path++) {
-		//for (int vertex = 0; vertex < 9; vertex++) {
-		//	int pathVertex = (path * 10) + vertex;
-		//	graph.addEdge(pathVertex, pathVertex + 1);
-		//}
+		for (int vertex = 0; vertex < 9; vertex++) {
+			int pathVertex = (path * 10) + vertex;
+			graph.addEdge(pathVertex, pathVertex + 1);
+		}
 		sinks.insert(path * pathLength);
-		sources.push_back((path * pathLength) );//+ 9); //TODO: test with sinks first, then other points on path
+		sources.push_back((path * pathLength) + pathLength - 1);//+ 9); //TODO: test with sinks first, then other points on path
 	}
 
 
@@ -168,7 +168,14 @@ int main(int argc, char* argv[]) {
 		return 1;
 	}
 	
+	vector<int> sourcesx;
+	sourcesx.push_back(0);
+	sourcesx.push_back(pathLenght - 1);
 	
+	if (gammoid.isIndependent(sourcesx, galois)) {
+		cout << "independent :(" << endl;
+		return 1;
+	}
 	
 	
 	

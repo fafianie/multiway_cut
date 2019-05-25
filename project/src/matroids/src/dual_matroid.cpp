@@ -44,7 +44,7 @@ void DualMatroid::swipeDown(Matroid& matroid, Galois* galois) {
 		if (pivot == -1) {
 			throw runtime_error("Could not find pivot while swiping down");
 		}
-		matroid.swapElements(currentColumn, pivot);
+		matroid.swapColumns(currentColumn, pivot);
 		swipeRows(matroid, galois, currentColumn, currentColumn + 1, diagonal - 1);
 	}
 }
@@ -58,7 +58,7 @@ void DualMatroid::swipeUp(Matroid& matroid, Galois* galois) {
 		if (pivot == -1) {
 			throw runtime_error("Could not find pivot while swiping up");
 		}
-		matroid.swapElements(currentColumn, pivot);
+		matroid.swapColumns(currentColumn, pivot);
 		swipeRows(matroid, galois, currentColumn, 0, currentColumn -1);
 	}
 }
@@ -119,7 +119,8 @@ Matroid DualMatroid::transpose(Matroid& matroid) {
 	for (int newColumn = 0; newColumn < newRank; newColumn++) {
 			transposed.setField(rank + newColumn, newColumn, 1);
 	}	
-	transposed.aliases = matroid.aliases;
+	transposed.elementToColumn = matroid.elementToColumn;
+	transposed.columnToElement = matroid.columnToElement;
 	//TODO: what happens with the aliases?
 
 	return transposed;

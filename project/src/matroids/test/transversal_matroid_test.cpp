@@ -6,7 +6,7 @@
 
 using namespace std;
 
-const int repetitions = 1000;
+const int repetitions = 200;
 const int edges = 200;
 const int numberOfSinks = 40;
 

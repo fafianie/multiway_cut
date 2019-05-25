@@ -8,7 +8,8 @@ Matroid::Matroid(const int initElements, const int initRank) : elements(initElem
 cout << "creating matroid" << endl;
 	representation.assign(elements * rank, 0L);
 	for (int i = 0; i < elements; i++) {
-		aliases.push_back(i);
+		columnToElement.push_back(i);
+		elementToColumn.push_back(i);
 	}
 cout << "finished creating matroid" << endl;
 }
@@ -17,23 +18,41 @@ Matroid::~Matroid() {
 }
 
 Matroid::Matroid(const Matroid& oldMatroid) : elements(oldMatroid.elements), rank(oldMatroid.rank) { 
-	aliases = oldMatroid.aliases;
+	columnToElement = oldMatroid.columnToElement;
+	elementToColumn = oldMatroid.elementToColumn;
 	representation = oldMatroid.representation;
 }
 
 void Matroid::setField(int column, int row, uint64_t value) {
-	representation[rank * aliases[column] + row] = value;
+	representation[rank * column + row] = value;
 }
 
 uint64_t Matroid::getField(int column, int row) {
-	return representation[rank * aliases[column] + row];
+	return representation[rank * column + row];
 }
 
-void Matroid::swapElements(int leftElement, int rightElement) {
-	int leftAlias = aliases[leftElement];
-	int rightAlias = aliases[rightElement];
-	aliases[leftElement] = rightAlias;
-	aliases[rightElement] = leftAlias;
+void Matroid::swapColumns(int leftColumn, int rightColumn) {
+	for (int row = 0; row < rank; row++) {
+		uint64_t leftValue = getField(leftColumn, row);
+		uint64_t rightValue = getField(rightColumn, row);
+		setField(leftColumn, row, rightValue);
+		setField(rightColumn, row, leftValue);
+	}
+	int leftElement = columnToElement[leftColumn];
+	int rightElement = columnToElement[rightColumn];
+	columnToElement[leftColumn] = rightElement;
+	elementToColumn[rightElement] = leftColumn;
+	columnToElement[rightColumn] = leftElement;
+	elementToColumn[leftElement] = rightColumn;
+	
+	
+	
+	
+	//TODO: need better data structure
+	
+	// column -> element
+	// element -> column
+	
 }
 
 int Matroid::getElements() {
@@ -44,25 +63,21 @@ int Matroid::getRank() {
 	return rank;
 }
 
-int Matroid::getAlias(int element) {
-	return aliases[element];
-}
-
 vector<uint64_t> Matroid::getElementColumn(int element) {
 	vector<uint64_t> result;
 	for (int row = 0; row < rank; row++) {
-		result.push_back(representation[rank*aliases[element] + row]);
+		result.push_back(representation[rank * elementToColumn[element] + row]);
 	}
 	return result;
 }
 
 bool Matroid::allZero() { //TODO: remove this method
 	for (int i = 0; i < elements; i++) {
-		if (aliases[i] != i) {
+		if (elementToColumn[i] != i) {
 			return false;
 		}
 		for (int j = 0; j < rank; j++) {
-			if (representation[rank*i+j] != 0L) {
+			if (representation[rank * i + j] != 0L) {
 				return false;
 			}
 		}
@@ -90,9 +105,9 @@ cout << "independent" << endl;
 }
 
 void Matroid::display(Galois* galois) {
-	for (int column = 0; column < elements; column++) {
-		cout << aliases[column] << " ";
-	}
+	//for (int column = 0; column < elements; column++) {
+	//	cout << aliases[column] << " ";
+	//}
 	cout << endl;
 	for (int row = 0; row < rank; row++) {
 		for (int column = 0; column < elements; column++) {

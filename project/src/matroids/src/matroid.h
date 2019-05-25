@@ -10,18 +10,18 @@ class Matroid {
 		~Matroid();
 		Matroid(const Matroid&);
 	
-		void swapElements(int, int);
+		void swapColumns(int, int);
 		void setField(int, int, uint64_t);
 		uint64_t getField(int, int);
 		bool allZero(); //TODO: remove this method
 		int getElements();
 		int getRank();
-		int getAlias(int);
 		std::vector<uint64_t> getElementColumn(int);
 		bool isIndependent(std::vector<int>, Galois*);
 		void display(Galois*);
 
-std::vector<int> aliases; //TODO: move to private or encapsulate
+std::vector<int> columnToElement; //TODO: move to private or encapsulate
+std::vector<int> elementToColumn;
 
 	private:
 		std::vector<uint64_t> representation;
