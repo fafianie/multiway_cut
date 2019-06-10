@@ -16,20 +16,20 @@ Matroid DualMatroid::generate(Matroid& inputMatroid, Galois* galois) {
 			outputMatroid.setField(column, row, value);
 		}
 	}
-cout << "input:" << endl;
-outputMatroid.display(galois);
+//cout << "input:" << endl;
+//outputMatroid.display(galois);
 	swipeDown(outputMatroid, galois);
-cout << "swiped down:" << endl;
-outputMatroid.display(galois);
+//cout << "swiped down:" << endl;
+//outputMatroid.display(galois);
 	swipeUp(outputMatroid, galois);
-cout << "swiped up:" << endl;
-outputMatroid.display(galois);
+//cout << "swiped up:" << endl;
+//outputMatroid.display(galois);
 	normalize(outputMatroid, galois);
-cout << "normalized:" << endl;
-outputMatroid.display(galois);
+//cout << "normalized:" << endl;
+//outputMatroid.display(galois);
 Matroid transposed = transpose(outputMatroid);
-cout << "transposed:" << endl;
-transposed.display(galois);
+//cout << "transposed:" << endl;
+//transposed.display(galois);
 
 cout << "returning dual matroid" << endl;
 	return transposed;
