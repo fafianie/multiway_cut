@@ -13,11 +13,11 @@ class IndependentSet {
 
 	private:
 		int findNonZeroRowIndex(std::vector<uint64_t>);
-		void applyPivot(int, std::vector<uint64_t>);
+		void applyPivot(int, std::vector<uint64_t>&);
 		std::vector<std::vector<uint64_t>> independentColumns;
 		int rank;
 		int independentElements;
 		std::unordered_set<int> nonZeroRows;
-		std::vector<int> pivots; //size equals independentElements
+		std::vector<int> pivots; //size equals independentElements MUST ALSO SAVE PIVOT FACTOR?
 		Galois* galois;
 };

@@ -41,7 +41,7 @@ cout << "succesfully added element" << endl;
 	return true;
 }
 
-void IndependentSet::applyPivot(int independentElement, vector<uint64_t> column) {
+void IndependentSet::applyPivot(int independentElement, vector<uint64_t>& column) {
 	int pivot = pivots[independentElement];
 cout << "applying pivot " << pivot << endl;
 	if (column[pivot] == 0L) {
