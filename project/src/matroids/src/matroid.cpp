@@ -5,13 +5,13 @@
 using namespace std;
 
 Matroid::Matroid(const int initElements, const int initRank) : elements(initElements), rank(initRank) {
-cout << "creating matroid" << endl;
+//cout << "creating matroid" << endl;
 	representation.assign(elements * rank, 0L);
 	for (int i = 0; i < elements; i++) {
 		columnToElement.push_back(i);
 		elementToColumn.push_back(i);
 	}
-cout << "finished creating matroid" << endl;
+//cout << "finished creating matroid" << endl;
 }
 
 Matroid::~Matroid() {
@@ -89,18 +89,18 @@ bool Matroid::isIndependent(std::vector<int> elements, Galois* galois) {
 	IndependentSet independentSet(rank, galois);
 	for (const auto &element : elements) {
 		vector<uint64_t> column = getElementColumn(element);
-cout << "grabbed column for element " << element << endl;
-for (int row = 0; row < rank; row++) {
-string value = galois -> toString(column[row]);
-cout << value << " ";
-}
-cout << endl;
+//cout << "grabbed column for element " << element << endl;
+//for (int row = 0; row < rank; row++) {
+//string value = galois -> toString(column[row]);
+//cout << value << " ";
+//}
+//cout << endl;
 		if (!independentSet.addColumn(column)) {
-cout << "not independent" << endl;
+//cout << "not independent" << endl;
 			return false;
 		}
 	}
-cout << "independent" << endl;
+//cout << "independent" << endl;
 	return true;
 }
 

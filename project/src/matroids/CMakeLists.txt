@@ -22,5 +22,5 @@ target_link_libraries(transversal_matroid_test gauss galois matroids stdafx)
 add_test(TransversalMatroidWorks transversal_matroid_test)
 
 add_executable(gammoid_test test/gammoid_test.cpp)
-target_link_libraries(gammoid_test gauss galois matroids stdafx)
+target_link_libraries(gammoid_test gauss galois matroids constants stdafx)
 add_test(GammoidWorks gammoid_test)

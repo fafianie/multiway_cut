@@ -31,7 +31,7 @@ Matroid transposed = transpose(outputMatroid);
 //cout << "transposed:" << endl;
 //transposed.display(galois);
 
-cout << "returning dual matroid" << endl;
+//cout << "returning dual matroid" << endl;
 	return transposed;
 }
 
