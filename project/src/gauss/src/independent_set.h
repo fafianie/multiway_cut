@@ -12,7 +12,7 @@ class IndependentSet {
 		bool addColumn(std::vector<uint64_t>);
 
 	private:
-		int findNonZeroRowIndex(std::vector<uint64_t>);
+		int findNonZeroRowIndex(std::vector<uint64_t>&);
 		void applyPivot(int, std::vector<uint64_t>&);
 		std::vector<std::vector<uint64_t>> independentColumns;
 		int rank;

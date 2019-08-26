@@ -61,7 +61,7 @@ cout << "new value: " << newFieldValue << endl;
 	}
 }
 
-int IndependentSet::findNonZeroRowIndex(vector<uint64_t> column) {
+int IndependentSet::findNonZeroRowIndex(vector<uint64_t> column&) {
 cout << "trying to find pivot with " << nonZeroRows.size() << " nonZero rows" << endl;
 	for (const auto& row : nonZeroRows) {
 cout << "checking row " << row << endl;
