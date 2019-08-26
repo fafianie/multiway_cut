@@ -195,7 +195,7 @@ bool funnelTestPasses() {
 		cout << "ADDED SOURCE: " << offset << endl;
 		//add sources
 		sources.insert(rightStart + offset + pathLength);
-		cout << "ADDED SINK: " << rightStart + offset + pathLength << endl; 
+		cout << "ADDED SINK: " << rightStart + offset + pathLength - 1<< endl; 
 	}
 	
 	for (int funnelIndex = 0; funnelIndex < funnelSize; funnelIndex++) {
@@ -218,17 +218,19 @@ bool funnelTestPasses() {
 	
 	//add edge candidates
 	//must be contained all on one side (including funnel)
-	/*unordered_set<pair<int, int>, pair_hash> edgeCandidates;
-	for (int u = 0; u < rightStart; u++) {
-		for (int v = u + 1; v < rightStart; v++) {
+	unordered_set<pair<int, int>, pair_hash> edgeCandidates;
+	for (int u = 0; u < leftEnd; u++) {
+		for (int v = u + 1; v < leftEnd; v++) {
 			pair<int, int> edgeCandidate(u, v);
 			edgeCandidates.insert(edgeCandidate);
+			cout << "candidate: " << u << " - " << v << endl;
 		}
 	}
-	for (int u = leftEnd; u < vertices; u++) {
+	for (int u = rightStart; u < vertices; u++) {
 		for (int v = u + 1; v < vertices; v++) {
 			pair<int, int> edgeCandidate(u, v);
 			edgeCandidates.insert(edgeCandidate);
+			cout << "candidate: " << u << " - " << v << endl;
 		}
 	}
 	vector<pair<int, int>> shuffledEdges;
@@ -241,7 +243,7 @@ bool funnelTestPasses() {
 		int u = edgeCandidate.first;
 		int v = edgeCandidate.second;
 		graph.addEdge(u, v);
-	}*/
+	}
 	
 	Matroid gammoid = Gammoid::generate(graph, galois, sources);
 	if (gammoid.isIndependent(sinks, galois)) {
