@@ -7,6 +7,7 @@
 #include "gammoid.h"
 #include "transversal_matroid.h"
 #include "powers.cpp"
+#include <iomanip>
 
 using namespace std;
 
@@ -131,11 +132,12 @@ bool independentSetTestPasses() {
 }
 
 bool funnelTestPasses() {
-	int paths = 5;
+	int paths = 3;
 	int funnelSize = paths - 1;
-	int vertices = 100; //must have at least path*length*2 + funnel vertices = 54
-	int edges = 300;
-	int pathLength = 5; //length on both sides
+	int edges = 100;
+	int pathLength = 2; //length on both sides
+	int surplus = 5;
+	int vertices = paths * pathLength * 2 + funnelSize + surplus; //must have at least path*length*2 + funnel vertices = 54
 	
 	Galois* galois = new CarrylessMultiplierGalois();
 	Graph graph(vertices);
@@ -194,13 +196,13 @@ bool funnelTestPasses() {
 		sinks.push_back(offset);
 		cout << "ADDED SOURCE: " << offset << endl;
 		//add sources
-		sources.insert(rightStart + offset + pathLength);
+		sources.insert(rightStart + offset + pathLength - 1);
 		cout << "ADDED SINK: " << rightStart + offset + pathLength - 1<< endl; 
 	}
 	
 	for (int funnelIndex = 0; funnelIndex < funnelSize; funnelIndex++) {
 		int offset = funnelIndex * pathLength;
-		int leftPathVertex = offset;
+		int leftPathVertex = offset + pathLength - 1;
 		int rightPathVertex = rightStart + offset;
 		int funnelVertex = leftEnd + funnelIndex;
 		cout << "*** adding funnel" << endl;
@@ -237,13 +239,48 @@ bool funnelTestPasses() {
 	for (auto edgeCandidate : edgeCandidates) {
 		shuffledEdges.push_back(edgeCandidate);
 	}
-	random_shuffle(shuffledEdges.begin(), shuffledEdges.end());
+	/*random_shuffle(shuffledEdges.begin(), shuffledEdges.end());
 	for (int edge = 0; edge < edges; edge++) {
 		pair<int, int> edgeCandidate = shuffledEdges.at(edge);
 		int u = edgeCandidate.first;
 		int v = edgeCandidate.second;
 		graph.addEdge(u, v);
+	}*/
+	for (auto edgeCandidate : shuffledEdges) { 
+		int u = edgeCandidate.first;
+		int v = edgeCandidate.second;
+		graph.addEdge(u, v);
 	}
+	
+	cout << setw(3) << "x";
+	for (int v = 0; v < vertices; v++) {
+		cout << setw(3) << v;
+	}
+	cout << endl;
+	
+	for (int u = 0; u < vertices; u++) {
+		cout << setw(3) << u;
+	
+	
+		for (int v = 0; v < vertices; v++) {
+			cout << setw(3) << graph.isInNeighbor(u, v);
+		}
+		cout << endl;
+	}
+	
+	cout << "sources: ";
+	for (auto source : sources) {
+		cout << setw(3) << source;
+	}
+	cout << endl;
+	cout << "sinks: ";
+	for (auto sink : sinks) {
+		cout << setw(3) << sink;
+	}
+	cout << endl;
+	
+	
+	
 	
 	Matroid gammoid = Gammoid::generate(graph, galois, sources);
 	if (gammoid.isIndependent(sinks, galois)) {

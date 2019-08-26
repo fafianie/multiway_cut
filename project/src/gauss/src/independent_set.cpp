@@ -62,8 +62,8 @@ void IndependentSet::applyPivot(int independentElement, vector<uint64_t>& column
 }
 
 
-int IndependentSet::findNonZeroRowIndex(vector<uint64_t> column&) {
-cout << "trying to find pivot with " << nonZeroRows.size() << " nonZero rows" << endl;
+int IndependentSet::findNonZeroRowIndex(vector<uint64_t>& column) {
+//cout << "trying to find pivot with " << nonZeroRows.size() << " nonZero rows" << endl;
 	for (const auto& row : nonZeroRows) {
 //cout << "checking row " << row << endl;
 		if (column[row] != 0L) {
