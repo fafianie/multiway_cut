@@ -6,14 +6,9 @@
 #include "dual_matroid.h"
 #include "gammoid.h"
 #include "transversal_matroid.h"
+#include "powers.cpp"
 
 using namespace std;
-
-const int verticesX = 50;
-const int edgesX = 200;
-const int numberOfSourcesX = 5;
-const int pathLengthX = 5;
-const int repetitionsX = 100;
 
 struct pair_hash {
     inline size_t operator()(const pair<int,int> & v) const {
@@ -21,311 +16,284 @@ struct pair_hash {
     }
 };
 
+bool cliqueTestPasses() { 
+	Galois* galois = new CarrylessMultiplierGalois();
+	for (int numberOfSources = 2; numberOfSources < 11; numberOfSources++) {
+		Graph graph(numberOfSources * numberOfSources);
+		vector<int> sinks;
+		unordered_set<int> sources;
+		for (int source = 0; source < numberOfSources; source++) {
+			sources.insert(source * numberOfSources);
+			sinks.push_back(source * numberOfSources + numberOfSources - 1);
+		}
+		for (int u = 0; u < graph.getVertices(); u++) {
+			for (int v = u; v < graph.getVertices(); v++) {
+				graph.addEdge(u, v);
+			}
+		}
+		Matroid gammoid = Gammoid::generate(graph, galois, sources);
+		if (!gammoid.isIndependent(sinks, galois)) {
+				cout << "Test failure: Clique with size " << numberOfSources << " is not independent." << endl;
+				return false;
+		}
+	}
+	return true;
+}
+
+bool pathsWithNoiseTestPasses() {
+	int numberOfSources = 5; //TODO: make global const ints
+	int pathLength = 5;
+	int repetitions = 100;
+    int vertices = 50;
+    int edges = 200;
+
+	Galois* galois = new CarrylessMultiplierGalois();
+	for (int repetition = 0; repetition < repetitions; repetition++) {
+		Graph graph(vertices);
+		vector<int> aliases;
+		for (int vertex = 0; vertex < vertices; vertex++) {
+			aliases.push_back(vertex);
+		}
+		random_shuffle(aliases.begin(), aliases.end());
+		unordered_set<int> sources;
+		vector<int> sinks;
+		unordered_set<pair<int, int>, pair_hash> edgeCandidates;
+		for (int u = 0; u < vertices; u++) {
+			for (int v = u + 1; v < vertices; v++) {
+				pair<int, int> edgeCandidate(u, v);
+				edgeCandidates.insert(edgeCandidate);
+			}
+		}	
+		int offset = 0;
+		for (int source = 0; source < numberOfSources; source++) {
+			sources.insert(aliases.at(offset));
+			for (int pathVertex = 1; pathVertex < pathLength; pathVertex++) {
+				int index = pathVertex + offset;
+				int currentVertex = aliases.at(index);
+				int previousVertex = aliases.at(index - 1);
+				graph.addEdge(previousVertex, currentVertex);
+				pair<int, int> blockedCandidate(index - 1, index);
+				edgeCandidates.erase(edgeCandidates.find(blockedCandidate));
+			}
+			offset += pathLength;
+			sinks.push_back(aliases.at(offset - 1));
+		}
+		
+		vector<pair<int, int>> shuffledEdges;
+		for (auto edgeCandidate : edgeCandidates) {
+			shuffledEdges.push_back(edgeCandidate);
+		}
+		random_shuffle(shuffledEdges.begin(), shuffledEdges.end());
+		for (int edge = 0; edge < edges; edge++) {
+			pair<int, int> edgeCandidate = shuffledEdges.at(edge);
+			int u = aliases.at(edgeCandidate.first);
+			int v = aliases.at(edgeCandidate.second);
+			graph.addEdge(u, v);
+		}
+		Matroid gammoid = Gammoid::generate(graph, galois, sources);
+		if (!gammoid.isIndependent(sinks, galois)) {
+			cout << "Test failure: Paths with noise are not independent." << endl;
+			return false;
+		}
+	}
+	return true;
+}
+
+bool independentSetTestPasses() { 
+	int elements = 6;
+	int numberOfSources = 3;
+	Galois* galois = new CarrylessMultiplierGalois();
+	Graph graph(elements);
+	unordered_set<int> sources;
+	vector<int> sinks;
+	for (int vertex = 0; vertex < numberOfSources; vertex++) {
+		sources.insert(vertex);
+	}
+	Matroid gammoid = Gammoid::generate(graph, galois, sources);
+	for (int candidateSeed = 0; candidateSeed < pw[elements]; candidateSeed++) {
+		vector<int> sinks;
+		for (int elementIndex = 0; elementIndex < elements; elementIndex++) {
+			if (candidateSeed & pw[elementIndex]) {
+				sinks.push_back(elementIndex);
+			}
+		}
+		bool independent = gammoid.isIndependent(sinks, galois);
+		if (candidateSeed > pwm1[numberOfSources] == independent) { 
+			if (independent) {
+				cout << "Test failure: independent while containing a non-sink" << endl;
+			} else {
+				cout << "Test failure: not independent while only containing sinks" << endl;
+			}
+			return false;
+		}
+	}
+	return true;
+}
+
+bool funnelTestPasses() {
+	int paths = 5;
+	int funnelSize = paths - 1;
+	int vertices = 100; //must have at least path*length*2 + funnel vertices = 54
+	int edges = 300;
+	int pathLength = 5; //length on both sides
+	
+	Galois* galois = new CarrylessMultiplierGalois();
+	Graph graph(vertices);
+	unordered_set<int> sources;
+	vector<int> sinks;
+	
+	//TODO: identify left side, right side, and funnel...
+	//funnel is fixed size
+	//left side requires at least *paths* many vertices
+	//right side requires at least *paths* many vertices
+	//randomly decide splitting pointer
+	//but also ensure enough vertices are on either side to make the paths (half half)
+	
+	int minSideSize = paths * pathLength;
+	int maxSideSize = vertices - (funnelSize + minSideSize);
+	std::mt19937 randomGenerator;
+
+	std::uniform_int_distribution<int> distribution(minSideSize, maxSideSize); // uniform, unbiased
+	int leftStart = 0;
+	int leftEnd = distribution(randomGenerator);
+	int rightStart = leftEnd + funnelSize;
+	int rightEnd = vertices;
+	cout << "funnelSize: " << funnelSize << endl;
+	cout << "leftEnd: " << leftEnd << endl;
+	cout << "rightStart: " << rightStart << endl;
+	//todo link paths
+	for (int path = 0; path < paths; path++) {
+		int offset = path * pathLength;
+		for (int pathVertex = 1; pathVertex < pathLength; pathVertex++) {
+			int leftPathVertex = pathVertex + offset;
+			int rightPathVertex = rightStart + pathVertex + offset;
+			cout << "left: " << leftPathVertex << endl;
+			cout << "right: " << rightPathVertex << endl;
+			graph.addEdge(leftPathVertex, leftPathVertex - 1);
+			graph.addEdge(rightPathVertex, rightPathVertex - 1);
+			edges -= 2;
+		
+			//output edges to make sure they are correct
+			//add edge between this and previous
+			//update offset...
+		}
+		//connect to funnel (BUT SKIP THE LAST ONE OR THIS APPROACH FAILS!!!)
+		/*int leftPathVertex = offset;
+		int rightPathVertex = rightStart + offset;
+		int funnelVertex = leftEnd + path;
+		cout << "*** adding funnel" << endl;
+		cout << "leftPathVertex: " << leftPathVertex << endl;
+		cout << "funnelVertex: " << funnelVertex << endl;
+		cout << "rightPathVertex: " << rightPathVertex << endl;
+		cout << "***" << endl;
+		graph.addEdge(leftPathVertex, funnelVertex);
+		graph.addEdge(funnelVertex, rightPathVertex);
+		edges -= 2;*/
+		
+		//add sinks
+		sinks.push_back(offset);
+		cout << "ADDED SOURCE: " << offset << endl;
+		//add sources
+		sources.insert(rightStart + offset + pathLength);
+		cout << "ADDED SINK: " << rightStart + offset + pathLength - 1<< endl; 
+	}
+	
+	for (int funnelIndex = 0; funnelIndex < funnelSize; funnelIndex++) {
+		int offset = funnelIndex * pathLength;
+		int leftPathVertex = offset;
+		int rightPathVertex = rightStart + offset;
+		int funnelVertex = leftEnd + funnelIndex;
+		cout << "*** adding funnel" << endl;
+		cout << "leftPathVertex: " << leftPathVertex << endl;
+		cout << "funnelVertex: " << funnelVertex << endl;
+		cout << "rightPathVertex: " << rightPathVertex << endl;
+		cout << "***" << endl;
+		graph.addEdge(leftPathVertex, funnelVertex);
+		graph.addEdge(funnelVertex, rightPathVertex);
+		edges -= 2;
+	}
+	
+	
+	
+	
+	//add edge candidates
+	//must be contained all on one side (including funnel)
+	unordered_set<pair<int, int>, pair_hash> edgeCandidates;
+	for (int u = 0; u < leftEnd; u++) {
+		for (int v = u + 1; v < leftEnd; v++) {
+			pair<int, int> edgeCandidate(u, v);
+			edgeCandidates.insert(edgeCandidate);
+			cout << "candidate: " << u << " - " << v << endl;
+		}
+	}
+	for (int u = rightStart; u < vertices; u++) {
+		for (int v = u + 1; v < vertices; v++) {
+			pair<int, int> edgeCandidate(u, v);
+			edgeCandidates.insert(edgeCandidate);
+			cout << "candidate: " << u << " - " << v << endl;
+		}
+	}
+	vector<pair<int, int>> shuffledEdges;
+	for (auto edgeCandidate : edgeCandidates) {
+		shuffledEdges.push_back(edgeCandidate);
+	}
+	random_shuffle(shuffledEdges.begin(), shuffledEdges.end());
+	for (int edge = 0; edge < edges; edge++) {
+		pair<int, int> edgeCandidate = shuffledEdges.at(edge);
+		int u = edgeCandidate.first;
+		int v = edgeCandidate.second;
+		graph.addEdge(u, v);
+	}
+	
+	Matroid gammoid = Gammoid::generate(graph, galois, sources);
+	if (gammoid.isIndependent(sinks, galois)) {
+		cout << "Test failure: Paths with funnel and noise are independent." << endl;
+		return false;
+	}
+	
+	
+	
+	
+	//connect nine paths evenly, last one randomly intersecting
+	
+	
+	
+	
+	
+	
+	
+	//todo: add repetitions
+
+	
+	
+	
+	
+	//negative cases: add artificial cuts (funnels)
+	//create k-1 size crossing
+	//split remainder of graph in two parts
+	//make paths, with ends in each part, intersecting the crossing
+	//add extra edges (but don't connect parts outside of crossing)
+	
+	
+
+	return true;
+}
+
 int main(int argc, char* argv[]) {
 	
 	Galois* galoisX = new CarrylessMultiplierGalois();
 	
-	int numberOfSourcesY = 2;
-	
-	Graph graphY(numberOfSourcesY * numberOfSourcesY);
-	vector<int> sinksY;
-	unordered_set<int> sourcesY;
-	for (int sourceY = 0; sourceY < numberOfSourcesY; sourceY++) {
-		sourcesY.insert(sourceY * numberOfSourcesY);
-		sinksY.push_back(sourceY * numberOfSourcesY + numberOfSourcesY - 1);
-	}
-	for (int uY = 0; uY < graphY.getVertices(); uY++) {
-		for (int vY = uY; vY < graphY.getVertices(); vY++) {
-			graphY.addEdge(uY, vY);
-		}
-	}
-	Matroid gammoidY = Gammoid::generate(graphY, galoisX, sourcesY);
-	if (!gammoidY.isIndependent(sinksY, galoisX)) {
-			cout << "not independent *************" << endl;
-			return 1;
-	}
-	
-	
-	
-	
-	//TODO: test against cliques
-	
-	
-	
-	
-	
-	for (int repetitionX = 0; repetitionX < repetitionsX; repetitionX++) {
-		Graph graphX(verticesX);
-		vector<int> aliasesX;
-		for (int vertexX = 0; vertexX < verticesX; vertexX++) {
-			aliasesX.push_back(vertexX);
-		}
-		random_shuffle(aliasesX.begin(), aliasesX.end());
-		unordered_set<int> sourcesX;
-		vector<int> sinksX;
-		unordered_set<pair<int, int>, pair_hash> edgeCandidatesX;
-		for (int uX = 0; uX < verticesX; uX++) {
-			for (int vX = uX; vX < verticesX; vX++) {
-				pair<int, int> edgeCandidate(uX, vX);
-				edgeCandidatesX.insert(edgeCandidate);
-			}
-		}	
-		int offsetX = 0;
-		for (int sourceX = 0; sourceX < numberOfSourcesX; sourceX++) {
-			sourcesX.insert(aliasesX.at(offsetX));
-			//sourcesX.insert(offsetX);
-			cout << "source " << aliasesX.at(offsetX) << endl;
-			//cout << "source " << offsetX << endl;
-			
-			for (int pathVertexX = 1; pathVertexX < pathLengthX; pathVertexX++) {
-				int indexX = pathVertexX + offsetX;
-				int currentVertexX = aliasesX.at(indexX);
-				int previousVertexX = aliasesX.at(indexX - 1);
-				cout << "pathVertex " << currentVertexX << " , previous " << previousVertexX << endl;
-				//cout << "pathVertex " << indexX << " , previous " << (indexX - 1) << endl;
-				graphX.addEdge(previousVertexX, currentVertexX);
-			//	graphX.addEdge(indexX - 1, indexX);
-				pair<int, int> blockedCandidateX(indexX - 1, indexX);
-				edgeCandidatesX.erase(edgeCandidatesX.find(blockedCandidateX));
-			}
-			
-			offsetX += pathLengthX;
-			cout << "sink " << aliasesX.at(offsetX - 1) << endl;
-			//cout << "sink " << (offsetX - 1) << endl;
-			sinksX.push_back(aliasesX.at(offsetX - 1));
-			//sinksX.push_back(offsetX - 1);
-		}
-		
-		
-		cout << "sources " << endl;
-		for (auto sourceX : sourcesX) {
-			cout << sourceX << endl;
-		}
-		cout << "sinks " << endl;
-		for (auto sinkX : sinksX) {
-			cout << sinkX << endl;
-		}
-		vector<pair<int, int>> shuffledEdgesX;
-		for (auto edgeCandidateX : edgeCandidatesX) {
-			shuffledEdgesX.push_back(edgeCandidateX);
-		}
-		random_shuffle(shuffledEdgesX.begin(), shuffledEdgesX.end());
-		for (int edgeX = 0; edgeX < edgesX; edgeX++) {
-			pair<int, int> edgeCandidateX = shuffledEdgesX.at(edgeX);
-			int uX = aliasesX.at(edgeCandidateX.first);
-			int vX = aliasesX.at(edgeCandidateX.second);
-			cout << "add edge: " << uX << ", " << vX << endl;
-			graphX.addEdge(uX, vX);
-		}
-		Matroid gammoidX = Gammoid::generate(graphX, galoisX, sourcesX);
-		if (!gammoidX.isIndependent(sinksX, galoisX)) {
-			cout << "not independent" << endl;
-			return 1;
-		}
-	}
-	
-	
-	
-	
-	
-	
-	
-	Galois* naiveGalois = new NaiveGalois(8);
-	
-	/*Matroid matroid(12, 8);
-	
-	for (int column = 0; column < matroid.getElements(); column++) {
-		for (int row = 0; row < matroid.getRank(); row++) {
-			bool zero = true;
-			while (zero) {
-				uint64_t value = naiveGalois -> uniformRandomElement();
-				if (value != 0L) {
-					matroid.setField(column, row, value);
-					zero = false;
-				}
-			}
-		}
-	}
-	Matroid dualMatroid = DualMatroid::generate(matroid, naiveGalois);*/
-
-	//TODO: add very small test cases to find the issue
-
-	//TODO: 4 independent vertices
-
-	
-	Graph graph1(4);
-	unordered_set<int> sinks1;
-	vector<int> sources1;
-	for (int vertex = 0; vertex < graph1.getVertices(); vertex++) {
-		sinks1.insert(vertex);
-		sources1.push_back(vertex);
-	}
-	
-	cout << endl << "gammoid1" << endl << endl;
-
-	Matroid gammoid1 = Gammoid::generate(graph1, naiveGalois, sinks1);
-	if (!gammoid1.isIndependent(sources1, naiveGalois)) {
-		cout << "error: gammoid1 not independent!" << endl;
+	if (!cliqueTestPasses()) {
 		return 1;
 	}
-
-	cout << endl << "gammoid2" << endl << endl;
-
-
-	unordered_set<int> sinks2;
-	vector<int> sources2;
-	for (int vertex = 0; vertex < 3; vertex++) {
-		sinks2.insert(vertex);
-		sources2.push_back(vertex);
-	}
-	Matroid gammoid2 = Gammoid::generate(graph1, naiveGalois, sinks2);
-
-	if (!gammoid2.isIndependent(sources2, naiveGalois)) {
-		cout << "error: gammoid 2 not independent!" << endl;
+	if (!pathsWithNoiseTestPasses()) {
 		return 1;
 	}
-
-	vector<int> sources2a;
-	sources2a.push_back(3);
-	if (gammoid2.isIndependent(sources2a, naiveGalois)) {
-		cout << "error: gammoid 2 non-sink independent!" << endl;
+	if (!independentSetTestPasses()) {
 		return 1;
 	}
-
-	cout << endl << "gammoid3" << endl << endl;
-
-	for (int vertex = 0; vertex < 3; vertex++) {
-		graph1.addEdge(vertex, vertex + 1);
-	}
-	unordered_set<int> sinks3; 
-	sinks3.insert(0);
-
-
-	Matroid gammoid3 = Gammoid::generate(graph1, naiveGalois, sinks3);
-	for (int vertex = 0; vertex < graph1.getVertices(); vertex++) {
-		vector<int> sources3;
-		sources3.push_back(vertex);
-		if (!gammoid3.isIndependent(sources3, naiveGalois)) {
-			cout << "gammoid 3 vertex " << vertex << " not independent!" << endl;
-		}
-	}
-	if (gammoid3.getRank() != 1) {
-		cout << "error: gammoid 3 rank is " << gammoid3.getRank() << endl;
+	if (!funnelTestPasses()) {
 		return 1;
 	}
-	
-	cout << endl << "gammoid4" << endl << endl;
-
-	Graph graph2(8);
-	for (int i = 0; i < 3; i++) {
-		graph2.addEdge(i, i + 1);
-		graph2.addEdge(4 + i, 4 + i + 1);
-	}
-	unordered_set<int> sinks4;
-	sinks4.insert(0);
-	sinks4.insert(4);
-	Matroid gammoid4 = Gammoid::generate(graph2, naiveGalois, sinks4);
-	
-	for (int i = 0; i < 4; i++) {
-		for (int j = 4; j < 8; j++) {
-			vector<int> sources4;
-			sources4.push_back(i);
-			sources4.push_back(j);
-			if (!gammoid4.isIndependent(sources4, naiveGalois)) {
-				cout << "gammoid 4 vertex " << i << " and " << j << " not independent!" << endl;
-			}
-		}
-	}
-
-
-
-
-
-	if (gammoid4.getRank() != 2) {
-		cout << "error: gammoid 4 rank is " << gammoid4.getRank() << endl;
-		return 1;
-	}
-
-
-
-	delete naiveGalois;
-
-
-
-	//*
-	
-	int paths = 10;
-	int pathLength = 10;
-
-	Graph graph(paths * pathLength);
-	unordered_set<int> sinks;
-	vector<int> sources;
-	//Galois* galois = new CarrylessMultiplierGalois();
-	Galois* galois = new NaiveGalois(16);
-
-	for (int path = 0; path < paths; path++) {
-		for (int vertex = 0; vertex < 9; vertex++) {
-			int pathVertex = (path * 10) + vertex;
-			graph.addEdge(pathVertex, pathVertex + 1);
-		}
-		sinks.insert(path * pathLength);
-		sources.push_back((path * pathLength) + pathLength - 1);//+ 9); //TODO: test with sinks first, then other points on path
-	}
-
-
-
-	cout << "generating matroid" << endl;
-
-	
-	Matroid gammoid = Gammoid::generate(graph, galois, sinks);
-	if (!gammoid.isIndependent(sources, galois)) {
-	cout << "not independent :(" << endl;
-		return 1;
-	}
-	
-	vector<int> sourcesx;
-	sourcesx.push_back(0);
-	sourcesx.push_back(pathLength - 1);
-	
-	if (gammoid.isIndependent(sourcesx, galois)) {
-		cout << "independent :(" << endl;
-		return 1;
-	}
-	
-	
-	
-	
-	//TODO: create positive test cases 
-	//hardcode a bunch of paths and add some noise
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	//TODO: create negative test cases
-	//??
-	
-	
-	delete galois;
-
-	//*/
-
-
-	cout << "independent :)" << endl;
-
 	return 0;
 }
