@@ -17,7 +17,7 @@ class IndependentSet {
 		std::vector<std::vector<uint64_t>> independentColumns;
 		int rank;
 		int independentElements;
-		std::unordered_set<int> nonZeroRows;
+		std::set<int> nonZeroRows;
 		std::vector<int> pivots; //size equals independentElements MUST ALSO SAVE PIVOT FACTOR?
 		Galois* galois;
 };

@@ -24,3 +24,12 @@ add_test(LogarithmTableGaloisWorks logarithm_table_test)
 add_executable(carryless_multiplier_test test/carryless_multiplier_test.cpp)
 target_link_libraries(carryless_multiplier_test galois stdafx)
 add_test(CarrylessMultiplierWorks carryless_multiplier_test)
+
+add_executable(div test/div.cpp)
+target_link_libraries(div galois stdafx)
+
+add_executable(mul test/mul.cpp)
+target_link_libraries(mul galois stdafx)
+
+add_executable(add test/add.cpp)
+target_link_libraries(add galois stdafx)

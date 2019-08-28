@@ -7,7 +7,7 @@
 #include "gammoid.h"
 #include "transversal_matroid.h"
 #include "powers.cpp"
-#include <iomanip>
+#include "independent_set.h"
 
 using namespace std;
 
@@ -48,7 +48,7 @@ bool pathsWithNoiseTestPasses() {
     int vertices = 50;
     int edges = 200;
 
-	Galois* galois = new CarrylessMultiplierGalois();
+	Galois* galois = new CarrylessMultiplierGalois;
 	for (int repetition = 0; repetition < repetitions; repetition++) {
 		Graph graph(vertices);
 		vector<int> aliases;
@@ -135,21 +135,16 @@ bool funnelTestPasses() {
 	int paths = 3;
 	int funnelSize = paths - 1;
 	int edges = 100;
-	int pathLength = 2; //length on both sides
-	int surplus = 5;
+	int pathLength = 1; //length on both sides
+	int surplus = 4;
 	int vertices = paths * pathLength * 2 + funnelSize + surplus; //must have at least path*length*2 + funnel vertices = 54
 	
-	Galois* galois = new CarrylessMultiplierGalois();
+	Galois* galois = new NaiveGalois(8);
 	Graph graph(vertices);
 	unordered_set<int> sources;
 	vector<int> sinks;
 	
-	//TODO: identify left side, right side, and funnel...
-	//funnel is fixed size
-	//left side requires at least *paths* many vertices
-	//right side requires at least *paths* many vertices
-	//randomly decide splitting pointer
-	//but also ensure enough vertices are on either side to make the paths (half half)
+	
 	
 	int minSideSize = paths * pathLength;
 	int maxSideSize = vertices - (funnelSize + minSideSize);
@@ -157,7 +152,8 @@ bool funnelTestPasses() {
 
 	std::uniform_int_distribution<int> distribution(minSideSize, maxSideSize); // uniform, unbiased
 	int leftStart = 0;
-	int leftEnd = distribution(randomGenerator);
+	//int leftEnd = distribution(randomGenerator);
+	int leftEnd = (maxSideSize + minSideSize) / 2;
 	int rightStart = leftEnd + funnelSize;
 	int rightEnd = vertices;
 	cout << "funnelSize: " << funnelSize << endl;
@@ -214,7 +210,7 @@ bool funnelTestPasses() {
 		graph.addEdge(funnelVertex, rightPathVertex);
 		edges -= 2;
 	}
-	
+	//WTF HAPPENED TO ALIASES IN MATROID
 	
 	
 	
@@ -282,43 +278,19 @@ bool funnelTestPasses() {
 	
 	
 	
+	
+
+	
 	Matroid gammoid = Gammoid::generate(graph, galois, sources);
 	if (gammoid.isIndependent(sinks, galois)) {
 		cout << "Test failure: Paths with funnel and noise are independent." << endl;
 		return false;
 	}
-	
-	
-	
-	
-	//connect nine paths evenly, last one randomly intersecting
-	
-	
-	
-	
-	
-	
-	
-	//todo: add repetitions
-
-	
-	
-	
-	
-	//negative cases: add artificial cuts (funnels)
-	//create k-1 size crossing
-	//split remainder of graph in two parts
-	//make paths, with ends in each part, intersecting the crossing
-	//add extra edges (but don't connect parts outside of crossing)
-	
-	
 
 	return true;
 }
 
 int main(int argc, char* argv[]) {
-	
-	Galois* galoisX = new CarrylessMultiplierGalois();
 	
 	if (!cliqueTestPasses()) {
 		return 1;

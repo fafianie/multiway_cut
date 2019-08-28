@@ -18,9 +18,9 @@ Matroid Gammoid::generate(Graph& graph, Galois* galois, unordered_set<int> sinks
 	}
 	Matroid transversal = TransversalMatroid::generate(graph, galois, transversalSinks);
 
-	//transversal.display(galois);
+	transversal.display(galois);
 	Matroid gammoid = DualMatroid::generate(transversal, galois);
-	//gammoid.display(galois);
+	gammoid.display(galois);
 
 //	cout << "returning gammoid" << endl;
 	

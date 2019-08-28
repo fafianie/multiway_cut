@@ -38,6 +38,7 @@ void Matroid::swapColumns(int leftColumn, int rightColumn) {
 		setField(leftColumn, row, rightValue);
 		setField(rightColumn, row, leftValue);
 	}
+	cout << "swapping column << " << leftColumn << " and " << rightColumn << endl;
 	int leftElement = columnToElement[leftColumn];
 	int rightElement = columnToElement[rightColumn];
 	columnToElement[leftColumn] = rightElement;
@@ -105,9 +106,9 @@ bool Matroid::isIndependent(std::vector<int> elements, Galois* galois) {
 }
 
 void Matroid::display(Galois* galois) {
-	//for (int column = 0; column < elements; column++) {
-	//	cout << aliases[column] << " ";
-	//}
+	for (int column = 0; column < elements; column++) {
+		cout << setw(8) << columnToElement[column] << " ";
+	}
 	cout << endl;
 	for (int row = 0; row < rank; row++) {
 		for (int column = 0; column < elements; column++) {
