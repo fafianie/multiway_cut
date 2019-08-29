@@ -4,7 +4,7 @@
 using namespace std;
 
 SinkOnlyCopies::SinkOnlyCopies(Graph* graph, std::set<int>& copies) : Graph(graph -> getVertices() + copies.size()) {
-	int index = graph -> getVertices();
+	int sink = graph -> getVertices();
 	for (int u = 0; u < graph -> getVertices(); u++) {
 		for (int v = 0; v < graph -> getVertices(); v++) {
 			if (graph -> isOutNeighbor(u, v)) {
@@ -14,15 +14,12 @@ SinkOnlyCopies::SinkOnlyCopies(Graph* graph, std::set<int>& copies) : Graph(grap
 	}
 	
 	for (int copy : copies) {
-		sinkCopyMap.insert(make_pair(copy, index));
-		index++;
-		//TODO: efficient way to find all in/out neighbors?
-		//TODO: keep and update set of in/outneighbors for every vertex..
+		sinkCopyMap.insert(make_pair(copy, sink));
+		sink++;
+		for (int inNeighbor : graph -> getInNeighbors(copy)) {
+			addArc(inNeighbor, sink);
+		}
 	}
-	
-
-//where should copies appear? (must be able to find them and original vertices)
-//store indices of sink only copies in this object!
 }
 
 SinkOnlyCopies::~SinkOnlyCopies() {

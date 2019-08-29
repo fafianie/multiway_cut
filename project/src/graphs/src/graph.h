@@ -20,6 +20,8 @@ class Graph {
 		int getEdges();
 		int getNumberOfTerminals();
 		std::unordered_set<int> getTerminals();
+		std::unordered_set<int> getInNeighbors(int);
+		std::unordered_set<int> getOutNeighbors(int);
 		
 	private:
 		std::vector<bool> adjacent;
@@ -27,4 +29,6 @@ class Graph {
 		int edges;
 		int numberOfTerminals;
 		std::unordered_set<int> terminals;
+		std::vector<std::unordered_set<int>> inNeighbors;
+		std::vector<std::unordered_set<int>> outNeighbors;
 };

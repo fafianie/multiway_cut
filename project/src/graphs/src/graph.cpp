@@ -5,19 +5,26 @@ using namespace std;
 
 Graph::Graph(const int initVertices) : vertices(initVertices), edges(0), numberOfTerminals(0) {
 	adjacent.assign(vertices * vertices, false);
+	for (int vertex = 0; vertex < vertices; vertex++) {
+		unordered_set<int> vertexInNeighbors, vertexOutNeighbors;
+		inNeighbors.push_back(vertexInNeighbors);
+		outNeighbors.push_back(vertexOutNeighbors);
+	}
 }
 
 Graph::~Graph() {
 }
 
 void Graph::addEdge(int leftVertex, int rightVertex) {
-	adjacent[vertices * leftVertex + rightVertex] = true;
-	adjacent[vertices * rightVertex + leftVertex] = true;
+	addArc(leftVertex, rightVertex);
+	addArc(rightVertex, leftVertex);
 	edges++;
 }
 
 void Graph::addArc(int inNeighbor, int outNeighbor) {
 	adjacent[vertices * inNeighbor + outNeighbor] = true;
+	outNeighbors[inNeighbor].insert(outNeighbor);
+	inNeighbors[outNeighbor].insert(inNeighbor);
 }
 
 void Graph::addTerminal(int terminal) {
@@ -39,6 +46,14 @@ bool Graph::isTerminal(int vertex) {
 
 unordered_set<int> Graph::getTerminals() {
 	return terminals;
+}
+
+unordered_set<int> Graph::getInNeighbors(int vertex) {
+	return inNeighbors[vertex];
+}
+
+unordered_set<int> Graph::getOutNeighbors(int vertex) {
+	return outNeighbors[vertex];
 }
 
 int Graph::getVertices() {
