@@ -1,5 +1,6 @@
 set(SOURCES
 	src/graph.cpp
+	src/sink_only_copies.cpp
 	src/planted_instance.cpp)
 	
 add_library(graphs STATIC ${SOURCES})
