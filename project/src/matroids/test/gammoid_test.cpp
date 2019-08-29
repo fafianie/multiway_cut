@@ -42,7 +42,7 @@ bool cliqueTestPasses() {
 }
 
 bool pathsWithNoiseTestPasses() {
-	int numberOfSources = 5; //TODO: make global const ints
+	int numberOfSources = 5;
 	int pathLength = 5;
 	int repetitions = 100;
     int vertices = 50;
@@ -132,158 +132,119 @@ bool independentSetTestPasses() {
 }
 
 bool funnelTestPasses() {
-	int paths = 3;
+	int repetitions = 100;
+	int paths = 5;
 	int funnelSize = paths - 1;
-	int edges = 100;
-	int pathLength = 1; //length on both sides
-	int surplus = 4;
-	int vertices = paths * pathLength * 2 + funnelSize + surplus; //must have at least path*length*2 + funnel vertices = 54
-	
-	Galois* galois = new NaiveGalois(8);
-	Graph graph(vertices);
-	unordered_set<int> sources;
-	vector<int> sinks;
-	
-	
-	
+	int edges = 150;
+	int pathLength = 5;
+	int surplus = 25;
+	int vertices = paths * pathLength * 2 + funnelSize + surplus;
 	int minSideSize = paths * pathLength;
 	int maxSideSize = vertices - (funnelSize + minSideSize);
-	std::mt19937 randomGenerator;
-
-	std::uniform_int_distribution<int> distribution(minSideSize, maxSideSize); // uniform, unbiased
-	int leftStart = 0;
-	//int leftEnd = distribution(randomGenerator);
-	int leftEnd = (maxSideSize + minSideSize) / 2;
-	int rightStart = leftEnd + funnelSize;
-	int rightEnd = vertices;
-	cout << "funnelSize: " << funnelSize << endl;
-	cout << "leftEnd: " << leftEnd << endl;
-	cout << "rightStart: " << rightStart << endl;
-	//todo link paths
-	for (int path = 0; path < paths; path++) {
-		int offset = path * pathLength;
-		for (int pathVertex = 1; pathVertex < pathLength; pathVertex++) {
-			int leftPathVertex = pathVertex + offset;
-			int rightPathVertex = rightStart + pathVertex + offset;
-			cout << "left: " << leftPathVertex << endl;
-			cout << "right: " << rightPathVertex << endl;
-			graph.addEdge(leftPathVertex, leftPathVertex - 1);
-			graph.addEdge(rightPathVertex, rightPathVertex - 1);
-			edges -= 2;
-		
-			//output edges to make sure they are correct
-			//add edge between this and previous
-			//update offset...
-		}
-		//connect to funnel (BUT SKIP THE LAST ONE OR THIS APPROACH FAILS!!!)
-		/*int leftPathVertex = offset;
-		int rightPathVertex = rightStart + offset;
-		int funnelVertex = leftEnd + path;
-		cout << "*** adding funnel" << endl;
-		cout << "leftPathVertex: " << leftPathVertex << endl;
-		cout << "funnelVertex: " << funnelVertex << endl;
-		cout << "rightPathVertex: " << rightPathVertex << endl;
-		cout << "***" << endl;
-		graph.addEdge(leftPathVertex, funnelVertex);
-		graph.addEdge(funnelVertex, rightPathVertex);
-		edges -= 2;*/
-		
-		//add sinks
-		sinks.push_back(offset);
-		cout << "ADDED SOURCE: " << offset << endl;
-		//add sources
-		sources.insert(rightStart + offset + pathLength - 1);
-		cout << "ADDED SINK: " << rightStart + offset + pathLength - 1<< endl; 
-	}
+	Galois* galois = new CarrylessMultiplierGalois();
 	
-	for (int funnelIndex = 0; funnelIndex < funnelSize; funnelIndex++) {
-		int offset = funnelIndex * pathLength;
-		int leftPathVertex = offset + pathLength - 1;
-		int rightPathVertex = rightStart + offset;
-		int funnelVertex = leftEnd + funnelIndex;
-		cout << "*** adding funnel" << endl;
-		cout << "leftPathVertex: " << leftPathVertex << endl;
-		cout << "funnelVertex: " << funnelVertex << endl;
-		cout << "rightPathVertex: " << rightPathVertex << endl;
-		cout << "***" << endl;
+	std::mt19937 randomGenerator;
+	std::uniform_int_distribution<int> sizeDistribution(minSideSize, maxSideSize);
+	std::uniform_int_distribution<int> funnelDistribution(0, funnelSize - 1);
+	
+	for (int repetition = 0; repetition < repetitions; repetition++) {
+		Graph graph(vertices);
+		unordered_set<int> sources;
+		vector<int> sinks;
+	
+		int leftStart = 0;
+		int leftEnd = sizeDistribution(randomGenerator);
+		int rightStart = leftEnd + funnelSize;
+		int rightEnd = vertices;
+
+		for (int path = 0; path < paths; path++) {
+			int offset = path * pathLength;
+			for (int pathVertex = 1; pathVertex < pathLength; pathVertex++) {
+				int leftPathVertex = pathVertex + offset;
+				int rightPathVertex = rightStart + pathVertex + offset;
+				graph.addEdge(leftPathVertex, leftPathVertex - 1);
+				graph.addEdge(rightPathVertex, rightPathVertex - 1);
+				edges -= 2;
+			}
+			sinks.push_back(offset);
+			sources.insert(rightStart + offset + pathLength - 1);
+		}
+	
+		for (int funnelIndex = 0; funnelIndex < funnelSize; funnelIndex++) {
+			int offset = funnelIndex * pathLength;
+			int leftPathVertex = offset + pathLength - 1;
+			int rightPathVertex = rightStart + offset;
+			int funnelVertex = leftEnd + funnelIndex;
+			graph.addEdge(leftPathVertex, funnelVertex);
+			graph.addEdge(funnelVertex, rightPathVertex);
+			edges -= 2;
+		}
+	
+		int leftPathVertex = paths * pathLength - 1;
+		int rightPathVertex = rightStart + (paths - 1)* pathLength;
+		int funnelVertex = leftEnd + funnelDistribution(randomGenerator);
 		graph.addEdge(leftPathVertex, funnelVertex);
 		graph.addEdge(funnelVertex, rightPathVertex);
 		edges -= 2;
-	}
-	//WTF HAPPENED TO ALIASES IN MATROID
 	
-	
-	
-	//add edge candidates
-	//must be contained all on one side (including funnel)
-	unordered_set<pair<int, int>, pair_hash> edgeCandidates;
-	for (int u = 0; u < leftEnd; u++) {
-		for (int v = u + 1; v < leftEnd; v++) {
-			pair<int, int> edgeCandidate(u, v);
-			edgeCandidates.insert(edgeCandidate);
-			cout << "candidate: " << u << " - " << v << endl;
+		unordered_set<pair<int, int>, pair_hash> edgeCandidates;
+		for (int u = 0; u < leftEnd + funnelSize; u++) {
+			for (int v = u + 1; v < leftEnd; v++) {
+				pair<int, int> edgeCandidate(u, v);
+				edgeCandidates.insert(edgeCandidate);
+			}
+		}
+		for (int u = rightStart - funnelSize; u < vertices; u++) {
+			for (int v = u + 1; v < vertices; v++) {
+				pair<int, int> edgeCandidate(u, v);
+				edgeCandidates.insert(edgeCandidate);
+			}
+		}
+		vector<pair<int, int>> shuffledEdges;
+		for (auto edgeCandidate : edgeCandidates) {
+			shuffledEdges.push_back(edgeCandidate);
+		}
+		random_shuffle(shuffledEdges.begin(), shuffledEdges.end());
+		for (int edge = 0; edge < edges; edge++) {
+			pair<int, int> edgeCandidate = shuffledEdges.at(edge);
+			int u = edgeCandidate.first;
+			int v = edgeCandidate.second;
+			graph.addEdge(u, v);
+		}
+		Matroid gammoid = Gammoid::generate(graph, galois, sources);
+		if (gammoid.isIndependent(sinks, galois)) {
+			cout << "Test failure: Paths with funnel and noise are independent." << endl;
+			return false;
 		}
 	}
-	for (int u = rightStart; u < vertices; u++) {
-		for (int v = u + 1; v < vertices; v++) {
-			pair<int, int> edgeCandidate(u, v);
-			edgeCandidates.insert(edgeCandidate);
-			cout << "candidate: " << u << " - " << v << endl;
-		}
-	}
-	vector<pair<int, int>> shuffledEdges;
-	for (auto edgeCandidate : edgeCandidates) {
-		shuffledEdges.push_back(edgeCandidate);
-	}
-	/*random_shuffle(shuffledEdges.begin(), shuffledEdges.end());
-	for (int edge = 0; edge < edges; edge++) {
-		pair<int, int> edgeCandidate = shuffledEdges.at(edge);
-		int u = edgeCandidate.first;
-		int v = edgeCandidate.second;
-		graph.addEdge(u, v);
-	}*/
-	for (auto edgeCandidate : shuffledEdges) { 
-		int u = edgeCandidate.first;
-		int v = edgeCandidate.second;
-		graph.addEdge(u, v);
-	}
-	
-	cout << setw(3) << "x";
-	for (int v = 0; v < vertices; v++) {
-		cout << setw(3) << v;
-	}
-	cout << endl;
-	
-	for (int u = 0; u < vertices; u++) {
-		cout << setw(3) << u;
-	
-	
-		for (int v = 0; v < vertices; v++) {
-			cout << setw(3) << graph.isInNeighbor(u, v);
-		}
-		cout << endl;
-	}
-	
-	cout << "sources: ";
-	for (auto source : sources) {
-		cout << setw(3) << source;
-	}
-	cout << endl;
-	cout << "sinks: ";
-	for (auto sink : sinks) {
-		cout << setw(3) << sink;
-	}
-	cout << endl;
-	
-	
-	
-	
-	
+	return true;
+}
 
-	
+bool directedTestPasses() {
+	Graph graph(3);
+	graph.addArc(0, 1);
+	graph.addArc(1, 2);
+	unordered_set<int> sources;
+	sources.insert(1);
+	vector<int> sinks;
+	Galois* galois = new CarrylessMultiplierGalois();
 	Matroid gammoid = Gammoid::generate(graph, galois, sources);
+	
+	sinks.push_back(0);
 	if (gammoid.isIndependent(sinks, galois)) {
-		cout << "Test failure: Paths with funnel and noise are independent." << endl;
+		cout << "Test failure: InNeighbor is independent." << endl;
+		return false;
+	}
+	sinks.clear();
+	sinks.push_back(1);
+	if (!gammoid.isIndependent(sinks, galois)) {
+		cout << "Test failure: Source is not independent." << endl;
+		return false;
+	}
+	sinks.clear();
+	sinks.push_back(2);
+	if (!gammoid.isIndependent(sinks, galois)) {
+		cout << "Test failure: OutNeighbor is not independent." << endl;
 		return false;
 	}
 
@@ -302,6 +263,9 @@ int main(int argc, char* argv[]) {
 		return 1;
 	}
 	if (!funnelTestPasses()) {
+		return 1;
+	}
+	if (!directedTestPasses()) {
 		return 1;
 	}
 	return 0;

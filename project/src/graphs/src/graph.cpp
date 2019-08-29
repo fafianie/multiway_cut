@@ -16,6 +16,10 @@ void Graph::addEdge(int leftVertex, int rightVertex) {
 	edges++;
 }
 
+void Graph::addArc(int inNeighbor, int outNeighbor) {
+	adjacent[vertices * inNeighbor + outNeighbor] = true;
+}
+
 void Graph::addTerminal(int terminal) {
 	terminals.insert(terminal);
 	numberOfTerminals++;

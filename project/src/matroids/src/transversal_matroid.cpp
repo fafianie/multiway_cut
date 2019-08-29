@@ -12,7 +12,7 @@ Matroid TransversalMatroid::generate(Graph& graph, Galois* galois, vector<int>& 
 	Matroid matroid(vertices, sinks.size());
 	for (int sinkIndex = 0; sinkIndex < sinks.size(); sinkIndex++) {
 		for (int vertex = 0; vertex < vertices; vertex++) {
-			if (graph.isOutNeighbor(sinks.at(sinkIndex), vertex)) {
+			if (graph.isInNeighbor(sinks.at(sinkIndex), vertex)) {
 				matroid.setField(vertex, sinkIndex, galois -> uniformRandomElement());
 			}
 		}

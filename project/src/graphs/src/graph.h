@@ -10,6 +10,7 @@ class Graph {
 		
 		bool isIndependentSet();
 		void addEdge(int, int);
+		void addArc(int, int);
 		void addTerminal(int);
 		
 		bool isOutNeighbor(int, int);

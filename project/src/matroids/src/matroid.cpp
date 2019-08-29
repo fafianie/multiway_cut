@@ -38,22 +38,12 @@ void Matroid::swapColumns(int leftColumn, int rightColumn) {
 		setField(leftColumn, row, rightValue);
 		setField(rightColumn, row, leftValue);
 	}
-	cout << "swapping column << " << leftColumn << " and " << rightColumn << endl;
 	int leftElement = columnToElement[leftColumn];
 	int rightElement = columnToElement[rightColumn];
 	columnToElement[leftColumn] = rightElement;
 	elementToColumn[rightElement] = leftColumn;
 	columnToElement[rightColumn] = leftElement;
 	elementToColumn[leftElement] = rightColumn;
-	
-	
-	
-	
-	//TODO: need better data structure
-	
-	// column -> element
-	// element -> column
-	
 }
 
 int Matroid::getElements() {

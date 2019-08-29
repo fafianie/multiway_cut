@@ -42,6 +42,7 @@ void DualMatroid::swipeDown(Matroid& matroid, Galois* galois) {
 	for (int currentColumn = 0; currentColumn < diagonal; currentColumn++) {
 		int pivot = findPivot(matroid, currentColumn);
 		if (pivot == -1) {
+		cout << "Could not find pivot while swiping down";
 			throw runtime_error("Could not find pivot while swiping down");
 		}
 		matroid.swapColumns(currentColumn, pivot);
@@ -56,6 +57,7 @@ void DualMatroid::swipeUp(Matroid& matroid, Galois* galois) {
 	for (int currentColumn = 0; currentColumn < diagonal; currentColumn++) {
 		int pivot = findPivot(matroid, currentColumn);
 		if (pivot == -1) {
+		cout << "Could not find pivot while swiping up";
 			throw runtime_error("Could not find pivot while swiping up");
 		}
 		matroid.swapColumns(currentColumn, pivot);
