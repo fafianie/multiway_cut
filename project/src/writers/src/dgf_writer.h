@@ -5,5 +5,5 @@
 class DGFWriter {
 
 	public:
-		static void write(Graph&, std::string, std::string);
+		static void write(Graph&, std::string, std::string, std::string);
 };

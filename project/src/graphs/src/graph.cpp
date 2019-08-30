@@ -78,3 +78,24 @@ bool Graph::isIndependentSet() {
 	}
 	return true;
 }
+
+bool Graph::equals(Graph& otherGraph) {
+	if (vertices != otherGraph.getVertices()) {
+		return false;
+	}
+	if (edges != otherGraph.getEdges()) {
+		return false;
+	}
+	if (terminals != otherGraph.getTerminals()) {
+		return false;
+	}
+	for (int u = 0; u < vertices; u++) {
+		for (int v = 0; v < vertices; v++) {
+			if (isInNeighbor(u, v) != otherGraph.isInNeighbor(u, v) ||
+				isOutNeighbor(u, v) != otherGraph.isOutNeighbor(u, v)) {
+				return false;
+			}
+		}
+	}
+	return true;
+}

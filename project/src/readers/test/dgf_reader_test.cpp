@@ -5,7 +5,7 @@
 using namespace std;
 
 int main(int argc, char* argv[]) {	
-	Graph graph = DGFReader::read("../../resources/test/readers/", "reader_test.dgf");	
+	Graph graph = DGFReader::read("../../resources/test/readers/", "reader_test");	
 	if (graph.getVertices() != 10) {
 		return 1;
 	}

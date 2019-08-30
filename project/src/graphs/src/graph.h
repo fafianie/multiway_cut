@@ -22,6 +22,7 @@ class Graph {
 		std::unordered_set<int> getTerminals();
 		std::unordered_set<int> getInNeighbors(int);
 		std::unordered_set<int> getOutNeighbors(int);
+		bool equals(Graph&);
 		
 	private:
 		std::vector<bool> adjacent;

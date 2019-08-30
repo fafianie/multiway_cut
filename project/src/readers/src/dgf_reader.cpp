@@ -4,10 +4,12 @@
 
 using namespace std;
 
+static const string extension = ".dgf";
+
 Graph DGFReader::read(string path, string filename) {
-	ifstream infile(path + filename);	
+	ifstream infile(path + filename + extension);	
 	string line, ignore;
-	Graph *graph;
+	Graph* graph;
 	while (getline(infile, line)) { 
 		istringstream iss(line);
 		if (line[0] == 'p') {

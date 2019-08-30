@@ -1,0 +1,5 @@
+This file is used for the execution of metrics_writer_test
+input graph,running time,vertices,edges
+graphA,100ms,,
+graph B,,100,
+,200ms,,200
