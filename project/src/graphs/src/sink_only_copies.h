@@ -6,7 +6,7 @@
 class SinkOnlyCopies : public Graph {
 
 	public:
-		SinkOnlyCopies(Graph*, std::set<int>&);
+		SinkOnlyCopies(Graph&, std::set<int>&);
 		~SinkOnlyCopies();
 		int getCopy(int);
 		
