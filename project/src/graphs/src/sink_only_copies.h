@@ -8,7 +8,7 @@ class SinkOnlyCopies : public Graph {
 	public:
 		SinkOnlyCopies(Graph&, std::set<int>&);
 		~SinkOnlyCopies();
-		int getCopy(int);
+		int getSink(int);
 		
 	private:
 		std::map<int, int> sinkCopyMap;

@@ -30,6 +30,6 @@ SinkOnlyCopies::SinkOnlyCopies(Graph& graph, std::set<int>& copies) : Graph(grap
 SinkOnlyCopies::~SinkOnlyCopies() {
 }
 
-SinkOnlyCopies::getCopy(int copy) {
-	return sinkCopyMap[copy];
+SinkOnlyCopies::getSink(int originalIndex) {
+	return sinkCopyMap[originalIndex];
 } 
