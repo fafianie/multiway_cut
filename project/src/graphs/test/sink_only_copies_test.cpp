@@ -41,7 +41,7 @@ int main(int argc, char* argv[]) {
 		}
 	}
 	for (int original : originals) {
-		int copy = sinkOnlyCopies.getCopy(original);
+		int copy = sinkOnlyCopies.getSink(original);
 		if (!sinkOnlyCopies.getOutNeighbors(copy).empty()) {
 			cout << "Test error: sinks should not have outNeighbors" << endl;
 			return 1;
