@@ -251,7 +251,7 @@ vector<int> MWCSolver::contract(int vertex) {
 	//cout << "remove " << v << " from candidates" << endl;
 	vector<int> actions;
 
-	for (int neighbot : graph.getOutNeighbors(vertex) {
+	for (int neighbot : graph -> getOutNeighbors(vertex) {
 		if (status[neighbor] != -1) {
 			break;
 		}
