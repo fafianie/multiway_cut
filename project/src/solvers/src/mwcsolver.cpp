@@ -244,11 +244,11 @@ void MWCSolver::step(bool calc) {
 }
 
 vector<int> MWCSolver::contract(int vertex) { 
-	//cout << "CONTRACT: " << v << endl;
+	cout << endl << "CONTRACT: " << vertex << endl;
 	status[vertex] = 0;
 	lps.block(vertex);
 	removeCandidate(vertex);
-	//cout << "remove " << v << " from candidates" << endl;
+	cout << "remove " << vertex << " from candidates" << endl;
 	vector<int> actions;
 
 	for (int neighbor : graph -> getOutNeighbors(vertex)) {
@@ -258,20 +258,22 @@ vector<int> MWCSolver::contract(int vertex) {
 		if (boundary[neighbor] == -1) { //update boundary
 			boundary[neighbor] = boundary[vertex];
 			addCandidate(neighbor); //u was no candidate before
-			//cout << "add " << u << " to candidates" << endl;
+			cout << "add " << neighbor << " to candidates" << endl;
 			actions.push_back(neighbor);
 			break;
 		} 
 		if (boundary[neighbor] != boundary[vertex]) { //neighbor must be picked
+			cout << "must pick neighbor" << endl;
 			select(neighbor); 
 			actions.push_back(neighbor);
 		}
 	}
-	
+	cout << endl << "done contracting" << endl;
 	return actions;
 }
 
 void MWCSolver::undo_contract(int vertex, vector<int> actions) {
+	cout << endl << "UNDO CONTRACT: " << vertex << endl;
 	status[vertex] = -1;
 	lps.pop();
 	addCandidate(vertex);
@@ -284,20 +286,22 @@ void MWCSolver::undo_contract(int vertex, vector<int> actions) {
 		}
 		undo_select(action);
 	}
+	cout << "done undo contract" << endl;
 }
 void MWCSolver::select(int vertex) {
-	//cout << "SELECT: " << v << endl;
+	cout << "SELECT: " << v << endl;
 	status[vertex] = 1;
 	cur++;
 	removeCandidate(vertex);
 	lps.select(vertex);
 	//cout << "remove " << v << " from candidates" << endl;
 	cur_sol.push_back(vertex);
+	cout << "DONE SELECT" << endl;
 }
 
 
 void MWCSolver::undo_select(int vertex) {
-	//cout << "UNDO_SELECT: " << v << endl;
+	cout << endl << "UNDO_SELECT: " << v << endl;
 
 	status[vertex] = -1;
 	cur--;
@@ -305,6 +309,7 @@ void MWCSolver::undo_select(int vertex) {
 	candidates.insert(vertex);
 	//cout << "add " << v << " to candidates" << endl;
 	cur_sol.pop_back();
+	cout << "DONE UNDO SELECT" << endl;
 }
 
 void MWCSolver::addCandidate(int vertex) {
