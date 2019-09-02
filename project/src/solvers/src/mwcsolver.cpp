@@ -289,7 +289,7 @@ void MWCSolver::undo_contract(int vertex, vector<int> actions) {
 	cout << "done undo contract" << endl;
 }
 void MWCSolver::select(int vertex) {
-	cout << "SELECT: " << v << endl;
+	cout << "SELECT: " << vertex << endl;
 	status[vertex] = 1;
 	cur++;
 	removeCandidate(vertex);
@@ -301,7 +301,7 @@ void MWCSolver::select(int vertex) {
 
 
 void MWCSolver::undo_select(int vertex) {
-	cout << endl << "UNDO_SELECT: " << v << endl;
+	cout << endl << "UNDO_SELECT: " << vertex << endl;
 
 	status[vertex] = -1;
 	cur--;
