@@ -51,14 +51,14 @@ int MWCSolver::solve(Graph& inputGraph) {
 		int terminal = terminals[i];
 		for (int j = i + 1; j < terminals.size(); j++)	{
 			int otherTerminal = terminals[j];
-			if (graph -> isEdge(terminal, otherTerminal)) {
+			if (graph -> isOutNeighbor(terminal, otherTerminal)) {
 				//infeasible
 				return -1;
 			}
 		}
 
 		for (int vertex = 0; vertex < vertices; vertex++)	{
-			if (graph -> isEdge(terminal, vertex)) {
+			if (graph -> isOutNeighbor(terminal, vertex)) {
 				if (boundary[vertex] == -1) {
 					boundary[vertex] = terminal;
 					candidates.insert(vertex);
