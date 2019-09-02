@@ -21,7 +21,7 @@ MWCSolver::~MWCSolver(){
 int MWCSolver::solve(Graph& inputGraph) {
 	graph = inputGraph;
 	int vertices = graph.getVertices();
-	terminals = graph.getTerminals();
+	unordered_set<int> terminals = graph.getTerminals();
 	
 	lps.init(graph);
 
