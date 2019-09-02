@@ -19,6 +19,7 @@ MWCSolver::~MWCSolver(){
 }
 
 int MWCSolver::solve(Graph& inputGraph) {
+	cout << endl << "start solve" << endl;
 	graph = &inputGraph;
 	int vertices = graph -> getVertices();
 	vector<int> terminals;
@@ -78,6 +79,7 @@ int MWCSolver::solve(Graph& inputGraph) {
 
 	cout << "LP: " << opt/2 << endl;
 
+	
 	step(true);
 
 	//verify correctness
