@@ -10,7 +10,7 @@ public:
 	IloModel model;
 	IloCplex cplex;
 	IloNumVarArray dist;
-	std::stack<IloRangeArray> q;
+	std::stack<IloRangeArray> constraintStack;
 
 	IloNumVarArray warmvars;
 	IloNumArray warmvals;
@@ -24,10 +24,10 @@ public:
 	void block(int);
 	void select(int);
 	void pop();
-	void init(Graph&, std::vector<int>);
+	void init(Graph&);
 	void constraints();
 	void addNeighbor(int);
-	void remNeighbor(int);
+	void removeNeighbor(int);
 	//void unSelect(int);
 
 

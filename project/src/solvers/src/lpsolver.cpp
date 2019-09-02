@@ -5,22 +5,18 @@
 
 ILOSTLBEGIN
 //using namespace std;
-// input: adjacency matrix, number of terminals, number of vertices,
 
-LPSolver::LPSolver()
-{
+LPSolver::LPSolver() {
 }
 
-LPSolver::LPSolver(Graph& graph, vector<int> termlist)
-{
+LPSolver::LPSolver(Graph& graph, vector<int> termlist) {
 	init(graph, termlist);
 }
 
-void LPSolver::init(Graph& graph, vector<int> terminals)
-{
-	try 
-	{
+void LPSolver::init(Graph& graph) {
+	try {
 		int vertices = graph.getVertices();
+		vector<int> terminals = graph.getTerminals();
 		
 		IloModel initialModel(environment);
 		model = initialModel;
@@ -30,7 +26,7 @@ void LPSolver::init(Graph& graph, vector<int> terminals)
 		{
 			d[termlist[i] - 1] = IloNumVar(env, 0.0, 0.0);
 		}*/
-		dist = d;
+		dist = d; //AVOID D?
 
 		IloNumVarArray y(environment, vertices*terminals.size(), 0.0, IloInfinity);
 
@@ -38,12 +34,11 @@ void LPSolver::init(Graph& graph, vector<int> terminals)
 		// initialize for warm start
 		IloNumVarArray wd(environment);
 		IloNumArray wv(environment);
-		for (int i = 0; i < vertices; i++)
-		{
-			wd.add(d[i]);
+		for (int vertex = 0; vertex < vertices; vertex++) {
+			wd.add(d[vertex]);
 			wv.add(0.0);
 		}
-		warmvars = wd;
+		warmvars = wd; //AOIVD wd and wv?
 		warmvals = wv;
 
 
@@ -54,52 +49,43 @@ void LPSolver::init(Graph& graph, vector<int> terminals)
 
 		model.add(IloMinimize(environment, IloSum(d)));
 
-		IloRangeArray c(environment);
+		IloRangeArray constraints(environment);
 
 		//neighbor distance constraints
-		for (int u = 0; u < vertices; u++)
-		{
-			for (int v = 0; v < vertices; v++)
-			{
-				if (graph.isOutNeighbor(u, v)) 
-				{
-					for (int j = 0; j < terminals.size(); j++)
-					{
+		for (int u = 0; u < vertices; u++) {
+			for (int v = 0; v < vertices; v++) {
+				if (graph.isOutNeighbor(u, v)) {
+					for (int j = 0; j < terminals.size(); j++) {
 						int offset = j*vertices;
-						c.add(y[offset + v] - y[offset + u] - d[v] <= 0);
-						c.add(y[offset + u] - y[offset + v] - d[u] <= 0);
+						constraints.add(y[offset + v] - y[offset + u] - d[v] <= 0);
+						constraints.add(y[offset + u] - y[offset + v] - d[u] <= 0);
 					}
 				}
 			}
 		}
 
 		//terminal distance constraints
-		for (int j = 0; j < terminals.size(); j++)
-		{
-			int offset = j*vertices;
-			c.add(y[offset+(terminals[j])] == 0);
+		for (int terminalIndex = 0; terminalIndex < terminals.size(); terminalIndex++) {
+			int offset = terminalIndex * vertices;
+			constraints.add(y[offset + (terminals[terminalIndex])] == 0);
 		}
 
 		//terminal seperation constraints
-		for (int i = 0; i < terminals.size(); i++)
-		{
-			int offset = i*vertices;
-			for (int j = 0; j < terminals.size(); j++) 
-			{
-				if (i != j)
-				{
-					c.add(y[offset+(terminals[j])] >= 1);
+		for (int terminalIndex = 0; terminalIndex < terminals.size(); terminalIndex++) {
+			int offset = terminalIndex * vertices;
+			for (int otherTerminalIndex = 0; otherTerminalIndex < terminals.size(); otherTerminalIndex++) {
+				if (terminalIndex != otherTerminalIndex)	{
+					constraints.add(y[offset + (terminals[otherTerminalIndex])] >= 1);
 				}
 			}
 		}
 
 		//ban terminals from solution
-		for (int i = 0; i < terminals.size(); i++)
-		{
-			c.add(d[(terminals[i])] == 0);
+		for (int terminalIndex = 0; terminalIndex < terminals.size(); terminalIndex++) {
+			constraints.add(d[(terminals[terminalIndex])] == 0);
 		}
 
-		model.add(c);
+		model.add(constraints);
 
 
 		IloCplex cp(model);
@@ -116,44 +102,36 @@ void LPSolver::init(Graph& graph, vector<int> terminals)
 
 }
 
-void LPSolver::block(int v)
-{
-	IloRangeArray c(environment);
-	c.add(dist[v] == 0);
-	model.add(c);
-	q.push(c);
-
+void LPSolver::block(int vertex) {
+	IloRangeArray constraints(environment);
+	constraints.add(dist[vertex] == 0);
+	model.add(constraints);
+	constraintStack.push(constraints);
 	//cout << "ADDED CONSTRAINT " << c << endl;
-	//cout << "FRONT OF Q " << q.back();
-
+	//cout << "FRONT OF Q " << constraintStack.back();
 }
 
-void LPSolver::select(int v)
-{
-	IloRangeArray c(environment);
-	c.add(dist[v] == 1);
-	model.add(c);
-	q.push(c);
-	warmvals[v] = 1.0;
+void LPSolver::select(int vertex) {
+	IloRangeArray constraints(environment);
+	constraints.add(dist[vertex] == 1);
+	model.add(constraints);
+	constraintStack.push(constraints);
+	warmvals[vertex] = 1.0;
 }
 
-void LPSolver::pop()
-{
-	//cout << "IS CONSTRAINT?: " << q.front() << endl;
-	model.remove(q.top());
-	q.pop();
+void LPSolver::pop() {
+	//cout << "IS CONSTRAINT?: " << constraintStack.front() << endl;
+	model.remove(constraintStack.top());
+	constraintStack.pop();
 }
 
-void LPSolver::constraints() 
-{
+void LPSolver::constraints() {
 	//model.getProperties.
 }
 
 
-double LPSolver::solve() 
-{
-	try
-	{
+double LPSolver::solve() {
+	try	{
 		cplex.setStart(warmvals, NULL, warmvars, NULL, NULL, NULL);
 		cplex.solve();
 		//cplex.
@@ -176,32 +154,23 @@ double LPSolver::solve()
 	}
 }
 
-bool LPSolver::isZero(int v)
-{
+bool LPSolver::isZero(int vertex) {
 	IloNumArray vals(environment);
 	cplex.getValues(vals, dist);
-	return (vals[v] == 0);
+	return (vals[vertex] == 0);
 }
 
 
-LPSolver::~LPSolver()
-{
+LPSolver::~LPSolver() {
 	environment.end();
 }
 
-/*void LPSolver::unSelect(int v)
-{
-	warmvals[v] = 0.0;
-}*/
-
-void LPSolver::addNeighbor(int v)
-{
-	warmvals[v] = 0.5;
+void LPSolver::addNeighbor(int vertex) {
+	warmvals[vertex] = 0.5;
 }
 
-void LPSolver::remNeighbor(int v)
-{
-	warmvals[v] = 0.0;
+void LPSolver::removeNeighbor(int vertex) {
+	warmvals[vertex] = 0.0;
 }
 
 

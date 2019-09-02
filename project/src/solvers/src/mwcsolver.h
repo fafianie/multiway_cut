@@ -7,7 +7,6 @@ class MWCSolver
 {
 public:
 
-	bool calc;
 	double lp;
 	int cur;
 	int opt;
@@ -15,20 +14,17 @@ public:
 	std::vector<int> opt_sol;
 	std::vector<int> cur_sol;
 
-	int nodes;
-	int terminals;
-	std::vector<int> termlist;
-	int** adjacency;
+	Graph graph;
 
 	LPSolver lps;
 
 	std::unordered_set<int> candidates;
-	int* boundary; //-1: not neighbor to any terminal, otherwise i is neighbor to neighbors[i]
-	int* status;    //-1: normal, 0: blocked, 1: picked;
+	vector<int> boundary; //-1: not neighbor to any terminal, otherwise i is neighbor to neighbors[i]
+	vector<int> status;    //-1: normal, 0: blocked, 1: picked;
 	//std::unordered_set<int> cur_sol;
 	//std::unordered_set<int> opt_sol;
 
-	std::unordered_set<int>* neighborhood;
+	//std::unordered_set<int>* neighborhood;
 
 	MWCSolver();
 	~MWCSolver();
@@ -36,11 +32,11 @@ public:
 	void select(int);
 	void undo_contract(int, std::vector<int>);
 	void undo_select(int);
-	int solve(Graph&, int, int, std::vector<int>&, int**);
+	int solve(Graph&);
 	void step(bool);
 
 	void addCandidate(int);
-	void remCandidate(int);
+	void removeCandidate(int);
 
 };
 

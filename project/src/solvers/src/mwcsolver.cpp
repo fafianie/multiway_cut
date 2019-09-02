@@ -9,118 +9,85 @@
 
 using namespace std;
 
-MWCSolver::MWCSolver()
-{
+MWCSolver::MWCSolver() {
 	//load input only
 	//TODO: push this to solve function
 }
 
 
-MWCSolver::~MWCSolver()
-{
-
+MWCSolver::~MWCSolver(){ 
 }
 
-int MWCSolver::solve(Graph& graph, int n, int t, vector<int>& tlist, int** adj)
-{
-	nodes = n;
-	terminals = t;
-	termlist = tlist;
-	adjacency = adj;
+int MWCSolver::solve(Graph& inputGraph) {
+	graph = inputGraph;
+	int vertices = graph.getVertices();
+	terminals = graph.getTerminals();
 	
-	lps.init(graph, termlist);
+	lps.init(graph);
 
-	//set up auxiliary data structures
-	boundary = new int[nodes];
-	status = new int[nodes];
-	neighborhood = new unordered_set<int>[nodes];
+	//set up auxiliary data structures TODO: USE VECTORS!!! (put in graph?)
+	boundary.assign(vertices, -1);
+	status.assign(vertices, -1);
 	//opt_sol = new unordered_set<int>();
 	//cur_sol = new unordered_set<int>;
 
-	for (int i = 0; i < nodes; i++)
-	{
-		boundary[i] = -1;
-		status[i] = -1;
-		for (int j = 0; j < nodes; j++)
-		{
-			if (adjacency[i][j] == 1)
-			{
-				neighborhood[i].insert(j); //TODO?: dynamic status -1 neighborhood updates
-			}
-		}
-	}
-
-	for (auto t : termlist)
-	{
-		status[t] = 0;
-		cout << "TERMINAL " << t << " with neighborhood";
-		for (auto n : neighborhood[t])
-		{
-			cout << " " << n;
+	for (auto terminal : terminals) {
+		status[terminal] = 0;
+		cout << "TERMINAL " << terminal << " with neighborhood";
+		for (auto neighbor : graph.getOutNeighbors(terminal)) {
+			cout << " " << neighbor;
 		}
 		cout << endl;
 	}
 
-	cur = 0;
+	cur = 0; //TODO: rename?
 	opt = 0;
 
 	//check feasibility and set up neighborhoods
-	for (int i = 0; i < terminals; i++)
-	{
-		int t = termlist[i];
-		for (int j = i + 1; j < terminals; j++)
-		{
-			int t2 = termlist[j];
-			if (adjacency[t][t2] == 1)
-			{
+	for (int i = 0; i < terminals.size(); i++)	{
+		int terminal = terminals[i];
+		for (int j = i + 1; j < terminals.size(); j++)	{
+			int otherTerminal = terminals[j];
+			if (adjacency[terminal][otherTerminal] == 1) {
 				//infeasible
 				return -1;
 			}
 		}
 
-		for (int j = 0; j < nodes; j++)
-		{
-			if (adjacency[t][j] == 1)
-			{
-				if (boundary[j] == -1)
-				{
-					boundary[j] = t;
-					candidates.insert(j);
+		for (int vertex = 0; vertex < vertices; vertex++)	{
+			if (adjacency[terminal][vertex] == 1) {
+				if (boundary[vertex] == -1) {
+					boundary[vertex] = terminal;
+					candidates.insert(vertex);
+					break;
 				}
-				else //pick vertex for solution
-				{
-					if (status[j] == -1)
-					{
-						select(j);
-					}
+				if (status[vertex] == -1) {
+					select(vertex);
 				}
 			}
 		}
 	}
 
 	//establish bound
-	opt = static_cast<int> (2*lps.solve()); //assume k is not known
+	opt = static_cast<int> (2 * lps.solve()); //assume k is not known
 
 	//TODO: update opt_sol
 
 	cout << "LP: " << opt/2 << endl;
-
-	calc = true;
 
 	step(true);
 
 	//verify correctness
 
 	LPSolver lps2;
-	lps2.init(graph, termlist);
+	lps2.init(graph);
 
-	for (auto v : opt_sol)
-	{
+	for (auto v : opt_sol) {
 		lps2.select(v);
 	}
 	//lps2.solve();
 
-	cout << endl << "verified solution LP: " << lps2.solve() << endl;
+	cout << endl << "verified solution LP: " << lps2.solve() << endl; //TODO: ERROR IF NOT THE SAME
 
 
 	//finish
@@ -128,23 +95,19 @@ int MWCSolver::solve(Graph& graph, int n, int t, vector<int>& tlist, int** adj)
 	return opt;
 }
 
-void MWCSolver::step(bool calc)
-{
+void MWCSolver::step(bool calc) {
 	cout << " STEP ";
 	
-	//if (calc) 
-	{
+	//if (calc) { TODO~!?
 		lp = lps.solve();
-	}	
+	//}	
 
 	//cout << "LP = " << lp << endl;
 	//detect case
 
-	if (lp == cur) //found solution
-	{
+	if (lp == cur) {//found solution
 		cout << "LEAF: solution found: ";
-		if (opt > cur)
-		{
+		if (opt > cur) {
 			opt = cur;
 			cout << "NEW OPT: " << opt;
 			opt_sol.clear();
@@ -154,13 +117,11 @@ void MWCSolver::step(bool calc)
 		cout << endl;
 		return;
 	}
-	else if (lp >= opt) //no hope to find better solution
-	{
+	else if (lp >= opt) { //no hope to find better solution
 		cout << "LEAF: give up, LP = " << lp << " while OPT = " << opt << endl;
 		return;
 	}
-	else 
-	{
+	else {
 	//	cout << "LOOKING TO CONTRACT" << endl;
 	//	cout << "#CANDIDATES: " << candidates.size() << endl;
 
@@ -203,15 +164,13 @@ void MWCSolver::step(bool calc)
 		}*/
 
 		
-		for (auto c : candidates)
-		{
-			if (lps.isZero(c))
-			{
-				cout << "FOUND EASY CONTRACTION: " << c << endl;
-				vector<int> actions = contract(c);
+		for (auto candidate : candidates) {
+			if (lps.isZero(candidate)) {
+				cout << "FOUND EASY CONTRACTION: " << candidate << endl;
+				vector<int> actions = contract(candidate);
 
 				step(false);
-				undo_contract(c, actions);
+				undo_contract(candidate, actions);
 				return;
 			}
 		}
@@ -261,16 +220,16 @@ void MWCSolver::step(bool calc)
 
 		//branch on arbitrary candidate
 		if (candidates.size() > 0) {
-			int c = *candidates.begin();
+			int candidate = *candidates.begin();
 	//		cout << "BRANCH: " << c << endl;
 
-			select(c);
+			select(candidate);
 			step(true);
-			undo_select(c);
+			undo_select(candidate);
 
-			vector<int> actions = contract(c);
+			vector<int> actions = contract(candidate);
 			step(true);
-			undo_contract(c, actions);
+			undo_contract(candidate, actions);
 		}
 		else {
 			cout << "NO MORE CANDIDATES?" << endl;
@@ -281,88 +240,76 @@ void MWCSolver::step(bool calc)
 	cout << "WTF" << endl;
 }
 
-vector<int> MWCSolver::contract(int v)
-{
+vector<int> MWCSolver::contract(int vertex) { 
 	//cout << "CONTRACT: " << v << endl;
-	status[v] = 0;
-	lps.block(v);
-	remCandidate(v);
+	status[vertex] = 0;
+	lps.block(vertex);
+	remCandidate(vertex);
 	//cout << "remove " << v << " from candidates" << endl;
 	vector<int> actions;
 
-	for (auto u : neighborhood[v])
-	{
-		if (status[u] == -1)
-		{
-			if (boundary[u] == -1) //update boundary
-			{
-				boundary[u] = boundary[v];
-				addCandidate(u); //u was no candidate before
-				//cout << "add " << u << " to candidates" << endl;
-				actions.push_back(u);
-			} 
-			else if (boundary[u] != boundary[v]) //neighbor must be picked
-			{
-				select(u); 
-				actions.push_back(u);
-			}
+	for (int neighbot : graph.getOutNeighbors(vertex) {
+		if (status[neighbor] != -1) {
+			break;
+		}
+		if (boundary[neighbor] == -1) { //update boundary
+			boundary[neighbor] = boundary[vertex];
+			addCandidate(neighbor); //u was no candidate before
+			//cout << "add " << u << " to candidates" << endl;
+			actions.push_back(neighbor);
+			break;
+		} 
+		if (boundary[neighbor] != boundary[vertex]) { //neighbor must be picked
+			select(neighbor); 
+			actions.push_back(neighbor);
 		}
 	}
 	
 	return actions;
 }
 
-void MWCSolver::undo_contract(int v, vector<int> actions)
-{
-	status[v] = -1;
+void MWCSolver::undo_contract(int vertex, vector<int> actions) {
+	status[vertex] = -1;
 	lps.pop();
-	addCandidate(v);
+	addCandidate(vertex);
 	
-	for (auto u : actions)
-	{
-		if (boundary[u] == boundary[v])
-		{
-			boundary[u] = -1;
-			remCandidate(u);
+	for (auto action : actions) {
+		if (boundary[action] == boundary[vertex]) {
+			boundary[action] = -1;
+			removeCandidate(action);
+			break;
 		}
-		else
-		{
-			undo_select(u);
-		}
+		undo_select(action);
 	}
 }
-void MWCSolver::select(int v)
-{
+void MWCSolver::select(int vertex) {
 	//cout << "SELECT: " << v << endl;
-	status[v] = 1;
+	status[vertex] = 1;
 	cur++;
-	remCandidate(v);
-	lps.select(v);
+	removeCandidate(vertex);
+	lps.select(vertex);
 	//cout << "remove " << v << " from candidates" << endl;
-	cur_sol.push_back(v);
+	cur_sol.push_back(vertex);
 }
 
 
-void MWCSolver::undo_select(int v)
-{
+void MWCSolver::undo_select(int vertex) {
 	//cout << "UNDO_SELECT: " << v << endl;
 
-	status[v] = -1;
+	status[vertex] = -1;
 	cur--;
 	lps.pop();
-	candidates.insert(v);
+	candidates.insert(vertex);
 	//cout << "add " << v << " to candidates" << endl;
 	cur_sol.pop_back();
 }
 
-void MWCSolver::addCandidate(int v)
-{
-	candidates.insert(v);
-	lps.addNeighbor(v);
+void MWCSolver::addCandidate(int vertex) {
+	candidates.insert(vertex);
+	lps.addNeighbor(vertex);
 }
 
-void MWCSolver::remCandidate(int v)
-{
-	candidates.erase(v);
-	lps.remNeighbor(v);
+void MWCSolver::removeCandidate(int vertex) {
+	candidates.erase(vertex);
+	lps.removeNeighbor(vertex);
 }
