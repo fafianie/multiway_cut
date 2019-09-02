@@ -21,7 +21,10 @@ MWCSolver::~MWCSolver(){
 int MWCSolver::solve(Graph& inputGraph) {
 	graph = &inputGraph;
 	int vertices = graph -> getVertices();
-	unordered_set<int> terminals = graph -> getTerminals();
+	vector<int> terminals;
+	for (int terminal : graph -> getTerminals()) {
+		terminals.push_back(terminal);
+	}
 	
 	lps.init(*graph);
 
