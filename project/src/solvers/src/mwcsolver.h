@@ -14,7 +14,7 @@ public:
 	std::vector<int> opt_sol;
 	std::vector<int> cur_sol;
 
-	Graph& graph;
+	Graph* graph;
 
 	LPSolver lps;
 
