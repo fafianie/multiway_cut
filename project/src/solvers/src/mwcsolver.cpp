@@ -51,14 +51,14 @@ int MWCSolver::solve(Graph& inputGraph) {
 		int terminal = terminals[i];
 		for (int j = i + 1; j < terminals.size(); j++)	{
 			int otherTerminal = terminals[j];
-			if (adjacency[terminal][otherTerminal] == 1) {
+			if (graph -> isEdge(terminal, otherTerminal)) {
 				//infeasible
 				return -1;
 			}
 		}
 
 		for (int vertex = 0; vertex < vertices; vertex++)	{
-			if (adjacency[terminal][vertex] == 1) {
+			if (graph -> isEdge(terminal, vertex)) {
 				if (boundary[vertex] == -1) {
 					boundary[vertex] = terminal;
 					candidates.insert(vertex);
@@ -247,11 +247,11 @@ vector<int> MWCSolver::contract(int vertex) {
 	//cout << "CONTRACT: " << v << endl;
 	status[vertex] = 0;
 	lps.block(vertex);
-	remCandidate(vertex);
+	removeCandidate(vertex);
 	//cout << "remove " << v << " from candidates" << endl;
 	vector<int> actions;
 
-	for (int neighbot : graph -> getOutNeighbors(vertex) {
+	for (int neighbor : graph -> getOutNeighbors(vertex) {
 		if (status[neighbor] != -1) {
 			break;
 		}
