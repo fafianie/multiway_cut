@@ -19,8 +19,8 @@ public:
 	LPSolver lps;
 
 	std::unordered_set<int> candidates;
-	vector<int> boundary; //-1: not neighbor to any terminal, otherwise i is neighbor to neighbors[i]
-	vector<int> status;    //-1: normal, 0: blocked, 1: picked;
+	std::vector<int> boundary; //-1: not neighbor to any terminal, otherwise i is neighbor to neighbors[i]
+	std::vector<int> status;    //-1: normal, 0: blocked, 1: picked;
 	//std::unordered_set<int> cur_sol;
 	//std::unordered_set<int> opt_sol;
 
