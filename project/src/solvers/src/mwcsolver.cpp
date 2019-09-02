@@ -19,7 +19,7 @@ MWCSolver::~MWCSolver(){
 }
 
 int MWCSolver::solve(Graph& inputGraph) {
-	graph = inputGraph;
+	graph = &inputGraph;
 	int vertices = graph.getVertices();
 	unordered_set<int> terminals = graph.getTerminals();
 	
