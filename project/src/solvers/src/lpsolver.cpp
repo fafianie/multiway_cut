@@ -16,7 +16,7 @@ LPSolver::LPSolver(Graph& graph) {
 void LPSolver::init(Graph& graph) {
 	try {
 		int vertices = graph.getVertices();
-		vector<int> terminals 
+		vector<int> terminals;
 		for (int terminal : graph.getTerminals()) {
 			terminals.push_back(terminals);
 		}
