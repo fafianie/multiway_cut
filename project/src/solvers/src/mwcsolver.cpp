@@ -20,10 +20,10 @@ MWCSolver::~MWCSolver(){
 
 int MWCSolver::solve(Graph& inputGraph) {
 	graph = &inputGraph;
-	int vertices = graph.getVertices();
-	unordered_set<int> terminals = graph.getTerminals();
+	int vertices = graph -> getVertices();
+	unordered_set<int> terminals = graph -> getTerminals();
 	
-	lps.init(graph);
+	lps.init(*graph);
 
 	//set up auxiliary data structures TODO: USE VECTORS!!! (put in graph?)
 	boundary.assign(vertices, -1);
@@ -34,7 +34,7 @@ int MWCSolver::solve(Graph& inputGraph) {
 	for (auto terminal : terminals) {
 		status[terminal] = 0;
 		cout << "TERMINAL " << terminal << " with neighborhood";
-		for (auto neighbor : graph.getOutNeighbors(terminal)) {
+		for (auto neighbor : graph -> getOutNeighbors(terminal)) {
 			cout << " " << neighbor;
 		}
 		cout << endl;
@@ -80,7 +80,7 @@ int MWCSolver::solve(Graph& inputGraph) {
 	//verify correctness
 
 	LPSolver lps2;
-	lps2.init(graph);
+	lps2.init(*graph);
 
 	for (auto v : opt_sol) {
 		lps2.select(v);
