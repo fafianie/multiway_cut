@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "graph.h"
-#include "planted_instance.h"
-#include "mwcsolver.h"
+//#include "planted_instance.h"
+//#include "mwcsolver.h"
 #include "dgf_reader.h"
 
 using namespace std;
@@ -20,7 +20,7 @@ int main(int argc, char* argv[]) {
 	
 	
 	
-	MWCSolver* solver;
+	//MWCSolver* solver;
 	for (pair<string, int> instance : instances) {
 		cout << "start read" << endl;
 		//TODO: PROBLEM IS HERE
@@ -29,7 +29,7 @@ int main(int argc, char* argv[]) {
 		cout << "graph is loaded" << endl;
 		
 	
-		MWCSolver* solver = new MWCSolver();
+		/*MWCSolver* solver = new MWCSolver();
 		cout << "solver created" << endl;
 		int solution = solver -> solve(graph);
 		cout << "solution retrieved" << endl;
@@ -37,7 +37,7 @@ int main(int argc, char* argv[]) {
 			return 1;
 		}
 	
-		delete solver;
+		delete solver;*/
 		
 	}	
 	
