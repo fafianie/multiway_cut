@@ -18,7 +18,7 @@ void LPSolver::init(Graph& graph) {
 		int vertices = graph.getVertices();
 		vector<int> terminals;
 		for (int terminal : graph.getTerminals()) {
-			terminals.push_back(terminals);
+			terminals.push_back(terminal);
 		}
 		
 		IloModel initialModel(environment);
