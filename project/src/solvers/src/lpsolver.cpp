@@ -9,8 +9,8 @@ ILOSTLBEGIN
 LPSolver::LPSolver() {
 }
 
-LPSolver::LPSolver(Graph& graph, vector<int> termlist) {
-	init(graph, termlist);
+LPSolver::LPSolver(Graph& graph) {
+	init(graph);
 }
 
 void LPSolver::init(Graph& graph) {
