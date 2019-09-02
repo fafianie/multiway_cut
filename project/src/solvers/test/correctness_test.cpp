@@ -21,28 +21,10 @@ int main(int argc, char* argv[]) {
 	for (pair<string, int> instance : instances) {
 		Graph graph = DGFReader::read("../../resources/test/correctness/", instance.first);	
 		
-		int** adjacency = new int*[graph.getVertices()];
-		for (int i = 0; i < graph.getVertices(); i++) {
-			adjacency[i] = new int[graph.getVertices()];
-			for (int j = 0; j < graph.getVertices(); j++) {
-				if (graph.isOutNeighbor(i, j)){
-					adjacency[i][j] = 1;
-				} else {
-					adjacency[i][j] = 0;
-				}
-			}
-		}
-		vector<int> terminals;
-		for (auto terminal : graph.getTerminals()) {
-			terminals.push_back(terminal);
-		}
+		
 	
 		MWCSolver* solver = new MWCSolver();
-		int solution = solver -> solve(graph,
-										  graph.getVertices(), 
-										  graph.getNumberOfTerminals(),
-										  terminals,
-										  adjacency);
+		int solution = solver -> solve(graph);
 		if (!(solution == instance.second)) {
 			return 1;
 		}
