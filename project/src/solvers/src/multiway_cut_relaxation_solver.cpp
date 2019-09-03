@@ -1,19 +1,19 @@
 #include "stdafx.h"
 #include <ilcplex/ilocplex.h>
-#include "lpsolver.h"
+#include "multiway_cut_relaxation_solver.h"
 #include "graph.h"
 
 ILOSTLBEGIN
 //using namespace std;
 
-LPSolver::LPSolver() {
+MultiwayCutRelaxationSolver::MultiwayCutRelaxationSolver() {
 }
 
-LPSolver::LPSolver(Graph& graph) {
+MultiwayCutRelaxationSolver::MultiwayCutRelaxationSolver(Graph& graph) {
 	init(graph);
 }
 
-void LPSolver::init(Graph& graph) {
+void MultiwayCutRelaxationSolver::init(Graph& graph) {
 	try {
 		int vertices = graph.getVertices();
 		vector<int> terminals;
@@ -29,7 +29,7 @@ void LPSolver::init(Graph& graph) {
 		{
 			d[termlist[i] - 1] = IloNumVar(env, 0.0, 0.0);
 		}*/
-		dist = d; //AVOID D?
+		distances = d; //AVOID D?
 
 		IloNumVarArray y(environment, vertices*terminals.size(), 0.0, IloInfinity);
 
@@ -41,8 +41,8 @@ void LPSolver::init(Graph& graph) {
 			wd.add(d[vertex]);
 			wv.add(0.0);
 		}
-		warmvars = wd; //AOIVD wd and wv?
-		warmvals = wv;
+		warmVariables = wd; //AOIVD wd and wv?
+		warmValues = wv;
 
 
 		// y_i,k = y[i*k-1]
@@ -105,41 +105,41 @@ void LPSolver::init(Graph& graph) {
 
 }
 
-void LPSolver::block(int vertex) {
+void MultiwayCutRelaxationSolver::block(int vertex) {
 	IloRangeArray constraints(environment);
-	constraints.add(dist[vertex] == 0);
+	constraints.add(distances[vertex] == 0);
 	model.add(constraints);
 	constraintStack.push(constraints);
 	//cout << "ADDED CONSTRAINT " << c << endl;
 	//cout << "FRONT OF Q " << constraintStack.back();
 }
 
-void LPSolver::select(int vertex) {
+void MultiwayCutRelaxationSolver::select(int vertex) {
 	IloRangeArray constraints(environment);
-	constraints.add(dist[vertex] == 1);
+	constraints.add(distances[vertex] == 1);
 	model.add(constraints);
 	constraintStack.push(constraints);
-	warmvals[vertex] = 1.0;
+	warmValues[vertex] = 1.0;
 }
 
-void LPSolver::pop() {
+void MultiwayCutRelaxationSolver::pop() {
 	//cout << "IS CONSTRAINT?: " << constraintStack.front() << endl;
 	model.remove(constraintStack.top());
 	constraintStack.pop();
 }
 
-void LPSolver::constraints() {
+void MultiwayCutRelaxationSolver::constraints() {
 	//model.getProperties.
 }
 
 
-double LPSolver::solve() {
+double MultiwayCutRelaxationSolver::solve() {
 	try	{
-		cplex.setStart(warmvals, NULL, warmvars, NULL, NULL, NULL);
+		cplex.setStart(warmValues, NULL, warmVariables, NULL, NULL, NULL);
 		cplex.solve();
 		//cplex.
 		
-		//cplex.addMIPStart(warmvars, warmvals);
+		//cplex.addMIPStart(warmvars, warmvals); TODO: WHAT IS THIS?
 		//env.out() << "Solution status = " << cplex.getStatus() << endl;
 		//env.out() << "Solution value  = " << cplex.getObjValue() << endl;
 		/*IloNumArray vals(env);
@@ -157,23 +157,23 @@ double LPSolver::solve() {
 	}
 }
 
-bool LPSolver::isZero(int vertex) {
-	IloNumArray vals(environment);
-	cplex.getValues(vals, dist);
-	return (vals[vertex] == 0);
+bool MultiwayCutRelaxationSolver::isZero(int vertex) { //TODO: improve performance
+	IloNumArray values(environment);
+	cplex.getValues(values, distances);
+	return (values[vertex] == 0);
 }
 
 
-LPSolver::~LPSolver() {
+MultiwayCutRelaxationSolver::~MultiwayCutRelaxationSolver() {
 	environment.end();
 }
 
-void LPSolver::addNeighbor(int vertex) {
-	warmvals[vertex] = 0.5;
+void MultiwayCutRelaxationSolver::addNeighbor(int vertex) {
+	warmValues[vertex] = 0.5;
 }
 
-void LPSolver::removeNeighbor(int vertex) {
-	warmvals[vertex] = 0.0;
+void MultiwayCutRelaxationSolver::removeNeighbor(int vertex) {
+	warmValues[vertex] = 0.0;
 }
 
 

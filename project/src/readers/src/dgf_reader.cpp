@@ -10,7 +10,9 @@ Graph DGFReader::read(string path, string filename) {
 	ifstream infile(path + filename + extension);	
 	string line, ignore;
 	Graph* graph;
+	int linecount = 1;
 	while (getline(infile, line)) { 
+		linecount++;
 		istringstream iss(line);
 		if (line[0] == 'p') {
 			int vertices, edges;

@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.5.2)
 set (CMAKE_CXX_STANDARD 11)
 project(multiwaycut)
 
+include(FindCPLEX.cmake)
+
 enable_testing()
 add_subdirectory(main)
 add_subdirectory(stdafx)
@@ -14,3 +16,4 @@ add_subdirectory(readers)
 add_subdirectory(solvers)
 add_subdirectory(writers)
 add_subdirectory(metrics)
+add_subdirectory(kernels)

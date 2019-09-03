@@ -1,12 +1,10 @@
-include(FindCPLEX.cmake)
-
 if(NOT CPLEX_LIBRARY)
 	return()
 endif()
 
 set(SOURCES
-	src/lpsolver.cpp
-	src/mwcsolver.cpp
+	src/multiway_cut_solver.cpp
+	src/multiway_cut_relaxation_solver.cpp
 	src/blend.cpp)
 	
 add_library(solvers STATIC ${SOURCES})

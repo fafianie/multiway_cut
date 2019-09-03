@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include <ilcplex/ilocplex.h>
-#include "mwcsolver.h"
-#include "lpsolver.h"
+#include "multiway_cut_solver.h"
+#include "multiway_cut_relaxation_solver.h"
 #include "graph.h"
 
 
@@ -9,16 +9,16 @@
 
 using namespace std;
 
-MWCSolver::MWCSolver() {
+MultiwayCutSolver::MultiwayCutSolver() {
 	//load input only
 	//TODO: push this to solve function
 }
 
 
-MWCSolver::~MWCSolver(){ 
+MultiwayCutSolver::~MultiwayCutSolver(){ 
 }
 
-int MWCSolver::solve(Graph& inputGraph) {
+int MultiwayCutSolver::solve(Graph& inputGraph) {
 	cout << endl << "start solve" << endl;
 	graph = &inputGraph;
 	int vertices = graph -> getVertices();
@@ -100,7 +100,7 @@ int MWCSolver::solve(Graph& inputGraph) {
 	return opt;
 }
 
-void MWCSolver::step(bool calc) {
+void MultiwayCutSolver::step(bool calc) {
 	cout << " STEP ";
 	
 	//if (calc) { TODO~!?
@@ -245,7 +245,7 @@ void MWCSolver::step(bool calc) {
 	cout << "WTF" << endl;
 }
 
-vector<int> MWCSolver::contract(int vertex) { 
+vector<int> MultiwayCutSolver::contract(int vertex) { 
 	cout << endl << "CONTRACT: " << vertex << endl;
 	status[vertex] = 0;
 	lps.block(vertex);
@@ -274,7 +274,7 @@ vector<int> MWCSolver::contract(int vertex) {
 	return actions;
 }
 
-void MWCSolver::undo_contract(int vertex, vector<int> actions) {
+void MultiwayCutSolver::undo_contract(int vertex, vector<int> actions) {
 	cout << endl << "UNDO CONTRACT: " << vertex << endl;
 	status[vertex] = -1;
 	lps.pop();
@@ -290,7 +290,7 @@ void MWCSolver::undo_contract(int vertex, vector<int> actions) {
 	}
 	cout << "done undo contract" << endl;
 }
-void MWCSolver::select(int vertex) {
+void MultiwayCutSolver::select(int vertex) {
 	cout << "SELECT: " << vertex << endl;
 	status[vertex] = 1;
 	cur++;
@@ -302,7 +302,7 @@ void MWCSolver::select(int vertex) {
 }
 
 
-void MWCSolver::undo_select(int vertex) {
+void MultiwayCutSolver::undo_select(int vertex) {
 	cout << endl << "UNDO_SELECT: " << vertex << endl;
 
 	status[vertex] = -1;
@@ -314,12 +314,12 @@ void MWCSolver::undo_select(int vertex) {
 	cout << "DONE UNDO SELECT" << endl;
 }
 
-void MWCSolver::addCandidate(int vertex) {
+void MultiwayCutSolver::addCandidate(int vertex) {
 	candidates.insert(vertex);
 	lps.addNeighbor(vertex);
 }
 
-void MWCSolver::removeCandidate(int vertex) {
+void MultiwayCutSolver::removeCandidate(int vertex) {
 	candidates.erase(vertex);
 	lps.removeNeighbor(vertex);
 }
