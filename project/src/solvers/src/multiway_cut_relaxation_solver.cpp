@@ -15,6 +15,7 @@ MultiwayCutRelaxationSolver::MultiwayCutRelaxationSolver(Graph& graph) {
 
 void MultiwayCutRelaxationSolver::init(Graph& graph) {
 	try {
+		//TODO: assume graph is normalized
 		int vertices = graph.getVertices();
 		vector<int> terminals;
 		for (int terminal : graph.getTerminals()) {

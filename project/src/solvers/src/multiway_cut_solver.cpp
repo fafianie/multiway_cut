@@ -19,9 +19,10 @@ MultiwayCutSolver::~MultiwayCutSolver(){
 }
 
 int MultiwayCutSolver::solve(Graph& inputGraph) {
+	//TODO: assume graph is normalized
 	cout << endl << "start solve" << endl;
 	graph = &inputGraph;
-	int vertices = graph -> getVertices();
+	vector<int> vertices = graph -> getVertices();
 	vector<int> terminals;
 	for (int terminal : graph -> getTerminals()) {
 		terminals.push_back(terminal);
@@ -30,8 +31,8 @@ int MultiwayCutSolver::solve(Graph& inputGraph) {
 	lps.init(*graph);
 
 	//set up auxiliary data structures TODO: USE VECTORS!!! (put in graph?)
-	boundary.assign(vertices, -1);
-	status.assign(vertices, -1);
+	boundary.assign(vertices.size(), -1);
+	status.assign(vertices.size(), -1);
 	//opt_sol = new unordered_set<int>();
 	//cur_sol = new unordered_set<int>;
 
@@ -58,7 +59,7 @@ int MultiwayCutSolver::solve(Graph& inputGraph) {
 			}
 		}
 
-		for (int vertex = 0; vertex < vertices; vertex++)	{
+		for (int vertex : vertices)	{
 			if (graph -> isOutNeighbor(terminal, vertex)) {
 				if (boundary[vertex] == -1) {
 					boundary[vertex] = terminal;
