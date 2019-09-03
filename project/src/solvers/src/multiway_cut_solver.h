@@ -6,8 +6,8 @@
 class MultiwayCutSolver {
 	public:
 	
-		MWCSolver();
-		~MWCSolver();
+		MultiwayCutSolver();
+		~MultiwayCutSolver();
 		
 		int solve(Graph&);
 

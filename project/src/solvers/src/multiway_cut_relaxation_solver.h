@@ -6,9 +6,9 @@
 class MultiwayCutRelaxationSolver {
 	
 	public: //TODO: make more stuff private?
-		LPSolver();
-		LPSolver(Graph&);
-		~LPSolver();
+		MultiwayCutRelaxationSolver();
+		MultiwayCutRelaxationSolver(Graph&);
+		~MultiwayCutRelaxationSolver();
 		
 		double solve();
 		bool isZero(int);
