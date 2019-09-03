@@ -12,6 +12,7 @@ Graph DGFReader::read(string path, string filename) {
 	Graph* graph;
 	int linecount = 1;
 	while (getline(infile, line)) { 
+		cout << "error at line " << linecount << endl;
 		linecount++;
 		istringstream iss(line);
 		if (line[0] == 'p') {
