@@ -8,9 +8,11 @@ static const string extension = ".dgf";
 
 Graph DGFReader::read(string path, string filename) {
 	ifstream infile(path + filename + extension);	
+	cout << "opened stream for " << filename << extension << endl;
 	string line, ignore;
 	Graph* graph;
 	int linecount = 1;
+	cout << "before first line" << endl;
 	while (getline(infile, line)) { 
 		cout << "error at line " << linecount << endl;
 		linecount++;
