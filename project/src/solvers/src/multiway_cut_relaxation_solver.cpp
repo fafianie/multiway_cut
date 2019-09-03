@@ -60,7 +60,7 @@ void MultiwayCutRelaxationSolver::init(Graph& graph) {
 			for (int v : vertices) {
 				if (graph.isOutNeighbor(u, v)) {
 					for (int j = 0; j < terminals.size(); j++) {
-						int offset = j*vertices;
+						int offset = j * vertices.size();
 						constraints.add(y[offset + v] - y[offset + u] - d[v] <= 0);
 						constraints.add(y[offset + u] - y[offset + v] - d[u] <= 0);
 					}
