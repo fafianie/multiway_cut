@@ -62,6 +62,7 @@ unordered_set<int> Graph::getVertices() {
 //TODO: test removal and contracting of vertices
 //TODO: test matroids, etc, with removal of vertices
 //TODO: test solvers with removal of vertices
+//TODO: remember to remove sink copy when contracting (override in sinkonlycopy graph)
 void Graph::remove(int vertex) {
 	for (int outNeighbor : getOutNeighbors(vertex)) {
 		getInNeighbors(outNeighbor).erase(vertex);
@@ -72,9 +73,16 @@ void Graph::remove(int vertex) {
 }
 
 void Graph::contract(int vertex) {
-	//TODO: implement taking edges vs arcs into account (make sure it does not break our sink only copies)
+	
+	//TODO: implement taking edges vs arcs into account (make sure it does not break our sink only copies) should be the same?
 
-
+	unordered_set<int> vertexInNeighbors = getInNeighbors(vertex);
+	unordered_set<int> vertexOutNeighbors = getOutNeighbors(vertex);
+	for (int inNeighbor : vertexInNeighbors) {
+		for (int outNeighbor : vertexOutNeighbors) {
+			addArc(inNeighbor, outNeighbor);
+		}
+	}
 	remove(vertex);
 }
 
