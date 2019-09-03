@@ -27,8 +27,8 @@ bool cliqueTestPasses() {
 			sources.insert(source * numberOfSources);
 			sinks.push_back(source * numberOfSources + numberOfSources - 1);
 		}
-		for (int u = 0; u < graph.getVertices(); u++) {
-			for (int v = u; v < graph.getVertices(); v++) {
+		for (int u : graph.getVertices()) {
+			for (int v : graph.getVertices()) {
 				graph.addEdge(u, v);
 			}
 		}

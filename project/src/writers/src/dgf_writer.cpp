@@ -9,10 +9,21 @@ static const string extension = ".dgf";
 void DGFWriter::write(Graph& graph, string path, string filename, string comment) {
 	ofstream outfile(path + filename + extension);
 	outfile << "c " << comment;
-	int vertices = graph.getVertices();
-	outfile << endl << "p edge " << vertices << " " << graph.getEdges();
-	for (int u = 0; u < vertices; u ++) {
-		for (int v = u + 1; v < vertices; v++) {
+	vector<int> vertices;
+	int edges = 0;
+	for (int vertex : graph.getVertices()) {
+		vertices.push_back(vertex);
+		for (int outNeighbor : graph.getOutNeighbors(vertex)) {
+			edges++;
+		}
+	}
+	sort(vertices.begin(), vertices.end());
+	
+	outfile << endl << "p edge " << vertices.size() << " " << edges;
+	for (int indexU = 0; indexU < vertices.size(); indexU ++) {
+		for (int indexV = indexU + 1; indexV < vertices.size(); indexV++) {
+			int u = vertices[indexU];
+			int v = vertices[indexV];
 			if (graph.isInNeighbor(u, v)) {
 				outfile << endl << "e " << u << " " << v;
 			}

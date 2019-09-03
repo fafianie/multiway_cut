@@ -7,14 +7,11 @@
 using namespace std;
 
 Matroid TransversalMatroid::generate(Graph& graph, Galois* galois, vector<int>& sinks) {
-	int vertices = graph.getVertices();
 //cout << "creating transversal matroid with " << graph.getVertices() << " elements and " << sinks.size() << " sinks" << endl;
-	Matroid matroid(vertices, sinks.size());
+	Matroid matroid(graph.getVertices().size(), sinks.size());
 	for (int sinkIndex = 0; sinkIndex < sinks.size(); sinkIndex++) {
-		for (int vertex = 0; vertex < vertices; vertex++) {
-			if (graph.isInNeighbor(sinks.at(sinkIndex), vertex)) {
-				matroid.setField(vertex, sinkIndex, galois -> uniformRandomElement());
-			}
+		for (int inNeighbor : graph.getInNeighbors(sinks.at(sinkIndex))) {
+			matroid.setField(inNeighbor, sinkIndex, galois -> uniformRandomElement());
 		}
 //		cout << "sinkIndex: " << sinkIndex << ", sinks.at(sinkIndex): " << sinks.at(sinkIndex) << endl;
 		matroid.setField(sinks.at(sinkIndex), sinkIndex, galois -> uniformRandomElement());

@@ -11,7 +11,7 @@ using namespace std;
 Matroid Gammoid::generate(Graph& graph, Galois* galois, unordered_set<int> sources) {
 	vector<int> transversalSinks;
 //	cout << "creating gammoid for graph with " << graph.getVertices() << " vertices" << endl;
-	for (int vertex = 0; vertex < graph.getVertices(); vertex++) {
+	for (int vertex : graph.getVertices()) {
 		if (sources.find(vertex) == sources.end()) {
 			transversalSinks.push_back(vertex);
 		}
