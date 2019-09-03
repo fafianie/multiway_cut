@@ -59,6 +59,28 @@ unordered_set<int> Graph::getVertices() {
 	return vertices;
 }
 
+//TODO: test removal and contracting of vertices
+//TODO: test matroids, etc, with removal of vertices
+//TODO: test solvers with removal of vertices
+void Graph::remove(int vertex) {
+	for (int outNeighbor : getOutNeighbors(vertex)) {
+		getInNeighbors(outNeighbor).erase(vertex);
+	}
+	for (int inNeighbor : getInNeighbors(vertex)) {
+		getOutNeighbors(inNeighbor).erase(vertex);
+	}
+}
+
+void Graph::contract(int vertex) {
+	//TODO: implement taking edges vs arcs into account (make sure it does not break our sink only copies)
+
+
+	remove(vertex);
+}
+
+
+
+
 bool Graph::isIndependentSet() {
 	for (int vertex : vertices) {
 		if (!outNeighbors[vertex].empty()) {

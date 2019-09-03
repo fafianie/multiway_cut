@@ -21,6 +21,8 @@ class Graph {
 		std::unordered_set<int> getInNeighbors(int);
 		std::unordered_set<int> getOutNeighbors(int);
 		bool equals(Graph&);
+		void remove(int);
+		void contract(int);
 		
 		//TODO: contract operation
 		
