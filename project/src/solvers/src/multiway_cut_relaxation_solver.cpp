@@ -78,7 +78,7 @@ void MultiwayCutRelaxationSolver::init(Graph& graph) {
 		for (int terminalIndex = 0; terminalIndex < terminals.size(); terminalIndex++) {
 			int offset = terminalIndex * vertices.size();
 			for (int otherTerminalIndex = 0; otherTerminalIndex < terminals.size(); otherTerminalIndex++) {
-				if (terminalIndex != otherTerminalIndex)	{
+				if (terminalIndex != otherTerminalIndex) {
 					constraints.add(y[offset + (terminals[otherTerminalIndex])] >= 1);
 				}
 			}

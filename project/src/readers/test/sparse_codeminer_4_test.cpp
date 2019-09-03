@@ -18,7 +18,7 @@ int main(int argc, char* argv[]) {
 	//instances.push_back({"19__sparse_hex_3", 19});
 	//instances.push_back({"23__sparse_fvs100_4", 23});
 	
-	
+	cout << "before loop" << endl;
 	
 	//MWCSolver* solver;
 	for (pair<string, int> instance : instances) {
