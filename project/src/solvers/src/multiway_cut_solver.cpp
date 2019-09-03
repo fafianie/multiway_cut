@@ -94,6 +94,7 @@ int MultiwayCutSolver::solve(Graph& inputGraph) {
 	}
 	//lps2.solve();
 
+	cout << endl << "final solution: " << opt << endl;
 	cout << endl << "verified solution LP: " << lps2.solve() << endl; //TODO: ERROR IF NOT THE SAME
 
 
