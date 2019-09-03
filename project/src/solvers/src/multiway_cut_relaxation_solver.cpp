@@ -16,7 +16,7 @@ MultiwayCutRelaxationSolver::MultiwayCutRelaxationSolver(Graph& graph) {
 void MultiwayCutRelaxationSolver::init(Graph& graph) {
 	try {
 		//TODO: assume graph is normalized
-		int vertices = graph.getVertices();
+		unordered_set<int> vertices = graph.getVertices();
 		vector<int> terminals;
 		for (int terminal : graph.getTerminals()) {
 			terminals.push_back(terminal);
@@ -25,20 +25,20 @@ void MultiwayCutRelaxationSolver::init(Graph& graph) {
 		IloModel initialModel(environment);
 		model = initialModel;
 
-		IloNumVarArray d(environment, vertices, 0.0, IloInfinity); //TODO check difference in runtime using 1.0 as upper bound
+		IloNumVarArray d(environment, vertices.size(), 0.0, IloInfinity); //TODO check difference in runtime using 1.0 as upper bound
 		/*for (int i = 0; i < terminals; i++)
 		{
 			d[termlist[i] - 1] = IloNumVar(env, 0.0, 0.0);
 		}*/
 		distances = d; //AVOID D?
 
-		IloNumVarArray y(environment, vertices*terminals.size(), 0.0, IloInfinity);
+		IloNumVarArray y(environment, vertices.size() * terminals.size(), 0.0, IloInfinity);
 
 
 		// initialize for warm start
 		IloNumVarArray wd(environment);
 		IloNumArray wv(environment);
-		for (int vertex = 0; vertex < vertices; vertex++) {
+		for (int vertex : vertices) {
 			wd.add(d[vertex]);
 			wv.add(0.0);
 		}
@@ -56,8 +56,8 @@ void MultiwayCutRelaxationSolver::init(Graph& graph) {
 		IloRangeArray constraints(environment);
 
 		//neighbor distance constraints
-		for (int u = 0; u < vertices; u++) {
-			for (int v = 0; v < vertices; v++) {
+		for (int u : vertices) {
+			for (int v : vertices) {
 				if (graph.isOutNeighbor(u, v)) {
 					for (int j = 0; j < terminals.size(); j++) {
 						int offset = j*vertices;
@@ -70,13 +70,13 @@ void MultiwayCutRelaxationSolver::init(Graph& graph) {
 
 		//terminal distance constraints
 		for (int terminalIndex = 0; terminalIndex < terminals.size(); terminalIndex++) {
-			int offset = terminalIndex * vertices;
+			int offset = terminalIndex * vertices.size();
 			constraints.add(y[offset + (terminals[terminalIndex])] == 0);
 		}
 
 		//terminal seperation constraints
 		for (int terminalIndex = 0; terminalIndex < terminals.size(); terminalIndex++) {
-			int offset = terminalIndex * vertices;
+			int offset = terminalIndex * vertices.size();
 			for (int otherTerminalIndex = 0; otherTerminalIndex < terminals.size(); otherTerminalIndex++) {
 				if (terminalIndex != otherTerminalIndex)	{
 					constraints.add(y[offset + (terminals[otherTerminalIndex])] >= 1);
