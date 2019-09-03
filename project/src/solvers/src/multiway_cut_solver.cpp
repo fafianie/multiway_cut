@@ -84,7 +84,7 @@ int MultiwayCutSolver::solve(Graph& inputGraph) {
 
 	//verify correctness
 
-	LPSolver lps2;
+	MultiwayCutRelaxationSolver lps2;
 	lps2.init(*graph);
 
 	for (auto v : opt_sol) {
