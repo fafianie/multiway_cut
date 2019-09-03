@@ -20,7 +20,9 @@ int main(int argc, char* argv[]) {
 	
 	//MultiwayCutSolver* solver;
 	for (pair<string, int> instance : instances) {
+		cout << "start read" << endl;
 		Graph graph = DGFReader::read("../../resources/test/correctness/", instance.first);	
+		cout << "graph read" << endl;
 		MultiwayCutSolver* solver = new MultiwayCutSolver();
 		int solution = solver -> solve(graph);
 		if (!(solution == instance.second)) {
