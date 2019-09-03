@@ -22,8 +22,9 @@ int MultiwayCutSolver::solve(Graph& inputGraph) {
 	//TODO: assume graph is normalized
 	cout << endl << "start solve" << endl;
 	graph = &inputGraph;
-	vector<int> vertices = graph -> getVertices();
+	unordered_set<int> vertices = graph -> getVertices();
 	vector<int> terminals;
+	//TODO: do we really need a vector?
 	for (int terminal : graph -> getTerminals()) {
 		terminals.push_back(terminal);
 	}
