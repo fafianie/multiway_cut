@@ -13,6 +13,7 @@ Graph DGFReader::read(string path, string filename) {
 	Graph* graph;
 	int linecount = 1;
 	cout << "before first line" << endl;
+	cout << "file is good? " << infile.good() << endl;
 	while (getline(infile, line)) { 
 		cout << "error at line " << linecount << endl;
 		linecount++;
