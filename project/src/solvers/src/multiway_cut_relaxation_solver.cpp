@@ -53,7 +53,7 @@ void MultiwayCutRelaxationSolver::init(Graph& graph) {
 
 		// y_i,k = y[i*k-1]
 
-		model.add(d);
+		model.add(distances);
 		model.add(y);
 
 		model.add(IloMinimize(environment, IloSum(d)));
