@@ -25,12 +25,11 @@ void MultiwayCutRelaxationSolver::init(Graph& graph) {
 		IloModel initialModel(environment);
 		model = initialModel;
 
-		IloNumVarArray d(environment, vertices.size(), 0.0, IloInfinity); //TODO check difference in runtime using 1.0 as upper bound
+		distances = IloNumVarArray(environment, vertices.size(), 0.0, IloInfinity); //TODO check difference in runtime using 1.0 as upper bound
 		/*for (int i = 0; i < terminals; i++)
 		{
 			d[termlist[i] - 1] = IloNumVar(env, 0.0, 0.0);
 		}*/
-		distances = d; //AVOID D?
 
 		IloNumVarArray y(environment, vertices.size() * terminals.size(), 0.0, IloInfinity);
 
@@ -47,7 +46,7 @@ void MultiwayCutRelaxationSolver::init(Graph& graph) {
 		warmVariables = IloNumVarArray(environment);
 		warmValues = IloNumArray(environment);
 		for (int vertex : vertices) {
-			warmVariables.add(d[vertex]);
+			warmVariables.add(distances[vertex]);
 			warmValues.add(0.0);
 		}
 		
