@@ -56,7 +56,7 @@ void MultiwayCutRelaxationSolver::init(Graph& graph) {
 		model.add(distances);
 		model.add(y);
 
-		model.add(IloMinimize(environment, IloSum(d)));
+		model.add(IloMinimize(environment, IloSum(distances)));
 
 		IloRangeArray constraints(environment);
 
@@ -66,8 +66,8 @@ void MultiwayCutRelaxationSolver::init(Graph& graph) {
 				if (graph.isOutNeighbor(u, v)) {
 					for (int j = 0; j < terminals.size(); j++) {
 						int offset = j * vertices.size();
-						constraints.add(y[offset + v] - y[offset + u] - d[v] <= 0);
-						constraints.add(y[offset + u] - y[offset + v] - d[u] <= 0);
+						constraints.add(y[offset + v] - y[offset + u] - distances[v] <= 0);
+						constraints.add(y[offset + u] - y[offset + v] - distances[u] <= 0);
 					}
 				}
 			}
