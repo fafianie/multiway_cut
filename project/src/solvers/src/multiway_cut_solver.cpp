@@ -104,13 +104,14 @@ int MultiwayCutSolver::solve(Graph& inputGraph) {
 }
 
 void MultiwayCutSolver::step(bool calc) {
-	cout << " STEP ";
+	cout << " STEP " << endl;
+	printCandidates();
 	
 	//if (calc) { TODO~!?
 		lp = lps.solve();
 	//}	
 
-	//cout << "LP = " << lp << endl;
+	cout << "LP = " << lp << endl;
 	//detect case
 
 	if (lp == cur) {//found solution
@@ -125,19 +126,18 @@ void MultiwayCutSolver::step(bool calc) {
 		cout << endl;
 		return;
 	}
-	else if (lp >= opt) { //no hope to find better solution
+	if (lp >= opt) { //no hope to find better solution
 		cout << "LEAF: give up, LP = " << lp << " while OPT = " << opt << endl;
 		return;
 	}
-	else {
 	//	cout << "LOOKING TO CONTRACT" << endl;
 	//	cout << "#CANDIDATES: " << candidates.size() << endl;
 
 		//look for easy candidate (already 0 in lp)
 
-		bool easy = false;
-		vector<vector<int>> all_actions;
-		vector<int> easy_contractions;
+	bool easy = false;
+	vector<vector<int>> all_actions;
+	vector<int> easy_contractions;
 
 		/*for (auto c : candidates)
 		{
@@ -172,16 +172,16 @@ void MultiwayCutSolver::step(bool calc) {
 		}*/
 
 		
-		for (auto candidate : candidates) {
-			if (lps.isZero(candidate)) {
-				cout << "FOUND EASY CONTRACTION: " << candidate << endl;
-				vector<int> actions = contract(candidate);
+	for (auto candidate : candidates) {
+		if (lps.isZero(candidate)) {
+			cout << "FOUND EASY CONTRACTION: " << candidate << endl;
+			vector<int> actions = contract(candidate);
 
-				step(false);
-				undo_contract(candidate, actions);
-				return;
-			}
+			step(false);
+			undo_contract(candidate, actions);
+			return;
 		}
+	}
 		
 		//
 
@@ -227,25 +227,22 @@ void MultiwayCutSolver::step(bool calc) {
 		} //*/
 
 		//branch on arbitrary candidate
-		if (candidates.size() > 0) {
-			int candidate = *candidates.begin();
+	if (candidates.size() > 0) {
+		int candidate = *candidates.begin();
 	//		cout << "BRANCH: " << c << endl;
 
-			select(candidate);
-			step(true);
-			undo_select(candidate);
+		select(candidate);
+		step(true);
+		undo_select(candidate);
 
-			vector<int> actions = contract(candidate);
-			step(true);
-			undo_contract(candidate, actions);
-		}
-		else {
-			cout << "NO MORE CANDIDATES?" << endl;
-		}
-		return;
+		vector<int> actions = contract(candidate);
+		step(true);
+		undo_contract(candidate, actions);
 	}
-
-	cout << "WTF" << endl;
+	else {
+		cout << "NO MORE CANDIDATES?" << endl;
+	}
+	return;
 }
 
 vector<int> MultiwayCutSolver::contract(int vertex) { 
@@ -326,3 +323,21 @@ void MultiwayCutSolver::removeCandidate(int vertex) {
 	candidates.erase(vertex);
 	lps.removeNeighbor(vertex);
 }
+
+void MultiwayCutSolver::printCandidates() {
+	vector<int> sortedCandidates;
+	for (int candidate : candidates) {
+		sortedCandidates.push_back(candidate);
+	}
+	sort(sortedCandidates.begin, sortedCandidates.end);
+
+	cout << "Active candidates: " << endl;
+	for (int candidate : sortedCandidates) {
+		cout << candidate << " ";	
+	}
+	cout << endl;
+}
+
+
+
+

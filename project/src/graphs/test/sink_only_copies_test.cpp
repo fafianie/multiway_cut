@@ -30,6 +30,8 @@ int main(int argc, char* argv[]) {
 	
 
 	SinkOnlyCopies sinkOnlyCopies(graph, originals);
+	cout << "Created sink only copies. " << endl;
+	sinkOnlyCopies.display();
 	
 	for (int u = 0; u < vertices; u++) {
 		for (int v= 0; v < vertices; v++) {
@@ -50,6 +52,45 @@ int main(int argc, char* argv[]) {
 			cout << "Test error: inNeighbors of copy do not match inNeighbors of input graph" << endl;
 			return 1;
 		}
+	}
+	sinkOnlyCopies.contract(5);
+	cout << "Contracted 5." << endl;
+	sinkOnlyCopies.display();
+	sinkOnlyCopies.normalize();
+	cout << "Normalized." << endl;
+	sinkOnlyCopies.display();
+	
+	Graph expectedGraph(11);
+	expectedGraph.addEdge(0, 1);
+	expectedGraph.addEdge(0, 2);
+	expectedGraph.addEdge(1, 2);
+	expectedGraph.addEdge(1, 5);
+	expectedGraph.addEdge(2, 3);
+	expectedGraph.addEdge(2, 4);
+	expectedGraph.addEdge(2, 5);
+	expectedGraph.addEdge(2, 6);
+	expectedGraph.addEdge(3, 4);
+	expectedGraph.addEdge(4, 5);
+	expectedGraph.addEdge(4, 6);
+	expectedGraph.addEdge(5, 6);
+	expectedGraph.addEdge(6, 7);
+	expectedGraph.addEdge(6, 8);
+	expectedGraph.addEdge(7, 8);
+	expectedGraph.addArc(0, 9);
+	expectedGraph.addArc(1, 9);
+	expectedGraph.addArc(3, 9);
+	expectedGraph.addArc(4, 9);
+	expectedGraph.addArc(5, 9);
+	expectedGraph.addArc(6, 9);
+	expectedGraph.addArc(6, 10);
+	expectedGraph.addArc(8, 10);
+	
+	cout << "Created expected graph. " << endl;
+	expectedGraph.display();
+	
+	if (!sinkOnlyCopies.equals(expectedGraph)) {
+		cout << "Test error: sink only copies not equal to expected graph after applying operations" << endl;
+		return 1;
 	}
 	
 	return 0;

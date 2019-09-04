@@ -7,7 +7,7 @@ using namespace std;
 int main(int argc, char* argv[]) {	
 	Graph graph = DGFReader::read("../../resources/test/readers/", "reader_test");	
 	if (graph.getVertices().size() != 10) {
-		cout << "Error: incorrect number of vertices." << endl;
+		cout << "Error: incorrect number of vertices: " << graph.getVertices().size() << "." << endl;
 		return 1;
 	}
 	if (graph.getTerminals().size() != 3) {

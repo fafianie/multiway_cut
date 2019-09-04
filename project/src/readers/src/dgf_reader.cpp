@@ -15,7 +15,6 @@ Graph DGFReader::read(string path, string filename) {
 	cout << "before first line" << endl;
 	cout << "file is good? " << infile.good() << endl;
 	while (getline(infile, line)) { 
-		cout << "error at line " << linecount << endl;
 		linecount++;
 		istringstream iss(line);
 		if (line[0] == 'p') {

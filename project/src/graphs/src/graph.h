@@ -5,24 +5,28 @@
 class Graph {
 
 	public:
-		Graph(int);
+		Graph(const int);
 		~Graph();
 		
 		bool isIndependentSet();
 		void addEdge(int, int);
+		void removeEdge(int, int);
 		void addArc(int, int);
+		void removeArc(int, int);
 		void addTerminal(int);
 		
 		bool isOutNeighbor(int, int);
 		bool isInNeighbor(int, int);
 		bool isTerminal(int);
-		std::unordered_set<int> getVertices();
-		std::unordered_set<int> getTerminals();
-		std::unordered_set<int> getInNeighbors(int);
-		std::unordered_set<int> getOutNeighbors(int);
+		std::unordered_set<int>& getVertices(); //TODO: return reference or pointer (research performance);
+		std::unordered_set<int>& getTerminals();
+		std::unordered_set<int>& getInNeighbors(int);
+		std::unordered_set<int>& getOutNeighbors(int);
 		bool equals(Graph&);
 		void remove(int);
 		void contract(int);
+		std::map<int, int> normalize();
+		void display();
 		
 		//TODO: contract operation
 		

@@ -26,3 +26,36 @@ SinkOnlyCopies::~SinkOnlyCopies() {
 int SinkOnlyCopies::getSink(int originalIndex) {
 	return sinkCopyMap[originalIndex];
 } 
+
+void SinkOnlyCopies::contract(int originalVertex) {
+	unordered_set<int> vertexInNeighbors = getInNeighbors(originalVertex);
+	Graph::contract(originalVertex);
+	int sinkCopy = getSink(originalVertex);
+	Graph::remove(sinkCopy);
+	//TODO: rather, remove those in contracted neighborhood...
+	//removeArc(originalVertex, sinkCopy);
+	sinkCopyMap.erase(originalVertex);
+	for (int inNeighbor : vertexInNeighbors) {
+		if (sinkCopyMap.count(inNeighbor)) {
+			int inNeighborSink = sinkCopyMap[inNeighbor];
+			removeArc(inNeighbor, inNeighborSink);
+		}
+	}
+	
+	
+	
+	//TODO: contract is not that easy... must avoid adding own sink as neighbor
+	//TODO: query sink map and copy (also remove old sinks from map)
+	//TODO: must also update sink map when normalizing..
+}
+
+map<int, int> SinkOnlyCopies::normalize() {
+	//TODO: update normalize sink map
+	
+	map<int, int> oldToNew = Graph::normalize();
+	map<int, int> newSinkCopyMap;
+	for (const auto& entry : sinkCopyMap) {
+		newSinkCopyMap.insert(make_pair(entry.first, entry.second));
+	}
+}
+

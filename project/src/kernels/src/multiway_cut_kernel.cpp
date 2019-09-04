@@ -20,6 +20,10 @@ Graph MultiwayCutKernel::reduce(Graph& inputGraph) {
 	return inputGraph;
 }
 
+//TODO: test multiple contractions?
+//TODO: test same vs diff gammoids
+//TODO: test adding normal vertices first (does proof protect this?) (adding noise)
+
 bool contractVertex(Graph& inputGraph) {
 
 	//TODO: create matroid over vertices in graph

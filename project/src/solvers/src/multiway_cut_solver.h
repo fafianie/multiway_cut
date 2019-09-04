@@ -12,6 +12,10 @@ class MultiwayCutSolver {
 		int solve(Graph&);
 
 	private:
+	
+		void printCandidates();//TODO: remove
+		
+	
 		std::vector<int> contract(int);
 		void select(int);
 		void undo_contract(int, std::vector<int>);

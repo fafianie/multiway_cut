@@ -20,9 +20,19 @@ void Graph::addEdge(int leftVertex, int rightVertex) {
 	addArc(rightVertex, leftVertex);
 }
 
+void Graph::removeEdge(int leftVertex, int rightVertex) {
+	removeArc(leftVertex, rightVertex);
+	removeArc(rightVertex, leftVertex);
+}
+
 void Graph::addArc(int inNeighbor, int outNeighbor) {
 	outNeighbors[inNeighbor].insert(outNeighbor);
 	inNeighbors[outNeighbor].insert(inNeighbor);
+}
+
+void Graph::removeArc(int inNeighbor, int outNeighbor) {
+	outNeighbors[inNeighbor].erase(outNeighbor);
+	inNeighbors[outNeighbor].erase(inNeighbor);
 }
 
 void Graph::addTerminal(int terminal) {
@@ -43,33 +53,33 @@ bool Graph::isTerminal(int vertex) {
 	return terminals.find(vertex) != terminals.end();
 }
 
-unordered_set<int> Graph::getTerminals() {
+unordered_set<int>& Graph::getTerminals() {
 	return terminals;
 }
 
-unordered_set<int> Graph::getInNeighbors(int vertex) {
+unordered_set<int>& Graph::getInNeighbors(int vertex) {
 	return inNeighbors[vertex];
 }
 
-unordered_set<int> Graph::getOutNeighbors(int vertex) {
+unordered_set<int>& Graph::getOutNeighbors(int vertex) {
 	return outNeighbors[vertex];
 }
 
-unordered_set<int> Graph::getVertices() {
+unordered_set<int>& Graph::getVertices() {
 	return vertices;
 }
 
-//TODO: test removal and contracting of vertices
 //TODO: test matroids, etc, with removal of vertices
-//TODO: test solvers with removal of vertices
 //TODO: remember to remove sink copy when contracting (override in sinkonlycopy graph)
 void Graph::remove(int vertex) {
 	for (int outNeighbor : getOutNeighbors(vertex)) {
-		getInNeighbors(outNeighbor).erase(vertex);
+		inNeighbors[outNeighbor].erase(vertex);
 	}
 	for (int inNeighbor : getInNeighbors(vertex)) {
-		getOutNeighbors(inNeighbor).erase(vertex);
+		outNeighbors[inNeighbor].erase(vertex);
 	}
+	vertices.erase(vertex);
+	terminals.erase(vertex);
 }
 
 void Graph::contract(int vertex) {
@@ -80,14 +90,13 @@ void Graph::contract(int vertex) {
 	unordered_set<int> vertexOutNeighbors = getOutNeighbors(vertex);
 	for (int inNeighbor : vertexInNeighbors) {
 		for (int outNeighbor : vertexOutNeighbors) {
-			addArc(inNeighbor, outNeighbor);
+			if (inNeighbor != outNeighbor) {
+				addArc(inNeighbor, outNeighbor);
+			}
 		}
 	}
 	remove(vertex);
 }
-
-
-
 
 bool Graph::isIndependentSet() {
 	for (int vertex : vertices) {
@@ -117,4 +126,86 @@ bool Graph::equals(Graph& otherGraph) {
 		}
 	}
 	return true;
+}
+
+map<int, int> Graph::normalize() { //TODO: output aliases?
+	//std::unordered_set<int> vertices;
+	//std::unordered_set<int> terminals;
+	//std::vector<std::unordered_set<int>> inNeighbors;
+	//std::vector<std::unordered_set<int>> outNeighbors;
+	
+	vector<int> oldVertices;
+	for (int vertex : vertices) {
+		oldVertices.push_back(vertex);
+	}
+	sort(oldVertices.begin(), oldVertices.end());
+	
+	unordered_set<int> newVertices, newTerminals;
+	vector<unordered_set<int>> newInNeighbors, newOutNeighbors;
+	
+	map<int, int> oldToNew;
+	
+	int newVertex = 0;
+	for (int oldVertex : oldVertices) {
+		newVertices.insert(newVertex);
+		oldToNew.insert(make_pair(oldVertex, newVertex));
+		unordered_set<int> vertexInNeighbors, vertexOutNeighbors;
+		newInNeighbors.push_back(vertexInNeighbors);
+		newOutNeighbors.push_back(vertexOutNeighbors);
+		newVertex++;
+		//newvertex -> oldvertex from oldvertices
+	}
+	
+	for (int oldVertex : oldVertices) {
+		int newVertex = oldToNew[oldVertex];
+		for (int oldInNeighbor : getInNeighbors(oldVertex)) {
+			int newInNeighbor = oldToNew[oldInNeighbor];
+			newInNeighbors[newVertex].insert(newInNeighbor);
+			
+			//need to go from old to new...
+		}
+		for (int oldOutNeighbor : getOutNeighbors(oldVertex)) {
+			int newOutNeighbor = oldToNew[oldOutNeighbor];
+			newOutNeighbors[newVertex].insert(newOutNeighbor);
+		}
+		if (isTerminal(oldVertex)) {
+			newTerminals.insert(newVertex);
+		}
+	}
+
+	vertices = newVertices;
+	terminals = newTerminals;
+	inNeighbors = newInNeighbors;
+	outNeighbors = newOutNeighbors;
+	return oldToNew;
+}
+
+void Graph::display() {
+	vector<int> sortedVertices, sortedTerminals;
+	for (int vertex : vertices) {
+		sortedVertices.push_back(vertex);
+	}
+	for (int terminal : terminals) {
+		sortedTerminals.push_back(terminal);
+	}
+	sort(sortedVertices.begin(), sortedVertices.end());
+	sort(sortedTerminals.begin(), sortedTerminals.end());
+	cout << endl << "Terminals: ";
+	
+	for (int terminal : sortedTerminals) {
+		cout << terminal << " ";
+	}
+	cout << endl;
+	for (int vertex : sortedVertices) {
+		cout << "Vertex " << vertex << endl << "InNeighbors: ";
+		for (int inNeighbor : getInNeighbors(vertex)) {
+			cout << inNeighbor << " ";
+		}
+		cout << endl << "OutNeighbors: ";
+		for (int outNeighbor : getOutNeighbors(vertex)) {
+			cout << outNeighbor << " ";
+		}
+		cout << endl;
+	}
+	cout << endl;
 }
