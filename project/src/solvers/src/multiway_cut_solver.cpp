@@ -50,10 +50,8 @@ int MultiwayCutSolver::solve(Graph& inputGraph) {
 	opt = 0;
 
 	//check feasibility and set up neighborhoods
-	for (int i = 0; i < terminals.size(); i++)	{
-		int terminal = terminals[i];
-		for (int j = i + 1; j < terminals.size(); j++)	{
-			int otherTerminal = terminals[j];
+	for (int terminal : terminals)	{
+		for (int otherTerminal : terminals)	{
 			if (graph -> isOutNeighbor(terminal, otherTerminal)) {
 				//infeasible
 				return -1;
@@ -64,7 +62,7 @@ int MultiwayCutSolver::solve(Graph& inputGraph) {
 			if (boundary[neighbor] == -1) {
 				boundary[neighbor] = terminal;
 				candidates.insert(neighbor);
-				break;
+				continue;
 			}
 			if (status[neighbor] == -1) {
 				select(neighbor);
