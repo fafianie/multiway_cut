@@ -264,14 +264,14 @@ vector<int> MultiwayCutSolver::contract(int vertex) {
 
 	for (int neighbor : graph -> getOutNeighbors(vertex)) {
 		if (status[neighbor] != -1) {
-			break;
+			continue;
 		}
 		if (boundary[neighbor] == -1) { //update boundary
 			boundary[neighbor] = boundary[vertex];
 			addCandidate(neighbor); //u was no candidate before
 			cout << "add " << neighbor << " to candidates" << endl;
 			actions.push_back(neighbor);
-			break;
+			continue;
 		} 
 		if (boundary[neighbor] != boundary[vertex]) { //neighbor must be picked
 			cout << "must pick neighbor" << endl;
@@ -293,7 +293,7 @@ void MultiwayCutSolver::undo_contract(int vertex, vector<int> actions) {
 		if (boundary[action] == boundary[vertex]) {
 			boundary[action] = -1;
 			removeCandidate(action);
-			break;
+			continue;
 		}
 		undo_select(action);
 	}
