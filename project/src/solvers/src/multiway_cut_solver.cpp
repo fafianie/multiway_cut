@@ -59,8 +59,19 @@ int MultiwayCutSolver::solve(Graph& inputGraph) {
 				return -1;
 			}
 		}
+		
+		for (int neighbor : graph.getOutNeighbors(terminal)) {
+			if (boundary[neighbor] == -1) {
+				boundary[neighbor] = terminal;
+				candidates.insert(vertex);
+				break;
+			}
+			if (status[neighbor] == -1) {
+				select(neighbor);
+			}
+		}
 
-		for (int vertex : vertices)	{
+		/*for (int vertex : vertices)	{
 			if (graph -> isOutNeighbor(terminal, vertex)) {
 				if (boundary[vertex] == -1) {
 					boundary[vertex] = terminal;
@@ -71,7 +82,7 @@ int MultiwayCutSolver::solve(Graph& inputGraph) {
 					select(vertex);
 				}
 			}
-		}
+		}*/
 	}
 
 	//establish bound
