@@ -91,7 +91,7 @@ void MultiwayCutRelaxationSolver::init(Graph& graph) {
 
 		//ban terminals from solution
 		for (int terminalIndex = 0; terminalIndex < terminals.size(); terminalIndex++) {
-			constraints.add(d[(terminals[terminalIndex])] == 0);
+			constraints.add(distances[(terminals[terminalIndex])] == 0);
 		}
 
 		model.add(constraints);
