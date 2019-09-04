@@ -44,8 +44,8 @@ void MultiwayCutRelaxationSolver::init(Graph& graph) {
 		//}
 		//warmVariables = wd; //AOIVD wd and wv?
 		//warmValues = wv;
-		warmVariables(environment);
-		warmValues(environment);
+		warmVariables = IloNumVarArray(environment);
+		warmValues = IloNumArray(environment);
 		for (int vertex : vertices) {
 			warmVariables.add(d[vertex]);
 			warmValues.add(0.0);
