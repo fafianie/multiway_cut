@@ -63,7 +63,7 @@ int MultiwayCutSolver::solve(Graph& inputGraph) {
 		for (int neighbor : graph -> getOutNeighbors(terminal)) {
 			if (boundary[neighbor] == -1) {
 				boundary[neighbor] = terminal;
-				candidates.insert(vertex);
+				candidates.insert(neighbor);
 				break;
 			}
 			if (status[neighbor] == -1) {
