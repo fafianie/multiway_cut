@@ -329,7 +329,7 @@ void MultiwayCutSolver::printCandidates() {
 	for (int candidate : candidates) {
 		sortedCandidates.push_back(candidate);
 	}
-	sort(sortedCandidates.begin, sortedCandidates.end);
+	sort(sortedCandidates.begin(), sortedCandidates.end());
 
 	cout << "Active candidates: " << endl;
 	for (int candidate : sortedCandidates) {
