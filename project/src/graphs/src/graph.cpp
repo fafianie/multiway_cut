@@ -83,9 +83,6 @@ void Graph::remove(int vertex) {
 }
 
 void Graph::contract(int vertex) {
-	
-	//TODO: implement taking edges vs arcs into account (make sure it does not break our sink only copies) should be the same?
-
 	unordered_set<int> vertexInNeighbors = getInNeighbors(vertex);
 	unordered_set<int> vertexOutNeighbors = getOutNeighbors(vertex);
 	for (int inNeighbor : vertexInNeighbors) {
@@ -128,12 +125,7 @@ bool Graph::equals(Graph& otherGraph) {
 	return true;
 }
 
-map<int, int> Graph::normalize() { //TODO: output aliases?
-	//std::unordered_set<int> vertices;
-	//std::unordered_set<int> terminals;
-	//std::vector<std::unordered_set<int>> inNeighbors;
-	//std::vector<std::unordered_set<int>> outNeighbors;
-	
+map<int, int> Graph::normalize() {
 	vector<int> oldVertices;
 	for (int vertex : vertices) {
 		oldVertices.push_back(vertex);
@@ -153,7 +145,6 @@ map<int, int> Graph::normalize() { //TODO: output aliases?
 		newInNeighbors.push_back(vertexInNeighbors);
 		newOutNeighbors.push_back(vertexOutNeighbors);
 		newVertex++;
-		//newvertex -> oldvertex from oldvertices
 	}
 	
 	for (int oldVertex : oldVertices) {
@@ -161,8 +152,6 @@ map<int, int> Graph::normalize() { //TODO: output aliases?
 		for (int oldInNeighbor : getInNeighbors(oldVertex)) {
 			int newInNeighbor = oldToNew[oldInNeighbor];
 			newInNeighbors[newVertex].insert(newInNeighbor);
-			
-			//need to go from old to new...
 		}
 		for (int oldOutNeighbor : getOutNeighbors(oldVertex)) {
 			int newOutNeighbor = oldToNew[oldOutNeighbor];

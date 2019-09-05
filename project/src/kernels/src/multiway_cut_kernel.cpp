@@ -26,6 +26,8 @@ Graph MultiwayCutKernel::reduce(Graph& inputGraph) {
 
 bool contractVertex(Graph& inputGraph) {
 
+	//TODO: created supersources for terminals (and reasign them as the new terminals)
+	//TODO: must remember original terminal positions however.
 	//TODO: create matroid over vertices in graph
 	//TODO: create gammoids over vertices in graph
 	//TODO: create rep set matroid (impl sum matroid?)

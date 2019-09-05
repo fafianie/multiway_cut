@@ -62,7 +62,14 @@ void MultiwayCutRelaxationSolver::init(Graph& graph) {
 
 		//neighbor distance constraints
 		for (int u : vertices) {
-			for (int v : vertices) {
+			for (int v : graph.getOutNeighbors(u)) {
+				for (int j = 0; j < terminals.size(); j++) {
+					int offset = j * vertices.size();
+					constraints.add(y[offset + v] - y[offset + u] - distances[v] <= 0);
+					constraints.add(y[offset + u] - y[offset + v] - distances[u] <= 0);
+				}
+			}
+			/*for (int v : vertices) { TODO: remove if above is safe
 				if (graph.isOutNeighbor(u, v)) {
 					for (int j = 0; j < terminals.size(); j++) {
 						int offset = j * vertices.size();
@@ -70,7 +77,7 @@ void MultiwayCutRelaxationSolver::init(Graph& graph) {
 						constraints.add(y[offset + u] - y[offset + v] - distances[u] <= 0);
 					}
 				}
-			}
+			}*/
 		}
 
 		//terminal distance constraints

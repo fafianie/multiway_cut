@@ -18,7 +18,7 @@ class Graph {
 		bool isOutNeighbor(int, int);
 		bool isInNeighbor(int, int);
 		bool isTerminal(int);
-		std::unordered_set<int>& getVertices(); //TODO: return reference or pointer (research performance);
+		std::unordered_set<int>& getVertices();
 		std::unordered_set<int>& getTerminals();
 		std::unordered_set<int>& getInNeighbors(int);
 		std::unordered_set<int>& getOutNeighbors(int);

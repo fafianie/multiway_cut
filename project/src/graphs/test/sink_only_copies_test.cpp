@@ -33,8 +33,8 @@ int main(int argc, char* argv[]) {
 	cout << "Created sink only copies. " << endl;
 	sinkOnlyCopies.display();
 	
-	for (int u = 0; u < vertices; u++) {
-		for (int v= 0; v < vertices; v++) {
+	for (int u : graph.getVertices()) {
+		for (int v : graph.getVertices()) {
 			if (graph.isInNeighbor(u, v) != sinkOnlyCopies.isInNeighbor(u, v) || 
 				graph.isOutNeighbor(u, v) != sinkOnlyCopies.isOutNeighbor(u, v)) {
 					cout << "Test error: falsely copied adjacency of input graph" << endl;
@@ -92,6 +92,13 @@ int main(int argc, char* argv[]) {
 		cout << "Test error: sink only copies not equal to expected graph after applying operations" << endl;
 		return 1;
 	}
-	
+	if (sinkOnlyCopies.getSink(2) != 9) {
+		cout << "Test error: sink only copy of 2 must be 9" << endl;
+		return 1;
+	}
+	if (sinkOnlyCopies.getSink(7) != 10) {
+		cout << "Test error : sink only copy of 7 must be 10" << endl;
+		return 1;
+	}	
 	return 0;
 }

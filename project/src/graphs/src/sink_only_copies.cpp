@@ -50,12 +50,24 @@ void SinkOnlyCopies::contract(int originalVertex) {
 }
 
 map<int, int> SinkOnlyCopies::normalize() {
-	//TODO: update normalize sink map
-	
 	map<int, int> oldToNew = Graph::normalize();
-	map<int, int> newSinkCopyMap;
+    map<int, int> newSinkCopyMap;
 	for (const auto& entry : sinkCopyMap) {
-		newSinkCopyMap.insert(make_pair(entry.first, entry.second));
+		int newOriginal = oldToNew[entry.first];
+		int newSink = oldToNew[entry.second];
+		newSinkCopyMap.insert(make_pair(newOriginal, newSink));
+	}
+	sinkCopyMap = newSinkCopyMap;
+	return oldToNew;
+}
+
+void SinkOnlyCopies::display() {
+	Graph::display();
+	for (const auto& entry : sinkCopyMap) {
+		cout << "Vertex " << entry.first << " has sink only copy " << entry.second << endl;
 	}
 }
+
+
+
 
