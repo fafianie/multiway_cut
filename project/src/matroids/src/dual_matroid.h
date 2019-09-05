@@ -10,10 +10,11 @@ class DualMatroid {
 		static Matroid generate(Matroid&, Galois*);
 	
 	private:
-		static void swipeDown(Matroid&, Galois*);
-		static void swipeUp(Matroid&, Galois*);
-		static void normalize(Matroid&, Galois*);
-		static int findPivot(Matroid&, int);
-		static void swipeRows(Matroid&, Galois*, int, int, int);
-		static Matroid transpose(Matroid&);
+		static void swipeDown(Matroid&, std::vector<int>&, Galois*);
+		static void swipeUp(Matroid&, std::vector<int>&, Galois*);
+		static void swapColumns(std::vector<int>&, int, int);
+		static void normalize(Matroid&, std::vector<int>&, Galois*);
+		static int findPivot(Matroid&, std::vector<int>&, int);
+		static void swipeRows(Matroid&, Galois*, std::vector<int>&, int, int, int);
+		static Matroid transpose(Matroid&, std::vector<int>&);
 };

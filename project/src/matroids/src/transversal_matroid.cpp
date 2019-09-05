@@ -8,7 +8,7 @@ using namespace std;
 
 Matroid TransversalMatroid::generate(Graph& graph, Galois* galois, vector<int>& sinks) {
 //cout << "creating transversal matroid with " << graph.getVertices() << " elements and " << sinks.size() << " sinks" << endl;
-	Matroid matroid(graph.getVertices().size(), sinks.size());
+	Matroid matroid(graph.getVertices(), sinks.size());
 	for (int sinkIndex = 0; sinkIndex < sinks.size(); sinkIndex++) {
 		for (int inNeighbor : graph.getInNeighbors(sinks.at(sinkIndex))) {
 			matroid.setField(inNeighbor, sinkIndex, galois -> uniformRandomElement());

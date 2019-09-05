@@ -4,12 +4,18 @@
 
 using namespace std;
 
-Matroid::Matroid(const int initElements, const int initRank) : elements(initElements), rank(initRank) {
+Matroid::Matroid(unordered_set<int>& initElements, int initRank) : rank(initRank) {
 //cout << "creating matroid" << endl;
-	representation.assign(elements * rank, 0L);
-	for (int i = 0; i < elements; i++) {
-		columnToElement.push_back(i);
-		elementToColumn.push_back(i);
+	//representation.assign(elements * rank, 0L);
+	int index = 0;
+	for (int element : initElements) {
+		elements.insert(element);
+		//columnToElement.push_back(element);
+		//elementToColumn.push_back(index);
+		vector<uint64_t> columnRepresentation;
+		columnRepresentation.assign(rank, 0L);
+		representation.insert(make_pair(element, columnRepresentation));
+		index++;
 	}
 //cout << "finished creating matroid" << endl;
 }
@@ -17,21 +23,22 @@ Matroid::Matroid(const int initElements, const int initRank) : elements(initElem
 Matroid::~Matroid() {
 }
 
-Matroid::Matroid(const Matroid& oldMatroid) : elements(oldMatroid.elements), rank(oldMatroid.rank) { 
-	columnToElement = oldMatroid.columnToElement;
-	elementToColumn = oldMatroid.elementToColumn;
+Matroid::Matroid(const Matroid& oldMatroid) : rank(oldMatroid.rank) { 
+	//columnToElement = oldMatroid.columnToElement;
+	//elementToColumn = oldMatroid.elementToColumn;
 	representation = oldMatroid.representation;
 }
 
 void Matroid::setField(int column, int row, uint64_t value) {
-	representation[rank * column + row] = value;
+	representation[column][row] = value;
 }
 
 uint64_t Matroid::getField(int column, int row) {
-	return representation[rank * column + row];
+	return representation[column][row];
 }
 
-void Matroid::swapColumns(int leftColumn, int rightColumn) {
+/*void Matroid::swapColumns(int leftColumn, int rightColumn) { //TODO: make obsolete
+	//TODO: why do we need to swap at all if we have references to columns and can handle whatever...
 	for (int row = 0; row < rank; row++) {
 		uint64_t leftValue = getField(leftColumn, row);
 		uint64_t rightValue = getField(rightColumn, row);
@@ -44,9 +51,9 @@ void Matroid::swapColumns(int leftColumn, int rightColumn) {
 	elementToColumn[rightElement] = leftColumn;
 	columnToElement[rightColumn] = leftElement;
 	elementToColumn[leftElement] = rightColumn;
-}
+}*/
 
-int Matroid::getElements() {
+unordered_set<int>& Matroid::getElements() {
 	return elements;
 }
 
@@ -55,20 +62,13 @@ int Matroid::getRank() {
 }
 
 vector<uint64_t> Matroid::getElementColumn(int element) {
-	vector<uint64_t> result;
-	for (int row = 0; row < rank; row++) {
-		result.push_back(representation[rank * elementToColumn[element] + row]);
-	}
-	return result;
+	return representation[element];
 }
 
-bool Matroid::allZero() { //TODO: remove this method
-	for (int i = 0; i < elements; i++) {
-		if (elementToColumn[i] != i) {
-			return false;
-		}
-		for (int j = 0; j < rank; j++) {
-			if (representation[rank * i + j] != 0L) {
+bool Matroid::allZero() {
+	for (const auto& entry : representation) {
+		for (uint64_t field : entry.second) {
+			if (field != 0L) {
 				return false;
 			}
 		}
@@ -76,6 +76,7 @@ bool Matroid::allZero() { //TODO: remove this method
 	return true;
 }
 
+//TODO: PASS BY REFERENCE< CHECK EVERYWHERE>
 bool Matroid::isIndependent(std::vector<int> elements, Galois* galois) {
 	IndependentSet independentSet(rank, galois);
 	for (const auto &element : elements) {
@@ -95,16 +96,28 @@ bool Matroid::isIndependent(std::vector<int> elements, Galois* galois) {
 	return true;
 }
 
-void Matroid::display(Galois* galois) {
-	for (int column = 0; column < elements; column++) {
-		cout << setw(8) << columnToElement[column] << " ";
+void Matroid::display(vector<int>& orderedElements, Galois* galois) {
+	for (int element : orderedElements) {
+		cout << setw(8) << element << " ";
 	}
 	cout << endl;
 	for (int row = 0; row < rank; row++) {
-		for (int column = 0; column < elements; column++) {
+		for (int column : elements) {
 			string value = galois -> toString(getField(column, row));
 			cout << value << " ";
 		}
 		cout << endl;
 	}
 }
+
+void Matroid::display(Galois* galois) {
+	vector<int> orderedElements;
+	for (int element : elements) {
+		orderedElements.push_back(element);
+	}
+	sort(orderedElements.begin(), orderedElements.end());
+	display(orderedElements, galois);
+}
+
+
+
