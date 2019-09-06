@@ -18,7 +18,7 @@ class Matroid {
 		std::unordered_set<int>& getElements();
 		int getRank();
 		std::vector<uint64_t> getElementColumn(int);
-		bool isIndependent(std::vector<int>, Galois*);
+		bool isIndependent(std::vector<int>&, Galois*);
 		void display(Galois*);
 		void display(std::vector<int>&, Galois*);
 

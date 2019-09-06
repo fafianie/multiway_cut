@@ -78,7 +78,7 @@ bool Matroid::allZero() {
 }
 
 //TODO: PASS BY REFERENCE< CHECK EVERYWHERE>
-bool Matroid::isIndependent(std::vector<int> elements, Galois* galois) {
+bool Matroid::isIndependent(std::vector<int>& elements, Galois* galois) {
 	IndependentSet independentSet(rank, galois);
 	for (const auto &element : elements) {
 		vector<uint64_t> column = getElementColumn(element);
