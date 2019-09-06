@@ -25,7 +25,7 @@ class Graph {
 		bool equals(Graph&);
 		void remove(int);
 		void contract(int);
-		std::map<int, int> normalize();
+		std::unordered_map<int, int> normalize();
 		void display();
 		
 		//TODO: contract operation

@@ -27,6 +27,7 @@ Matroid::Matroid(const Matroid& oldMatroid) : rank(oldMatroid.rank) {
 	//columnToElement = oldMatroid.columnToElement;
 	//elementToColumn = oldMatroid.elementToColumn;
 	representation = oldMatroid.representation;
+	elements = oldMatroid.elements;
 }
 
 void Matroid::setField(int column, int row, uint64_t value) {

@@ -10,9 +10,9 @@ class SinkOnlyCopies : public Graph {
 		~SinkOnlyCopies();
 		int getSink(int);
 		void contract(int);
-		std::map<int, int> normalize();
+		std::unordered_map<int, int> normalize();
 		void display();
 		
 	private:
-		std::map<int, int> sinkCopyMap;
+		std::unordered_map<int, int> sinkCopyMap;
 };

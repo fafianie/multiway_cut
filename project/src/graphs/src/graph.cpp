@@ -125,7 +125,7 @@ bool Graph::equals(Graph& otherGraph) {
 	return true;
 }
 
-map<int, int> Graph::normalize() {
+unordered_map<int, int> Graph::normalize() {
 	vector<int> oldVertices;
 	for (int vertex : vertices) {
 		oldVertices.push_back(vertex);
@@ -135,7 +135,7 @@ map<int, int> Graph::normalize() {
 	unordered_set<int> newVertices, newTerminals;
 	vector<unordered_set<int>> newInNeighbors, newOutNeighbors;
 	
-	map<int, int> oldToNew;
+	unordered_map<int, int> oldToNew;
 	
 	int newVertex = 0;
 	for (int oldVertex : oldVertices) {

@@ -30,22 +30,27 @@ int main(int argc, char* argv[]) {
 	string line;
 	getline(infile, line);
 	if (line != "This file is used for the execution of metrics_writer_test") {
+		cout << "Error: unexpected line: " << line << endl;
 		return 1;
 	}
 	getline(infile, line);
 	if (line != "input graph,running time,vertices,edges") {
+		cout << "Error: unexpected line: " << line << endl;
 		return 1;
 	}
 	getline(infile, line);
 	if (line != "graphA,100ms,,") {
+		cout << "Error: unexpected line: " << line << endl;
 		return 1;
 	}
 	getline(infile, line);
 	if (line != "graph B,,100,") {
+		cout << "Error: unexpected line: " << line << endl;
 		return 1;
 	}
 	getline(infile, line);
 	if (line != ",200ms,,200") {
+		cout << "Error: unexpected line: " << line << endl;
 		return 1;
 	}
 	return 0;

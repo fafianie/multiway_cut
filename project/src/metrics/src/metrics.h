@@ -8,7 +8,7 @@ class Metrics {
 		Metrics();
 		~Metrics();
 		int getEntries();
-		std::vector<std::string> getHeaders();
+		std::vector<std::string>& getHeaders();
 		void addEntry(std::map<std::string, std::string>& entry);
 		std::vector<std::string> getEntry(int);
 

@@ -14,7 +14,7 @@ int Metrics::getEntries() {
 	return numberOfEntries;
 }
 
-vector<string> Metrics::getHeaders() {
+vector<string>& Metrics::getHeaders() {
 	return headers;
 }
 

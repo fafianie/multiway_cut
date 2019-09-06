@@ -49,9 +49,9 @@ void SinkOnlyCopies::contract(int originalVertex) {
 	//TODO: must also update sink map when normalizing..
 }
 
-map<int, int> SinkOnlyCopies::normalize() {
-	map<int, int> oldToNew = Graph::normalize();
-    map<int, int> newSinkCopyMap;
+unordered_map<int, int> SinkOnlyCopies::normalize() {
+	unordered_map<int, int> oldToNew = Graph::normalize();
+    unordered_map<int, int> newSinkCopyMap;
 	for (const auto& entry : sinkCopyMap) {
 		int newOriginal = oldToNew[entry.first];
 		int newSink = oldToNew[entry.second];

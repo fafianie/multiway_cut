@@ -27,7 +27,7 @@ class Matroid {
 
 	private:
 		//std::vector<uint64_t> representation;
-		std::map<int, std::vector<uint64_t>> representation;
+		std::unordered_map<int, std::vector<uint64_t>> representation;
 		std::unordered_set<int> elements; //TODO: make graph and matroid iterable
 		//std::vector<int> aliases;
 		int rank;
