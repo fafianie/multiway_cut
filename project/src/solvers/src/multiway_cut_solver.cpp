@@ -202,31 +202,31 @@ void MultiwayCutSolver::step(bool calc) {
 		//TODO: experiment: look for easy candidates only*/
 		
 		
-		/*vector<int> c2;
-		for (auto c : candidates) {
+		vector<int> candidatesCopy(candidates);
+		/*for (auto c : candidates) {
 			c2.push_back(c);
-		}
+		}*/
 
-		for (auto c : c2) //try to find candidate to contract on (could probably save some work here by remembering some values?)
+		for (auto const& candidate : candidatesCopy) //try to find candidate to contract on (could probably save some work here by remembering some values?)
 		{			
-			vector<int> actions = contract(c);
+			vector<int> actions = contract(candidate);
 			double lp0 = lps.solve();
 			if (lp0 == lp)
 			{
-				cout << "FOUND NORMAL CONTRACTION: " << c << endl;
+				//cout << "FOUND NORMAL CONTRACTION: " << c << endl;
 
-				step();
-				undo_contract(c, actions);
+				step(true);
+				undo_contract(candidate, actions);
 				return;
 			}
-			undo_contract(c, actions);
+			undo_contract(candidate, actions);
 
-			bool incorrect = false;
-			if (c2.size() != candidates.size())
-			{
-				incorrect = true;
-			}
-			else
+			//bool incorrect = false;
+			//if (c2.size() != candidates.size())
+			//{
+			//	incorrect = true;
+			//}
+			/*else
 			{
 				for (auto cc : c2)
 				{
@@ -237,8 +237,8 @@ void MultiwayCutSolver::step(bool calc) {
 						incorrect = true;
 					}
 				}
-			}
-		} //*/
+			}*/
+		} //
 
 		//branch on arbitrary candidate
 	if (candidates.size() > 0) {
