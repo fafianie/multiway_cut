@@ -1,0 +1,14 @@
+c this is a star with cut size 1
+p edge 10 9
+e 0 1
+e 1 2
+e 2 9
+e 3 4
+e 4 5
+e 5 9
+e 6 7
+e 7 8
+e 8 9
+t 0
+t 3
+t 6

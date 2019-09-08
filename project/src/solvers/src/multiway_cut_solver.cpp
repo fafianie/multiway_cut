@@ -90,7 +90,7 @@ int MultiwayCutSolver::solve(Graph& inputGraph) {
 
 	cout << "LP: " << opt/2 << endl;
 
-	
+	stepsTaken = 0;
 	step(true);
 
 	//verify correctness
@@ -113,6 +113,11 @@ int MultiwayCutSolver::solve(Graph& inputGraph) {
 }
 
 void MultiwayCutSolver::step(bool calc) {
+	if (stepsTaken > 100000) {
+		cout << "too many steps" << endl;
+		throw runtime_error("Too many steps");
+	}
+	stepsTaken++;
 	cout << " STEP " << endl;
 	printCandidates();
 	

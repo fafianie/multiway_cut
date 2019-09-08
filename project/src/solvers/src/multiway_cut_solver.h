@@ -12,6 +12,7 @@ class MultiwayCutSolver {
 		int solve(Graph&);
 
 	private:
+		int stepsTaken;
 	
 		void printCandidates();//TODO: remove
 		
