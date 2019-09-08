@@ -29,7 +29,7 @@ int MultiwayCutSolver::solve(Graph& inputGraph) {
 		terminals.push_back(terminal);
 	}
 	
-	lps.init(*graph);
+	relaxationSolver.init(*graph);
 
 	//set up auxiliary data structures TODO: USE VECTORS!!! (put in graph?)
 	boundary.assign(vertices.size(), -1);
@@ -68,30 +68,17 @@ int MultiwayCutSolver::solve(Graph& inputGraph) {
 				select(neighbor);
 			}
 		}
-
-		/*for (int vertex : vertices)	{
-			if (graph -> isOutNeighbor(terminal, vertex)) {
-				if (boundary[vertex] == -1) {
-					boundary[vertex] = terminal;
-					candidates.insert(vertex);
-					break;
-				}
-				if (status[vertex] == -1) {
-					select(vertex);
-				}
-			}
-		}*/
 	}
 
 	//establish bound
-	opt = static_cast<int> (2 * lps.solve()); //assume k is not known
+	opt = static_cast<int> (2 * relaxationSolver.solve()); //assume k is not known
 
 	//TODO: update opt_sol
 
 	cout << "LP: " << opt/2 << endl;
 
 	stepsTaken = 0;
-	step(true);
+	step();
 
 	//verify correctness
 
@@ -112,7 +99,7 @@ int MultiwayCutSolver::solve(Graph& inputGraph) {
 	return opt;
 }
 
-void MultiwayCutSolver::step(bool calc) {
+void MultiwayCutSolver::step() {
 	//if (stepsTaken > 100000) {
 	//	cout << "too many steps" << endl;
 	//	throw runtime_error("Too many steps");
@@ -122,7 +109,7 @@ void MultiwayCutSolver::step(bool calc) {
 	//printCandidates();
 	
 	//if (calc) { //TODO~!?
-		lp = lps.solve();
+		lp = relaxationSolver.solve();
 	//}	
 
 	//cout << "LP = " << lp << endl;
@@ -133,9 +120,9 @@ void MultiwayCutSolver::step(bool calc) {
 		if (opt > cur) {
 			opt = cur;
 			//cout << "NEW OPT: " << opt;
-			opt_sol.clear();
+			optimalSolution.clear();
 			//opt_sol.insert(cur_sol.begin, cur_sol.end);
-			opt_sol.insert(opt_sol.begin(), cur_sol.begin(), cur_sol.end());
+			optimalSolution.insert(optimalSolution.begin(), currentSolution.begin(), currentSolution.end());
 		}
 		cout << endl;
 		return;
@@ -242,11 +229,11 @@ void MultiwayCutSolver::step(bool calc) {
 	//		cout << "BRANCH: " << c << endl;
 
 		select(candidate);
-		step(true);
+		step();
 		undo_select(candidate);
 
 		vector<int> actions = contract(candidate);
-		step(true);
+		step();
 		undo_contract(candidate, actions);
 	}
 	else {

@@ -19,9 +19,9 @@ class MultiwayCutSolver {
 	
 		std::vector<int> contract(int);
 		void select(int);
-		void undo_contract(int, std::vector<int>);
-		void undo_select(int);
-		void step(bool);
+		void undoContract(int, std::vector<int>);
+		void undoSelect(int);
+		void step();
 	
 		void addCandidate(int);
 		void removeCandidate(int);
@@ -30,12 +30,12 @@ class MultiwayCutSolver {
 		int cur;
 		int opt;
 //	int bound;
-		std::vector<int> opt_sol;
-		std::vector<int> cur_sol;
+		std::vector<int> optimalSolution;
+		std::vector<int> currentSolution;
 
 		Graph* graph;
 
-		MultiwayCutRelaxationSolver lps;
+		MultiwayCutRelaxationSolver relaxationSolver;
 
 		std::unordered_set<int> candidates;
 		std::vector<int> boundary; //-1: not neighbor to any terminal, otherwise i is neighbor to neighbors[i]
