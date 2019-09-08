@@ -198,7 +198,7 @@ void MultiwayCutSolver::step() {
 		if (lp0 == lp) {
 				//cout << "FOUND NORMAL CONTRACTION: " << c << endl;
 
-			step(true);
+			step();
 			undoContract(candidate, actions);
 			return;
 		}
@@ -274,7 +274,7 @@ vector<int> MultiwayCutSolver::contract(int vertex) {
 void MultiwayCutSolver::undoContract(int vertex, vector<int> actions) {
 	//cout << endl << "UNDO CONTRACT: " << vertex << endl;
 	status[vertex] = -1;
-	lps.pop();
+	relaxationSolver.pop();
 	addCandidate(vertex);
 	
 	for (auto action : actions) {
@@ -283,7 +283,7 @@ void MultiwayCutSolver::undoContract(int vertex, vector<int> actions) {
 			removeCandidate(action);
 			continue;
 		}
-		undo_select(action);
+		undoSelect(action);
 	}
 	//cout << "done undo contract" << endl;
 }
@@ -294,7 +294,7 @@ void MultiwayCutSolver::select(int vertex) {
 	removeCandidate(vertex);
 	relaxationSolver.select(vertex);
 	//cout << "remove " << v << " from candidates" << endl;
-	cur_sol.push_back(vertex);
+	currentSolution.push_back(vertex);
 	//cout << "DONE SELECT" << endl;
 }
 
@@ -307,7 +307,7 @@ void MultiwayCutSolver::undoSelect(int vertex) {
 	relaxationSolver.pop();
 	candidates.insert(vertex);
 	//cout << "add " << v << " to candidates" << endl;
-	cur_sol.pop_back();
+	currentSolution.pop_back();
 	//cout << "DONE UNDO SELECT" << endl;
 }
 
