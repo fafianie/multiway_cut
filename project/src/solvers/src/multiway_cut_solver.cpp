@@ -121,9 +121,9 @@ void MultiwayCutSolver::step(bool calc) {
 	//cout << " STEP " << endl;
 	//printCandidates();
 	
-	if (calc) { //TODO~!?
+	//if (calc) { //TODO~!?
 		lp = lps.solve();
-	}	
+	//}	
 
 	//cout << "LP = " << lp << endl;
 	//detect case
@@ -150,43 +150,41 @@ void MultiwayCutSolver::step(bool calc) {
 		//look for easy candidate (already 0 in lp)
 
 	bool easy = false;
-	vector<vector<int>> all_actions;
-	vector<int> easy_contractions;
+	
+	vector<int> easyContractions;
 
-		/*for (auto c : candidates)
-		{
-			if (lps.isZero(c))
-			{
+	for (auto candidate : candidates) {
+		if (lps.isZero(candidate)) {
 	//			cout << " begin loop" << endl;
-				easy = true;
+		easy = true;
 	//			cout << "FOUND EASY CONTRACTION: " << c << endl;
 				//vector<int> actions = contract(c);				
 				//all_actions.push_back(actions);
-				easy_contractions.push_back(c);	
+		easyContractions.push_back(candidate);	
 	//			cout << " end loop" << endl;
-			}
+		}
+	}
+
+	
+	if (easy) {
+		vector<vector<int>> allActions;
+		for (auto candidate : easyContractions) {		
+			vector<int> actions = contract(candidate);
+			allActions.push_back(actions);
 		}
 
-		if (easy) {
-			for (auto c : easy_contractions)
-			{
-				vector<int> actions = contract(c);
-				all_actions.push_back(actions);
-			}
-
 	//		cout << "before step" << endl;
-			step(false);
+		step(false);
 
-			for (int i = easy_contractions.size()-1; i > -1; i--) 
-			{
-				undo_contract(easy_contractions[i], all_actions[i]);
-			}
+		for (int i = easyContractions.size() - 1; i > -1; i--) {
+			undo_contract(easyContractions[i], allActions[i]);
+		}
 			
-			return;
-		}*/
+		return;
+	}
 
 		
-	for (auto candidate : candidates) {
+	/*for (auto candidate : candidates) {
 		if (lps.isZero(candidate)) {
 			//cout << "FOUND EASY CONTRACTION: " << candidate << endl;
 			vector<int> actions = contract(candidate);
@@ -195,7 +193,7 @@ void MultiwayCutSolver::step(bool calc) {
 			undo_contract(candidate, actions);
 			return;
 		}
-	}
+	}*/
 		
 		//
 
