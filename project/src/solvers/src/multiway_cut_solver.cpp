@@ -113,26 +113,26 @@ int MultiwayCutSolver::solve(Graph& inputGraph) {
 }
 
 void MultiwayCutSolver::step(bool calc) {
-	if (stepsTaken > 100000) {
-		cout << "too many steps" << endl;
-		throw runtime_error("Too many steps");
-	}
+	//if (stepsTaken > 100000) {
+	//	cout << "too many steps" << endl;
+	//	throw runtime_error("Too many steps");
+	//}
 	stepsTaken++;
-	cout << " STEP " << endl;
-	printCandidates();
+	//cout << " STEP " << endl;
+	//printCandidates();
 	
 	//if (calc) { TODO~!?
 		lp = lps.solve();
 	//}	
 
-	cout << "LP = " << lp << endl;
+	//cout << "LP = " << lp << endl;
 	//detect case
 
 	if (lp == cur) {//found solution
-		cout << "LEAF: solution found: ";
+		//cout << "LEAF: solution found: ";
 		if (opt > cur) {
 			opt = cur;
-			cout << "NEW OPT: " << opt;
+			//cout << "NEW OPT: " << opt;
 			opt_sol.clear();
 			//opt_sol.insert(cur_sol.begin, cur_sol.end);
 			opt_sol.insert(opt_sol.begin(), cur_sol.begin(), cur_sol.end());
@@ -141,7 +141,7 @@ void MultiwayCutSolver::step(bool calc) {
 		return;
 	}
 	if (lp >= opt) { //no hope to find better solution
-		cout << "LEAF: give up, LP = " << lp << " while OPT = " << opt << endl;
+		//cout << "LEAF: give up, LP = " << lp << " while OPT = " << opt << endl;
 		return;
 	}
 	//	cout << "LOOKING TO CONTRACT" << endl;
@@ -188,7 +188,7 @@ void MultiwayCutSolver::step(bool calc) {
 		
 	for (auto candidate : candidates) {
 		if (lps.isZero(candidate)) {
-			cout << "FOUND EASY CONTRACTION: " << candidate << endl;
+			//cout << "FOUND EASY CONTRACTION: " << candidate << endl;
 			vector<int> actions = contract(candidate);
 
 			step(false);
@@ -260,11 +260,11 @@ void MultiwayCutSolver::step(bool calc) {
 }
 
 vector<int> MultiwayCutSolver::contract(int vertex) { 
-	cout << endl << "CONTRACT: " << vertex << endl;
+	//cout << endl << "CONTRACT: " << vertex << endl;
 	status[vertex] = 0;
 	lps.block(vertex);
 	removeCandidate(vertex);
-	cout << "remove " << vertex << " from candidates" << endl;
+	//cout << "remove " << vertex << " from candidates" << endl;
 	vector<int> actions;
 
 	for (int neighbor : graph -> getOutNeighbors(vertex)) {
@@ -274,22 +274,22 @@ vector<int> MultiwayCutSolver::contract(int vertex) {
 		if (boundary[neighbor] == -1) { //update boundary
 			boundary[neighbor] = boundary[vertex];
 			addCandidate(neighbor); //u was no candidate before
-			cout << "add " << neighbor << " to candidates" << endl;
+			//cout << "add " << neighbor << " to candidates" << endl;
 			actions.push_back(neighbor);
 			continue;
 		} 
 		if (boundary[neighbor] != boundary[vertex]) { //neighbor must be picked
-			cout << "must pick neighbor" << endl;
+			//cout << "must pick neighbor" << endl;
 			select(neighbor); 
 			actions.push_back(neighbor);
 		}
 	}
-	cout << endl << "done contracting" << endl;
+	//cout << endl << "done contracting" << endl;
 	return actions;
 }
 
 void MultiwayCutSolver::undo_contract(int vertex, vector<int> actions) {
-	cout << endl << "UNDO CONTRACT: " << vertex << endl;
+	//cout << endl << "UNDO CONTRACT: " << vertex << endl;
 	status[vertex] = -1;
 	lps.pop();
 	addCandidate(vertex);
@@ -302,22 +302,22 @@ void MultiwayCutSolver::undo_contract(int vertex, vector<int> actions) {
 		}
 		undo_select(action);
 	}
-	cout << "done undo contract" << endl;
+	//cout << "done undo contract" << endl;
 }
 void MultiwayCutSolver::select(int vertex) {
-	cout << "SELECT: " << vertex << endl;
+	//cout << "SELECT: " << vertex << endl;
 	status[vertex] = 1;
 	cur++;
 	removeCandidate(vertex);
 	lps.select(vertex);
 	//cout << "remove " << v << " from candidates" << endl;
 	cur_sol.push_back(vertex);
-	cout << "DONE SELECT" << endl;
+	//cout << "DONE SELECT" << endl;
 }
 
 
 void MultiwayCutSolver::undo_select(int vertex) {
-	cout << endl << "UNDO_SELECT: " << vertex << endl;
+	//cout << endl << "UNDO_SELECT: " << vertex << endl;
 
 	status[vertex] = -1;
 	cur--;
@@ -325,7 +325,7 @@ void MultiwayCutSolver::undo_select(int vertex) {
 	candidates.insert(vertex);
 	//cout << "add " << v << " to candidates" << endl;
 	cur_sol.pop_back();
-	cout << "DONE UNDO SELECT" << endl;
+	//cout << "DONE UNDO SELECT" << endl;
 }
 
 void MultiwayCutSolver::addCandidate(int vertex) {
