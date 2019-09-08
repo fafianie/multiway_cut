@@ -85,7 +85,7 @@ int MultiwayCutSolver::solve(Graph& inputGraph) {
 	MultiwayCutRelaxationSolver lps2;
 	lps2.init(*graph);
 
-	for (auto v : opt_sol) {
+	for (auto v : optimalSolution) {
 		lps2.select(v);
 	}
 	//lps2.solve();
@@ -141,7 +141,7 @@ void MultiwayCutSolver::step() {
 	vector<int> easyContractions;
 
 	for (auto candidate : candidates) {
-		if (lps.isZero(candidate)) {
+		if (relaxationSolver.isZero(candidate)) {
 	//			cout << " begin loop" << endl;
 		easy = true;
 	//			cout << "FOUND EASY CONTRACTION: " << c << endl;
@@ -161,10 +161,10 @@ void MultiwayCutSolver::step() {
 		}
 
 	//		cout << "before step" << endl;
-		step(false);
+		step();
 
 		for (int i = easyContractions.size() - 1; i > -1; i--) {
-			undo_contract(easyContractions[i], allActions[i]);
+			undoContract(easyContractions[i], allActions[i]);
 		}
 			
 		return;
@@ -194,15 +194,15 @@ void MultiwayCutSolver::step() {
 
 	for (auto const& candidate : candidatesCopy) { //try to find candidate to contract on (could probably save some work here by remembering some values?)		
 		vector<int> actions = contract(candidate);
-		double lp0 = lps.solve();
+		double lp0 = relaxationSolver.solve();
 		if (lp0 == lp) {
 				//cout << "FOUND NORMAL CONTRACTION: " << c << endl;
 
 			step(true);
-			undo_contract(candidate, actions);
+			undoContract(candidate, actions);
 			return;
 		}
-		undo_contract(candidate, actions);
+		undoContract(candidate, actions);
 
 			//bool incorrect = false;
 			//if (c2.size() != candidates.size())
@@ -230,11 +230,11 @@ void MultiwayCutSolver::step() {
 
 		select(candidate);
 		step();
-		undo_select(candidate);
+		undoSelect(candidate);
 
 		vector<int> actions = contract(candidate);
 		step();
-		undo_contract(candidate, actions);
+		undoContract(candidate, actions);
 	}
 	else {
 		cout << "NO MORE CANDIDATES?" << endl;
@@ -245,7 +245,7 @@ void MultiwayCutSolver::step() {
 vector<int> MultiwayCutSolver::contract(int vertex) { 
 	//cout << endl << "CONTRACT: " << vertex << endl;
 	status[vertex] = 0;
-	lps.block(vertex);
+	relaxationSolver.block(vertex);
 	removeCandidate(vertex);
 	//cout << "remove " << vertex << " from candidates" << endl;
 	vector<int> actions;
@@ -271,7 +271,7 @@ vector<int> MultiwayCutSolver::contract(int vertex) {
 	return actions;
 }
 
-void MultiwayCutSolver::undo_contract(int vertex, vector<int> actions) {
+void MultiwayCutSolver::undoContract(int vertex, vector<int> actions) {
 	//cout << endl << "UNDO CONTRACT: " << vertex << endl;
 	status[vertex] = -1;
 	lps.pop();
@@ -292,19 +292,19 @@ void MultiwayCutSolver::select(int vertex) {
 	status[vertex] = 1;
 	cur++;
 	removeCandidate(vertex);
-	lps.select(vertex);
+	relaxationSolver.select(vertex);
 	//cout << "remove " << v << " from candidates" << endl;
 	cur_sol.push_back(vertex);
 	//cout << "DONE SELECT" << endl;
 }
 
 
-void MultiwayCutSolver::undo_select(int vertex) {
+void MultiwayCutSolver::undoSelect(int vertex) {
 	//cout << endl << "UNDO_SELECT: " << vertex << endl;
 
 	status[vertex] = -1;
 	cur--;
-	lps.pop();
+	relaxationSolver.pop();
 	candidates.insert(vertex);
 	//cout << "add " << v << " to candidates" << endl;
 	cur_sol.pop_back();
@@ -313,12 +313,12 @@ void MultiwayCutSolver::undo_select(int vertex) {
 
 void MultiwayCutSolver::addCandidate(int vertex) {
 	candidates.insert(vertex);
-	lps.addNeighbor(vertex);
+	relaxationSolver.addNeighbor(vertex);
 }
 
 void MultiwayCutSolver::removeCandidate(int vertex) {
 	candidates.erase(vertex);
-	lps.removeNeighbor(vertex);
+	relaxationSolver.removeNeighbor(vertex);
 }
 
 void MultiwayCutSolver::printCandidates() {
