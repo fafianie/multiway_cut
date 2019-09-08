@@ -203,9 +203,9 @@ void MultiwayCutSolver::step(bool calc) {
 		
 		
 		vector<int> candidatesCopy(candidates);
-		/*for (auto c : candidates) {
-			c2.push_back(c);
-		}*/
+		for (auto candidate : candidates) {
+			candidatesCopy.push_back(candidate);
+		}
 
 		for (auto const& candidate : candidatesCopy) //try to find candidate to contract on (could probably save some work here by remembering some values?)
 		{			
