@@ -5,7 +5,7 @@
 
 class MultiwayCutRelaxationSolver {
 	
-	public: //TODO: make more stuff private?
+	public:
 		MultiwayCutRelaxationSolver();
 		MultiwayCutRelaxationSolver(Graph&);
 		~MultiwayCutRelaxationSolver();
@@ -30,4 +30,3 @@ class MultiwayCutRelaxationSolver {
 		IloNumVarArray warmVariables;
 		IloNumArray warmValues;
 };
-

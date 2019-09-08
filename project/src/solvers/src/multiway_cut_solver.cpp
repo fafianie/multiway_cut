@@ -100,11 +100,6 @@ int MultiwayCutSolver::solve(Graph& inputGraph) {
 }
 
 void MultiwayCutSolver::step() {
-	//if (stepsTaken > 100000) {
-	//	cout << "too many steps" << endl;
-	//	throw runtime_error("Too many steps");
-	//}
-	stepsTaken++;
 	//cout << " STEP " << endl;
 	//printCandidates();
 	
@@ -271,7 +266,7 @@ vector<int> MultiwayCutSolver::contract(int vertex) {
 	return actions;
 }
 
-void MultiwayCutSolver::undoContract(int vertex, vector<int> actions) {
+void MultiwayCutSolver::undoContract(int vertex, vector<int> actions&) {
 	//cout << endl << "UNDO CONTRACT: " << vertex << endl;
 	status[vertex] = -1;
 	relaxationSolver.pop();
