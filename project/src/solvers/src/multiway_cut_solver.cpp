@@ -77,7 +77,6 @@ int MultiwayCutSolver::solve(Graph& inputGraph) {
 
 	cout << "LP: " << opt/2 << endl;
 
-	stepsTaken = 0;
 	step();
 
 	//verify correctness
@@ -119,7 +118,7 @@ void MultiwayCutSolver::step() {
 			//opt_sol.insert(cur_sol.begin, cur_sol.end);
 			optimalSolution.insert(optimalSolution.begin(), currentSolution.begin(), currentSolution.end());
 		}
-		cout << endl;
+		//cout << endl;
 		return;
 	}
 	if (lp >= opt) { //no hope to find better solution
@@ -266,7 +265,7 @@ vector<int> MultiwayCutSolver::contract(int vertex) {
 	return actions;
 }
 
-void MultiwayCutSolver::undoContract(int vertex, vector<int> actions&) {
+void MultiwayCutSolver::undoContract(int vertex, vector<int>& actions) {
 	//cout << endl << "UNDO CONTRACT: " << vertex << endl;
 	status[vertex] = -1;
 	relaxationSolver.pop();
