@@ -121,9 +121,9 @@ void MultiwayCutSolver::step(bool calc) {
 	//cout << " STEP " << endl;
 	//printCandidates();
 	
-	//if (calc) { TODO~!?
+	if (calc) { //TODO~!?
 		lp = lps.solve();
-	//}	
+	}	
 
 	//cout << "LP = " << lp << endl;
 	//detect case
