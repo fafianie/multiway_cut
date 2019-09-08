@@ -202,7 +202,7 @@ void MultiwayCutSolver::step(bool calc) {
 		//TODO: experiment: look for easy candidates only*/
 		
 		
-		vector<int> candidatesCopy(candidates);
+		vector<int> candidatesCopy;
 		for (auto candidate : candidates) {
 			candidatesCopy.push_back(candidate);
 		}
