@@ -6,39 +6,15 @@
 
 using namespace std;
 
-Matroid DualMatroid::generate(Matroid& inputMatroid, Galois* galois) {
-	//unordered_set<int> elements = inputMatroid.getElements();
-	//int rank = inputMatroid.getRank();
-	//Matroid outputMatroid(inputMatroid); //TODO: allow inputMatroid to be destroyed to avoid work
-	Matroid outputMatroid = inputMatroid;
+Matroid DualMatroid::generate(Matroid& matroid, Galois* galois) {
 	vector<int> orderedElements;
-	for (int element : outputMatroid.getElements()) {
+	for (int element : matroid.getElements()) {
 		orderedElements.push_back(element);
 	}
-	
-	/*for (int column = 0; column < elements.size(); column++) {
-		for (int row = 0; row < rank; row++) {	
-			uint64_t value = inputMatroid.getField(column, row);
-			outputMatroid.setField(column, row, value);
-		}
-	}*/
-//cout << "input:" << endl;
-//outputMatroid.display(orderedElements, galois);
-	swipeDown(outputMatroid, orderedElements, galois);
-//cout << "swiped down:" << endl;
-//outputMatroid.display(orderedElements, galois);
-	swipeUp(outputMatroid, orderedElements, galois);
-//cout << "swiped up:" << endl;
-//outputMatroid.display(orderedElements, galois);
-	normalize(outputMatroid, orderedElements, galois);
-//cout << "normalized:" << endl;
-//outputMatroid.display(orderedElements, galois);
-Matroid transposed = transpose(outputMatroid, orderedElements);
-//cout << "transposed:" << endl;
-//transposed.display(orderedElements, galois);
-
-//cout << "returning dual matroid" << endl;
-	return transposed;
+	swipeDown(matroid, orderedElements, galois);
+	swipeUp(matroid, orderedElements, galois);
+	normalize(matroid, orderedElements, galois);
+	return transpose(matroid, orderedElements);
 }
 
 void DualMatroid::swipeDown(Matroid& matroid, vector<int>& orderedElements, Galois* galois) {
@@ -48,7 +24,7 @@ void DualMatroid::swipeDown(Matroid& matroid, vector<int>& orderedElements, Galo
 	for (int index = 0; index < diagonal; index++) {
 		int pivot = findPivot(matroid, orderedElements, index);
 		if (pivot == -1) {
-		cout << "Could not find pivot while swiping down";
+			cout << "Could not find pivot while swiping down";
 			throw runtime_error("Could not find pivot while swiping down");
 		}
 		swapColumns(orderedElements, index, pivot);
@@ -63,7 +39,7 @@ void DualMatroid::swipeUp(Matroid& matroid, vector<int>& orderedElements, Galois
 	for (int index = 0; index < diagonal; index++) {
 		int pivot = findPivot(matroid, orderedElements, index);
 		if (pivot == -1) {
-		cout << "Could not find pivot while swiping up";
+			cout << "Could not find pivot while swiping up";
 			throw runtime_error("Could not find pivot while swiping up");
 		}
 		swapColumns(orderedElements, index, pivot);
@@ -125,7 +101,7 @@ int DualMatroid::findPivot(Matroid& matroid, vector<int>& orderedElements, int r
 }
 
 Matroid DualMatroid::transpose(Matroid& matroid, vector<int>& orderedElements) {
-	unordered_set<int> elements = matroid.getElements();
+	unordered_set<int>& elements = matroid.getElements();
 	int rank = matroid.getRank();
 	int newRank = elements.size() - rank; 
 	Matroid transposed(elements, newRank);

@@ -1,10 +1,12 @@
 #include "stdafx.h"
 #include "graph.h"
-#include "sink_only_copies.h"
+#include "decorated_graph.h"
 
 using namespace std;
 
 int main(int argc, char* argv[]) {
+	
+	//TODO: assign terminals, test adjacency, test adjacency (similar to sinks)
 	
 	int vertices = 10;
 	Graph graph(vertices);
@@ -22,14 +24,22 @@ int main(int argc, char* argv[]) {
 	graph.addEdge(7, 8);
 	graph.addEdge(7, 9);
 	graph.addEdge(8, 9);
+	graph.addTerminal(1);
+	graph.addTerminal(7);
 	
 	set<int> originals;
 	originals.insert(2);
 	originals.insert(5);
 	originals.insert(8);
 	
+	unordered_set<int> terminalNeighbors;
+	for (int terminal : graph.getTerminals()) {
+		for (int terminalNeighbor : graph.getOutNeighbors(terminal)) {
+			terminalNeighbors.insert(terminalNeighbor);
+		}
+	}
 
-	SinkOnlyCopies sinkOnlyCopies(graph, originals);
+	DecoratedGraph sinkOnlyCopies(graph, originals, 3);
 	cout << "Created sink only copies. " << endl;
 	sinkOnlyCopies.display();
 	
@@ -53,6 +63,18 @@ int main(int argc, char* argv[]) {
 			return 1;
 		}
 	}
+	
+	for (int superSource : sinkOnlyCopies.getSuperSources()) {
+		if (sinkOnlyCopies.getOutNeighbors(superSource) != terminalNeighbors) {
+			cout << "Test error: super source must be connected to all terminal neighbors" << endl;
+			return 1;
+		}
+		if (!sinkOnlyCopies.getInNeighbors(superSource).empty()) {
+			cout << "Test error: super source should not have inNeighbors" << endl;
+			return 1;
+		}
+	}
+	
 	sinkOnlyCopies.contract(5);
 	cout << "Contracted 5." << endl;
 	sinkOnlyCopies.display();

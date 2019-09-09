@@ -1,39 +1,53 @@
 #include "stdafx.h"
-#include "sink_only_copies.h"
+#include "decorated_graph.h"
 
 using namespace std;
 
-SinkOnlyCopies::SinkOnlyCopies(Graph& graph, std::set<int>& copies) : Graph(graph.getVertices().size() + copies.size()) {
-	int sink = graph.getVertices().size();
+DecoratedGraph::DecoratedGraph(Graph& graph, std::set<int>& copies, int initSuperSources) : Graph(graph.getVertices().size() + copies.size() + initSuperSources) {
+	int index = graph.getVertices().size();
 	for (int vertex : graph.getVertices()) {
 		for (int outNeighbor: graph.getOutNeighbors(vertex)) {
 			addArc(vertex, outNeighbor);
 		}
 	}
-	
+	for (int terminal : graph.getTerminals()) {
+		addTerminal(terminal);
+	}	
 	for (int copy : copies) {
-		sinkCopyMap.insert(make_pair(copy, sink));
+		sinkCopyMap.insert(make_pair(copy, index));
 		for (int inNeighbor : graph.getInNeighbors(copy)) {
-			addArc(inNeighbor, sink);
+			addArc(inNeighbor, index);
 		}
-		sink++;
+		index++;
 	}
+	for (int superSourceIndex = 0; superSourceIndex < initSuperSources; superSourceIndex++) {
+		superSources.insert(index);
+		for (int terminal : getTerminals()) {
+			for (int outNeighbor : graph.getOutNeighbors(terminal)) {
+				addArc(index, outNeighbor);
+			}
+		}
+		index++;
+	}
+	//TODO: connect superSources to sink only copies???
 }
 
-SinkOnlyCopies::~SinkOnlyCopies() {
+DecoratedGraph::~DecoratedGraph() {
 }
 
-int SinkOnlyCopies::getSink(int originalIndex) {
+int DecoratedGraph::getSink(int originalIndex) {
 	return sinkCopyMap[originalIndex];
 } 
 
-void SinkOnlyCopies::contract(int originalVertex) {
-	unordered_set<int> vertexInNeighbors = getInNeighbors(originalVertex);
+unordered_set<int>& DecoratedGraph::getSuperSources() {
+	return superSources;
+}
+
+void DecoratedGraph::contract(int originalVertex) {
+	unordered_set<int>& vertexInNeighbors = getInNeighbors(originalVertex);
 	Graph::contract(originalVertex);
 	int sinkCopy = getSink(originalVertex);
 	Graph::remove(sinkCopy);
-	//TODO: rather, remove those in contracted neighborhood...
-	//removeArc(originalVertex, sinkCopy);
 	sinkCopyMap.erase(originalVertex);
 	for (int inNeighbor : vertexInNeighbors) {
 		if (sinkCopyMap.count(inNeighbor)) {
@@ -41,15 +55,9 @@ void SinkOnlyCopies::contract(int originalVertex) {
 			removeArc(inNeighbor, inNeighborSink);
 		}
 	}
-	
-	
-	
-	//TODO: contract is not that easy... must avoid adding own sink as neighbor
-	//TODO: query sink map and copy (also remove old sinks from map)
-	//TODO: must also update sink map when normalizing..
 }
 
-unordered_map<int, int> SinkOnlyCopies::normalize() {
+unordered_map<int, int> DecoratedGraph::normalize() {
 	unordered_map<int, int> oldToNew = Graph::normalize();
     unordered_map<int, int> newSinkCopyMap;
 	for (const auto& entry : sinkCopyMap) {
@@ -61,13 +69,9 @@ unordered_map<int, int> SinkOnlyCopies::normalize() {
 	return oldToNew;
 }
 
-void SinkOnlyCopies::display() {
+void DecoratedGraph::display() {
 	Graph::display();
 	for (const auto& entry : sinkCopyMap) {
 		cout << "Vertex " << entry.first << " has sink only copy " << entry.second << endl;
 	}
 }
-
-
-
-

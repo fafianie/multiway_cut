@@ -2,7 +2,6 @@
 #include "carryless_multiplier_galois.h"
 #include "naive_galois.h"
 #include "matroid.h"
-#include "gauss.h"
 #include "dual_matroid.h"
 #include "gammoid.h"
 #include "transversal_matroid.h"

@@ -4,23 +4,16 @@
 #include "multiway_cut_relaxation_solver.h"
 #include "graph.h"
 
-
-//victory condition: LP cost is 0
-
 using namespace std;
 
 MultiwayCutSolver::MultiwayCutSolver() {
-	//load input only
-	//TODO: push this to solve function
 }
 
 
 MultiwayCutSolver::~MultiwayCutSolver(){ 
 }
 
-int MultiwayCutSolver::solve(Graph& inputGraph) {
-	//TODO: assume graph is normalized
-	cout << endl << "start solve" << endl;
+int MultiwayCutSolver::solve(Graph& inputGraph) { //Graph must be normalized.
 	graph = &inputGraph;
 	unordered_set<int> vertices = graph -> getVertices();
 	vector<int> terminals;
@@ -31,11 +24,8 @@ int MultiwayCutSolver::solve(Graph& inputGraph) {
 	
 	relaxationSolver.init(*graph);
 
-	//set up auxiliary data structures TODO: USE VECTORS!!! (put in graph?)
 	boundary.assign(vertices.size(), -1);
 	status.assign(vertices.size(), -1);
-	//opt_sol = new unordered_set<int>();
-	//cur_sol = new unordered_set<int>;
 
 	for (auto terminal : terminals) {
 		status[terminal] = 0;
@@ -72,80 +62,42 @@ int MultiwayCutSolver::solve(Graph& inputGraph) {
 
 	//establish bound
 	opt = static_cast<int> (2 * relaxationSolver.solve()); //assume k is not known
-
-	//TODO: update opt_sol
-
-	cout << "LP: " << opt/2 << endl;
-
 	step();
 
 	//verify correctness
-
 	MultiwayCutRelaxationSolver lps2;
 	lps2.init(*graph);
 
 	for (auto v : optimalSolution) {
 		lps2.select(v);
 	}
-	//lps2.solve();
-
-	cout << endl << "final solution: " << opt << endl;
-	cout << endl << "verified solution LP: " << lps2.solve() << endl; //TODO: ERROR IF NOT THE SAME
-
-
-	//finish
 
 	return opt;
 }
 
 void MultiwayCutSolver::step() {
-	//cout << " STEP " << endl;
-	//printCandidates();
-	
-	//if (calc) { //TODO~!?
-		lp = relaxationSolver.solve();
-	//}	
-
-	//cout << "LP = " << lp << endl;
-	//detect case
-
-	if (lp == cur) {//found solution
-		//cout << "LEAF: solution found: ";
+	lp = relaxationSolver.solve();
+	if (lp == cur) {
 		if (opt > cur) {
 			opt = cur;
-			//cout << "NEW OPT: " << opt;
 			optimalSolution.clear();
-			//opt_sol.insert(cur_sol.begin, cur_sol.end);
 			optimalSolution.insert(optimalSolution.begin(), currentSolution.begin(), currentSolution.end());
 		}
-		//cout << endl;
 		return;
 	}
-	if (lp >= opt) { //no hope to find better solution
-		//cout << "LEAF: give up, LP = " << lp << " while OPT = " << opt << endl;
+	if (lp >= opt) { 
 		return;
 	}
-	//	cout << "LOOKING TO CONTRACT" << endl;
-	//	cout << "#CANDIDATES: " << candidates.size() << endl;
-
-		//look for easy candidate (already 0 in lp)
-
-	bool easy = false;
 	
+	bool easy = false;
 	vector<int> easyContractions;
 
 	for (auto candidate : candidates) {
 		if (relaxationSolver.isZero(candidate)) {
-	//			cout << " begin loop" << endl;
-		easy = true;
-	//			cout << "FOUND EASY CONTRACTION: " << c << endl;
-				//vector<int> actions = contract(c);				
-				//all_actions.push_back(actions);
-		easyContractions.push_back(candidate);	
-	//			cout << " end loop" << endl;
+			easy = true;
+			easyContractions.push_back(candidate);	
 		}
 	}
-
 	
 	if (easy) {
 		vector<vector<int>> allActions;
@@ -153,74 +105,32 @@ void MultiwayCutSolver::step() {
 			vector<int> actions = contract(candidate);
 			allActions.push_back(actions);
 		}
-
-	//		cout << "before step" << endl;
 		step();
-
 		for (int i = easyContractions.size() - 1; i > -1; i--) {
 			undoContract(easyContractions[i], allActions[i]);
 		}
-			
 		return;
 	}
 
-		
-	/*for (auto candidate : candidates) {
-		if (lps.isZero(candidate)) {
-			//cout << "FOUND EASY CONTRACTION: " << candidate << endl;
-			vector<int> actions = contract(candidate);
-
-			step(false);
-			undo_contract(candidate, actions);
-			return;
-		}
-	}*/
-		
-		//
-
-		//TODO: experiment: look for easy candidates only*/
-		
-		
 	vector<int> candidatesCopy;
 	for (auto candidate : candidates) {
 		candidatesCopy.push_back(candidate);
 	}
 
-	for (auto const& candidate : candidatesCopy) { //try to find candidate to contract on (could probably save some work here by remembering some values?)		
+	for (auto const& candidate : candidatesCopy) {	
 		vector<int> actions = contract(candidate);
 		double lp0 = relaxationSolver.solve();
 		if (lp0 == lp) {
-				//cout << "FOUND NORMAL CONTRACTION: " << c << endl;
-
 			step();
 			undoContract(candidate, actions);
 			return;
 		}
 		undoContract(candidate, actions);
+	} 
 
-			//bool incorrect = false;
-			//if (c2.size() != candidates.size())
-			//{
-			//	incorrect = true;
-			//}
-			/*else
-			{
-				for (auto cc : c2)
-				{
-					if (std::find(candidates.begin(), candidates.end(), cc) != candidates.end()) {
-
-					}
-					else {
-						incorrect = true;
-					}
-				}
-			}*/
-	} //
-
-		//branch on arbitrary candidate
+	//branch on arbitrary candidate
 	if (candidates.size() > 0) {
 		int candidate = *candidates.begin();
-	//		cout << "BRANCH: " << c << endl;
 
 		select(candidate);
 		step();
@@ -229,44 +139,37 @@ void MultiwayCutSolver::step() {
 		vector<int> actions = contract(candidate);
 		step();
 		undoContract(candidate, actions);
+		return;
 	}
-	else {
-		cout << "NO MORE CANDIDATES?" << endl;
-	}
+	cout << "NO MORE CANDIDATES?" << endl; //throw error
 	return;
 }
 
 vector<int> MultiwayCutSolver::contract(int vertex) { 
-	//cout << endl << "CONTRACT: " << vertex << endl;
 	status[vertex] = 0;
 	relaxationSolver.block(vertex);
 	removeCandidate(vertex);
-	//cout << "remove " << vertex << " from candidates" << endl;
 	vector<int> actions;
 
 	for (int neighbor : graph -> getOutNeighbors(vertex)) {
 		if (status[neighbor] != -1) {
 			continue;
 		}
-		if (boundary[neighbor] == -1) { //update boundary
+		if (boundary[neighbor] == -1) { 
 			boundary[neighbor] = boundary[vertex];
-			addCandidate(neighbor); //u was no candidate before
-			//cout << "add " << neighbor << " to candidates" << endl;
+			addCandidate(neighbor); 
 			actions.push_back(neighbor);
 			continue;
 		} 
-		if (boundary[neighbor] != boundary[vertex]) { //neighbor must be picked
-			//cout << "must pick neighbor" << endl;
+		if (boundary[neighbor] != boundary[vertex]) {
 			select(neighbor); 
 			actions.push_back(neighbor);
 		}
 	}
-	//cout << endl << "done contracting" << endl;
 	return actions;
 }
 
 void MultiwayCutSolver::undoContract(int vertex, vector<int>& actions) {
-	//cout << endl << "UNDO CONTRACT: " << vertex << endl;
 	status[vertex] = -1;
 	relaxationSolver.pop();
 	addCandidate(vertex);
@@ -279,30 +182,22 @@ void MultiwayCutSolver::undoContract(int vertex, vector<int>& actions) {
 		}
 		undoSelect(action);
 	}
-	//cout << "done undo contract" << endl;
 }
 void MultiwayCutSolver::select(int vertex) {
-	//cout << "SELECT: " << vertex << endl;
 	status[vertex] = 1;
 	cur++;
 	removeCandidate(vertex);
 	relaxationSolver.select(vertex);
-	//cout << "remove " << v << " from candidates" << endl;
 	currentSolution.push_back(vertex);
-	//cout << "DONE SELECT" << endl;
 }
 
 
 void MultiwayCutSolver::undoSelect(int vertex) {
-	//cout << endl << "UNDO_SELECT: " << vertex << endl;
-
 	status[vertex] = -1;
 	cur--;
 	relaxationSolver.pop();
 	candidates.insert(vertex);
-	//cout << "add " << v << " to candidates" << endl;
 	currentSolution.pop_back();
-	//cout << "DONE UNDO SELECT" << endl;
 }
 
 void MultiwayCutSolver::addCandidate(int vertex) {
@@ -328,7 +223,3 @@ void MultiwayCutSolver::printCandidates() {
 	}
 	cout << endl;
 }
-
-
-
-

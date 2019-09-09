@@ -40,13 +40,11 @@ void Graph::addTerminal(int terminal) {
 }
 
 bool Graph::isOutNeighbor(int vertex, int outNeighbor) {
-	unordered_set<int> vertexOutNeighbors = outNeighbors[vertex];
-	return vertexOutNeighbors.find(outNeighbor) != vertexOutNeighbors.end();
+	return outNeighbors[vertex].find(outNeighbor) != outNeighbors[vertex].end();
 }
 
 bool Graph::isInNeighbor(int vertex, int inNeighbor) {
-	unordered_set<int> vertexInNeighbors = inNeighbors[vertex];
-	return vertexInNeighbors.find(inNeighbor) != vertexInNeighbors.end();
+	return inNeighbors[vertex].find(inNeighbor) != inNeighbors[vertex].end();
 }
 
 bool Graph::isTerminal(int vertex) {
@@ -69,8 +67,6 @@ unordered_set<int>& Graph::getVertices() {
 	return vertices;
 }
 
-//TODO: test matroids, etc, with removal of vertices
-//TODO: remember to remove sink copy when contracting (override in sinkonlycopy graph)
 void Graph::remove(int vertex) {
 	for (int outNeighbor : getOutNeighbors(vertex)) {
 		inNeighbors[outNeighbor].erase(vertex);
@@ -83,10 +79,8 @@ void Graph::remove(int vertex) {
 }
 
 void Graph::contract(int vertex) {
-	unordered_set<int> vertexInNeighbors = getInNeighbors(vertex);
-	unordered_set<int> vertexOutNeighbors = getOutNeighbors(vertex);
-	for (int inNeighbor : vertexInNeighbors) {
-		for (int outNeighbor : vertexOutNeighbors) {
+	for (int inNeighbor : inNeighbors[vertex]) {
+		for (int outNeighbor : outNeighbors[vertex]) {
 			if (inNeighbor != outNeighbor) {
 				addArc(inNeighbor, outNeighbor);
 			}

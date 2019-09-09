@@ -7,5 +7,4 @@ class UniformMatroid {
 	
 	public:
 		static Matroid generate(int, int, Galois*);
-
 };
