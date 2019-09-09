@@ -16,7 +16,7 @@ class MultiwayCutRelaxationSolver {
 		void select(int);
 		void pop();
 		void init(Graph&);
-		void constraints();
+		//void constraints();
 		void addNeighbor(int);
 		void removeNeighbor(int);
 

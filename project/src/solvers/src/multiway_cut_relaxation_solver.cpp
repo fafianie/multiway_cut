@@ -108,9 +108,9 @@ void MultiwayCutRelaxationSolver::pop() {
 	constraintStack.pop();
 }
 
-void MultiwayCutRelaxationSolver::constraints() {
+//void MultiwayCutRelaxationSolver::constraints() {
 	//model.getProperties.
-}
+//}
 
 double MultiwayCutRelaxationSolver::solve() {
 	try	{
