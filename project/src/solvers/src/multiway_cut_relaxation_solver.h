@@ -25,7 +25,8 @@ class MultiwayCutRelaxationSolver {
 		IloModel model;
 		IloCplex cplex;
 		IloNumVarArray distances;
-	
+		IloRangeArray constraints;
+		
 		std::stack<IloRangeArray> constraintStack;
 		IloNumVarArray warmVariables;
 		IloNumArray warmValues;

@@ -21,8 +21,8 @@ void MultiwayCutRelaxationSolver::init(Graph& graph) { //Graph must be normalize
 			terminals.push_back(terminal);
 		}
 		
-		IloModel initialModel(environment);
-		model = initialModel;
+		//IloModel initialModel(environment);
+		model = IloModel(environment);
 
 		distances = IloNumVarArray(environment, vertices.size(), 0.0, IloInfinity); 
 		IloNumVarArray y(environment, vertices.size() * terminals.size(), 0.0, IloInfinity);
@@ -38,7 +38,8 @@ void MultiwayCutRelaxationSolver::init(Graph& graph) { //Graph must be normalize
 		model.add(y);
 		model.add(IloMinimize(environment, IloSum(distances)));
 
-		IloRangeArray constraints(environment); //TRY EXTRACT AND USE AS PRIVATE FIELD
+		constraints = IloRangeArray(environment);
+		//IloRangeArray constraints(environment); //TRY EXTRACT AND USE AS PRIVATE FIELD
 
 		//neighbor distance constraints
 		for (int u : vertices) {
@@ -88,14 +89,14 @@ void MultiwayCutRelaxationSolver::init(Graph& graph) { //Graph must be normalize
 }
 
 void MultiwayCutRelaxationSolver::block(int vertex) {
-	IloRangeArray constraints(environment); //add directly to environment????
+	//IloRangeArray constraints(environment); //add directly to environment????
 	constraints.add(distances[vertex] == 0);
 	model.add(constraints);
 	constraintStack.push(constraints);
 }
 
 void MultiwayCutRelaxationSolver::select(int vertex) {
-	IloRangeArray constraints(environment);
+	//IloRangeArray constraints(environment);
 	constraints.add(distances[vertex] == 1);
 	model.add(constraints);
 	constraintStack.push(constraints);
