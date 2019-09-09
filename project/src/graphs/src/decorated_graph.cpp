@@ -4,6 +4,9 @@
 using namespace std;
 
 DecoratedGraph::DecoratedGraph(Graph& graph, std::set<int>& copies, int initSuperSources) : Graph(graph.getVertices().size() + copies.size() + initSuperSources) {
+	
+	//TODO: don't give copies explicitly (take any vertex that is not in N[T])
+	
 	int index = graph.getVertices().size();
 	for (int vertex : graph.getVertices()) {
 		for (int outNeighbor: graph.getOutNeighbors(vertex)) {

@@ -8,6 +8,8 @@ int main(int argc, char* argv[]) {
 	
 	//TODO: assign terminals, test adjacency, test adjacency (similar to sinks)
 	
+	//TODO: do this with a new graph based on new rules
+	
 	int vertices = 10;
 	Graph graph(vertices);
 	graph.addEdge(0, 1);
@@ -82,7 +84,7 @@ int main(int argc, char* argv[]) {
 	cout << "Normalized." << endl;
 	sinkOnlyCopies.display();
 	
-	Graph expectedGraph(11);
+	Graph expectedGraph(14);
 	expectedGraph.addEdge(0, 1);
 	expectedGraph.addEdge(0, 2);
 	expectedGraph.addEdge(1, 2);
