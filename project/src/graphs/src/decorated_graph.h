@@ -7,7 +7,7 @@
 class DecoratedGraph : public Graph {
 
 	public:
-		DecoratedGraph(Graph&, std::set<int>&, int);
+		DecoratedGraph(Graph&, int);
 		~DecoratedGraph();
 		int getSink(int);
 		void contract(int);

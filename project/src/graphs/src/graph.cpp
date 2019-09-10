@@ -181,11 +181,21 @@ void Graph::display() {
 	cout << endl;
 	for (int vertex : sortedVertices) {
 		cout << "Vertex " << vertex << endl << "InNeighbors: ";
+		vector<int> sortedInNeighbors;
+		vector<int> sortedOutNeighbors;
 		for (int inNeighbor : getInNeighbors(vertex)) {
+			sortedInNeighbors.push_back(inNeighbor);
+		}
+		for (int outNeighbor : getOutNeighbors(vertex)) {
+			sortedOutNeighbors.push_back(outNeighbor);
+		}
+		sort(sortedInNeighbors.begin(), sortedInNeighbors.end());
+		sort(sortedOutNeighbors.begin(), sortedOutNeighbors.end());
+		for (int inNeighbor : sortedInNeighbors) {
 			cout << inNeighbor << " ";
 		}
 		cout << endl << "OutNeighbors: ";
-		for (int outNeighbor : getOutNeighbors(vertex)) {
+		for (int outNeighbor : sortedOutNeighbors) {
 			cout << outNeighbor << " ";
 		}
 		cout << endl;

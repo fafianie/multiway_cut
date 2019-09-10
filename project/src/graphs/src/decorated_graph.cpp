@@ -3,26 +3,48 @@
 
 using namespace std;
 
-DecoratedGraph::DecoratedGraph(Graph& graph, std::set<int>& copies, int initSuperSources) : Graph(graph.getVertices().size() + copies.size() + initSuperSources) {
+DecoratedGraph::DecoratedGraph(Graph& graph, int initSuperSources) : Graph(graph.getVertices().size() * 2 - graph.getTerminals().size() + initSuperSources) {
 	
 	//TODO: don't give copies explicitly (take any vertex that is not in N[T])
 	
-	int index = graph.getVertices().size();
+	//sink only copies for all vertices that are not terminals
+	
+	//supersources connected to terminal neighbors
+	//should supersources be connected to sink only copies? -> no because it bypasses the graph
+	//keep all properties as invariant when contracting vertices
+	//assume we never vertices in contract N(T)
+	
+	
+	vector<int> sortedVertices;
 	for (int vertex : graph.getVertices()) {
-		for (int outNeighbor: graph.getOutNeighbors(vertex)) {
+		sortedVertices.push_back(vertex);
+	}
+	sort(sortedVertices.begin(), sortedVertices.end());
+	
+	int index = graph.getVertices().size(); //TODO: fix index
+	for (int vertex : sortedVertices) {
+		for (int outNeighbor : graph.getOutNeighbors(vertex)) { //copy the graph
 			addArc(vertex, outNeighbor);
 		}
+		if (graph.isTerminal(vertex)) {
+			continue;
+		}
+		sinkCopyMap.insert(make_pair(vertex, index));
+		for (int inNeighbor : graph.getInNeighbors(vertex)) {
+			addArc(inNeighbor, index);
+		}
+		index++;
 	}
 	for (int terminal : graph.getTerminals()) {
 		addTerminal(terminal);
 	}	
-	for (int copy : copies) {
+	/*for (int copy : copies) {
 		sinkCopyMap.insert(make_pair(copy, index));
 		for (int inNeighbor : graph.getInNeighbors(copy)) {
 			addArc(inNeighbor, index);
 		}
 		index++;
-	}
+	}*/
 	for (int superSourceIndex = 0; superSourceIndex < initSuperSources; superSourceIndex++) {
 		superSources.insert(index);
 		for (int terminal : getTerminals()) {

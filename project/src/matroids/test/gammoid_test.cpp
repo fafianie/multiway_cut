@@ -17,7 +17,7 @@ struct pair_hash {
 };
 
 bool cliqueTestPasses() { 
-	Galois* galois = new NaiveGalois(8);
+	Galois* galois = new CarrylessMultiplierGalois;
 	for (int numberOfSources = 2; numberOfSources < 11; numberOfSources++) {
 		Graph graph(numberOfSources * numberOfSources);
 		vector<int> sinks;

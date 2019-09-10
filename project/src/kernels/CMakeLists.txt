@@ -2,7 +2,7 @@ set(SOURCES
 	src/multiway_cut_kernel.cpp)
 	
 add_library(kernels STATIC ${SOURCES})
-target_link_libraries(kernels matroids graphs stdafx)
+target_link_libraries(kernels galois matroids graphs stdafx)
 target_include_directories(kernels PUBLIC ./src)
 
 if(NOT CPLEX_LIBRARY)
