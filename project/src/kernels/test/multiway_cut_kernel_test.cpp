@@ -3,6 +3,7 @@
 #include "multiway_cut_kernel.h"
 #include "dgf_reader.h"
 #include "carryless_multiplier_galois.h"
+#include "multiway_cut_solver.h"
 
 using namespace std;
 
@@ -29,6 +30,12 @@ int main(int argc, char* argv[]) {
 	
 	Galois* galois = new CarrylessMultiplierGalois();
 	Graph reducedGraph = MultiwayCutKernel::reduce(graph, 3, galois);
+	
+	MultiwayCutSolver solver;
+	int solution = solver.solve(graph);
+	cout << "solution of reduced instance: " << solution << endl;
+	
+	
 	delete galois;
 	return 0;
 }

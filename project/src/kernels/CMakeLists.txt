@@ -6,7 +6,7 @@ target_link_libraries(kernels galois matroids graphs stdafx)
 target_include_directories(kernels PUBLIC ./src)
 
 add_executable(multiway_cut_kernel_test test/multiway_cut_kernel_test.cpp)
-target_link_libraries(multiway_cut_kernel_test graphs readers kernels galois stdafx)
+target_link_libraries(multiway_cut_kernel_test graphs readers solvers kernels galois stdafx)
 #add_test(MCWKernelIsCorrect multiway_cut_kernel_test)
 
 
