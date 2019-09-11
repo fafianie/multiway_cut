@@ -4,6 +4,7 @@
 #include "dgf_reader.h"
 #include "carryless_multiplier_galois.h"
 #include "multiway_cut_solver.h"
+#include "dgf_writer.h"
 
 using namespace std;
 
@@ -32,7 +33,11 @@ int main(int argc, char* argv[]) {
 	Graph reducedGraph = MultiwayCutKernel::reduce(graph, 3, galois);
 	reducedGraph.normalize();
 	MultiwayCutSolver solver;
-	int solution = solver.solve(graph);
+	DGFWriter::write(reducedGraph,
+					"../../resources/test/writers/", 
+					"reducedGraph", 
+					"kernel test");
+	int solution = solver.solve(reducedGraph);
 	cout << "solution of reduced instance: " << solution << endl;
 	
 	
