@@ -1,7 +1,7 @@
 set(SOURCES
 	src/multiway_cut_kernel.cpp)
 set(LIBRARIES
-	kernels galois matroids graph stdafx)
+	galois matroids graph stdafx)
 	
 if(CPLEX_LIBRARY)
 	set(SOURCES SOURCES
@@ -11,7 +11,7 @@ if(CPLEX_LIBRARY)
 endif()
 
 add_library(kernels STATIC ${SOURCES})
-target_link_libraries({%LIBRARIES})
+target_link_libraries(kernels {%LIBRARIES})
 target_include_directories(kernels PUBLIC ./src)
 
 if(NOT CPLEX_LIBRARY)
