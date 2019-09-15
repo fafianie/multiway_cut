@@ -4,14 +4,14 @@ set(LIBRARIES
 	galois matroids graph stdafx)
 	
 if(CPLEX_LIBRARY)
-	set(SOURCES SOURCES
+	set(SOURCES ${SOURCES}
 		src/half_integral_reduction.cpp)
-	set(LIBRARIES LIBRARIES
+	set(LIBRARIES ${LIBRARIES}
 		solvers)
 endif()
 
 add_library(kernels STATIC ${SOURCES})
-target_link_libraries(kernels {%LIBRARIES})
+target_link_libraries(kernels ${LIBRARIES})
 target_include_directories(kernels PUBLIC ./src)
 
 if(NOT CPLEX_LIBRARY)
