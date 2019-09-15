@@ -11,7 +11,7 @@ set(LIBRARIES
 #endif()
 
 add_library(kernels STATIC ${SOURCES})
-target_link_libraries(kernels ${LIBRARIES})
+target_link_libraries(kernels galois solvers matroids graph stdafx)
 target_include_directories(kernels PUBLIC ./src)
 
 if(NOT CPLEX_LIBRARY)
