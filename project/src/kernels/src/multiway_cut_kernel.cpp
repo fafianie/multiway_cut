@@ -22,7 +22,7 @@ Graph MultiwayCutKernel::reduce(Graph& inputGraph, int k, int superSources, int 
 		int terminal = *terminalIterator;
 		++terminalIterator;
 		otherVertices.insert(terminal);
-		DecoratedGraph decoratedGraph(inputGraph, superSources);
+		DecoratedGraph decoratedGraph(inputGraph, superSources);//TODO: switch for modes: copy one gammoid or make several, remove terminal neighborshoods or don't
 		decoratedGraph.remove(terminal);
 		for (int outNeighbor : inputGraph.getOutNeighbors(terminal)) {
 			otherVertices.insert(outNeighbor);
@@ -49,7 +49,12 @@ Graph MultiwayCutKernel::reduce(Graph& inputGraph, int k, int superSources, int 
 //TODO: test multiple contractions
 //TODO: test same vs diff gammoids
 
-bool MultiwayCutKernel::contractVertex(Graph& inputGraph, vector<DecoratedGraph>& decoratedGraphs, Matroid& uniformMatroid, unordered_set<int>& candidateVertices, unordered_set<int>& otherVertices, Galois* galois) {
+bool MultiwayCutKernel::contractVertex(Graph& inputGraph, 
+									   vector<DecoratedGraph>& decoratedGraphs, 
+									   Matroid& uniformMatroid, 
+									   unordered_set<int>& candidateVertices, 
+									   unordered_set<int>& otherVertices, 
+									   Galois* galois) {
 
 	int sumRank = uniformMatroid.getRank();
 	//cout << "uniform" << endl;
