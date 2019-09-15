@@ -1,7 +1,7 @@
 set(SOURCES
 	src/multiway_cut_kernel.cpp)
-set(LIBRARIES
-	galois solvers matroids graph stdafx)
+#set(LIBRARIES
+#	galois solvers matroids graph stdafx)
 	
 #if(CPLEX_LIBRARY)
 #	set(SOURCES ${SOURCES}
