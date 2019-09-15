@@ -8,7 +8,7 @@
 
 using namespace std;
 
-Graph MultiwayCutKernel::reduce(Graph& inputGraph, int k, Galois* galois) {
+Graph MultiwayCutKernel::reduce(Graph& inputGraph, int k, int superSources, int layers, Galois* galois) {
 
 	//DecoratedGraph decoratedGraph(inputGraph, k);
 	Matroid uniformMatroid = UniformMatroid::generate(inputGraph.getVertices().size(), k, galois);
@@ -18,7 +18,7 @@ Graph MultiwayCutKernel::reduce(Graph& inputGraph, int k, Galois* galois) {
 	
 	for (int terminal : inputGraph.getTerminals()) {
 		otherVertices.insert(terminal);
-		DecoratedGraph decoratedGraph(inputGraph, k + 1);
+		DecoratedGraph decoratedGraph(inputGraph, superSources);
 		decoratedGraph.remove(terminal);
 		for (int outNeighbor : inputGraph.getOutNeighbors(terminal)) {
 			otherVertices.insert(outNeighbor);

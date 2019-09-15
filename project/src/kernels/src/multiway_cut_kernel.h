@@ -8,7 +8,7 @@
 class MultiwayCutKernel {
 
 	public:
-		static Graph reduce(Graph&, int, Galois*);
+		static Graph reduce(Graph&, int, int, int, Galois*);
 		
 	private:
 		static bool contractVertex(Graph&, std::vector<DecoratedGraph>&, Matroid&, std::unordered_set<int>&, std::unordered_set<int>&, Galois*);
