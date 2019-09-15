@@ -14,15 +14,13 @@ add_library(kernels STATIC ${SOURCES})
 target_link_libraries(kernels galois solvers matroids graph stdafx)
 target_include_directories(kernels PUBLIC ./src)
 
-if(NOT CPLEX_LIBRARY)
-	return()
-endif()
-
-
 add_executable(multiway_cut_kernel_test test/multiway_cut_kernel_test.cpp)
 target_link_libraries(multiway_cut_kernel_test graphs readers writers solvers kernels galois stdafx)
 #add_test(MCWKernelIsCorrect multiway_cut_kernel_test)
 
+if(NOT CPLEX_LIBRARY)
+	return()
+endif()
 
 
 
