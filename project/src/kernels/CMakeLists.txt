@@ -1,14 +1,14 @@
 set(SOURCES
 	src/multiway_cut_kernel.cpp)
 set(LIBRARIES
-	galois matroids graph stdafx)
+	galois solvers matroids graph stdafx)
 	
-if(CPLEX_LIBRARY)
-	set(SOURCES ${SOURCES}
-		src/half_integral_reduction.cpp)
-	set(LIBRARIES ${LIBRARIES}
-		solvers)
-endif()
+#if(CPLEX_LIBRARY)
+#	set(SOURCES ${SOURCES}
+#		src/half_integral_reduction.cpp)
+#	set(LIBRARIES ${LIBRARIES}
+#		solvers)
+#endif()
 
 add_library(kernels STATIC ${SOURCES})
 target_link_libraries(kernels ${LIBRARIES})
@@ -17,9 +17,6 @@ target_include_directories(kernels PUBLIC ./src)
 if(NOT CPLEX_LIBRARY)
 	return()
 endif()
-
-set(SOURCES2
-	src/half_integral_reduction.cpp)
 
 
 add_executable(multiway_cut_kernel_test test/multiway_cut_kernel_test.cpp)
