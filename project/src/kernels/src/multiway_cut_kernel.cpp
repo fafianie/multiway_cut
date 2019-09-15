@@ -16,7 +16,11 @@ Graph MultiwayCutKernel::reduce(Graph& inputGraph, int k, int superSources, int 
 	unordered_set<int> otherVertices;
 	vector<DecoratedGraph> decoratedGraphs;
 	
-	for (int terminal : inputGraph.getTerminals()) {
+	auto terminalIterator = inputGraph.getTerminals().begin();
+	
+	for (int layer = 0; layer < layers; layer++) {
+		int terminal = *terminalIterator;
+		++terminalIterator;
 		otherVertices.insert(terminal);
 		DecoratedGraph decoratedGraph(inputGraph, superSources);
 		decoratedGraph.remove(terminal);
