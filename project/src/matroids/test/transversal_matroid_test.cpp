@@ -3,6 +3,7 @@
 #include "matroid.h"
 #include "transversal_matroid.h"
 #include "independent_set.h"
+#include "graph.h"
 
 using namespace std;
 
