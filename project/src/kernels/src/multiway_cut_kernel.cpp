@@ -16,9 +16,8 @@ Graph MultiwayCutKernel::reduce(Graph& inputGraph, int k, int superSources, int 
 	unordered_set<int> otherVertices;
 	vector<DecoratedGraph> decoratedGraphs;
 	
-	auto terminalIterator = inputGraph.getTerminals().begin();
 	int layer = 0;
-	for (int terminal : terminals) {
+	for (int terminal : inputGraph.getTerminals()) {
 		otherVertices.insert(terminal);
 		DecoratedGraph decoratedGraph(inputGraph, superSources);//TODO: switch for modes: copy one gammoid or make several, remove terminal neighborshoods or don't
 		decoratedGraph.remove(terminal);
