@@ -66,7 +66,7 @@ bool MultiwayCutKernel::contractVertex(Graph& inputGraph,
 	//cout << "creating gammoids" << endl;
 	for (DecoratedGraph& decoratedGraph : decoratedGraphs) {
 		sumRank *= gammoid.getRank();
-		if (reuseGammoid && !gammoids.isEmtpy) {
+		if (reuseGammoid && !gammoids.empty()) {
 			gammoids.push_back(gammoids[0]);
 			continue;
 		}
