@@ -8,7 +8,7 @@
 
 using namespace std;
 
-Graph MultiwayCutKernel::reduce(Graph& inputGraph, int k, int superSources, int layers, Galois* galois) {
+Graph MultiwayCutKernel::reduce(Graph& inputGraph, int k, int superSources, int layers, bool removeTerminalNeighbors, bool reuseGammoid, Galois* galois) {
 
 	//DecoratedGraph decoratedGraph(inputGraph, k);
 	Matroid uniformMatroid = UniformMatroid::generate(inputGraph.getVertices().size(), k, galois);
@@ -23,7 +23,9 @@ Graph MultiwayCutKernel::reduce(Graph& inputGraph, int k, int superSources, int 
 		decoratedGraph.remove(terminal);
 		for (int outNeighbor : inputGraph.getOutNeighbors(terminal)) {
 			otherVertices.insert(outNeighbor);
-			decoratedGraph.remove(outNeighbor);
+			if (removeTerminalNeighbors) {
+				decoratedGraph.remove(outNeighbor);
+			}
 		}
 		if (layer < layers) {
 			decoratedGraphs.push_back(decoratedGraph);
@@ -41,7 +43,7 @@ Graph MultiwayCutKernel::reduce(Graph& inputGraph, int k, int superSources, int 
 	//cout << "start main loop" << endl;
 	bool contractedVertex = true;
 	while(contractedVertex) {
-		contractedVertex = contractVertex(inputGraph, decoratedGraphs, uniformMatroid, candidateVertices, otherVertices, galois);
+		contractedVertex = contractVertex(inputGraph, decoratedGraphs, uniformMatroid, candidateVertices, otherVertices, reuseGammoid, galois);
 	}
 	return inputGraph;
 }
@@ -53,7 +55,8 @@ bool MultiwayCutKernel::contractVertex(Graph& inputGraph,
 									   vector<DecoratedGraph>& decoratedGraphs, 
 									   Matroid& uniformMatroid, 
 									   unordered_set<int>& candidateVertices, 
-									   unordered_set<int>& otherVertices, 
+									   unordered_set<int>& otherVertices,
+									   bool reuseGammoid,
 									   Galois* galois) {
 
 	int sumRank = uniformMatroid.getRank();
@@ -62,9 +65,14 @@ bool MultiwayCutKernel::contractVertex(Graph& inputGraph,
 	vector<Matroid> gammoids;
 	//cout << "creating gammoids" << endl;
 	for (DecoratedGraph& decoratedGraph : decoratedGraphs) {
+		sumRank *= gammoid.getRank();
+		if (reuseGammoid && !gammoids.isEmtpy) {
+			gammoids.push_back(gammoids[0]);
+			continue;
+		}
 		Matroid gammoid = Gammoid::generate(decoratedGraph, galois, decoratedGraph.getSuperSources()); //TODO: contract N[T]?
 		gammoids.push_back(gammoid);
-		sumRank *= gammoid.getRank();
+		
 		//cout << "gammoid" << endl;
 		//gammoid.display(galois);
 	}

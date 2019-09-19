@@ -30,7 +30,7 @@ int main(int argc, char* argv[]) {
 	
 	
 	Galois* galois = new CarrylessMultiplierGalois();
-	Graph reducedGraph = MultiwayCutKernel::reduce(graph, 3, 4, 2, galois);
+	Graph reducedGraph = MultiwayCutKernel::reduce(graph, 3, 4, 3, true, false, galois);
 	reducedGraph.normalize();
 	MultiwayCutSolver solver;
 	DGFWriter::write(reducedGraph,
