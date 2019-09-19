@@ -65,13 +65,15 @@ bool MultiwayCutKernel::contractVertex(Graph& inputGraph,
 	vector<Matroid> gammoids;
 	//cout << "creating gammoids" << endl;
 	for (DecoratedGraph& decoratedGraph : decoratedGraphs) {
-		sumRank *= gammoid.getRank();
+		
 		if (reuseGammoid && !gammoids.empty()) {
 			gammoids.push_back(gammoids[0]);
+			sumRank *= gammoids[0].getRank();
 			continue;
 		}
 		Matroid gammoid = Gammoid::generate(decoratedGraph, galois, decoratedGraph.getSuperSources()); //TODO: contract N[T]?
 		gammoids.push_back(gammoid);
+		sumRank *= gammoid.getRank();
 		
 		//cout << "gammoid" << endl;
 		//gammoid.display(galois);
