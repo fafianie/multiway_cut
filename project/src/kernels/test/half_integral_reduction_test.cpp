@@ -12,7 +12,7 @@ int main(int argc, char* argv[]) {
 	HalfIntegralReduction::reduce(graph);
 	graph.normalize();
 	MultiwayCutSolver solver;
-	int solution = solver.solve(reducedGraph);
+	int solution = solver.solve(graph);
 	cout << "solution of reduced instance: " << solution << endl;
 	
 	
