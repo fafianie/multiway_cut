@@ -12,6 +12,7 @@ void HalfIntegralReduction::reduce(Graph& inputGraph) {
 	relaxationSolver.solve();
 	
 	unordered_set<int> candidates;
+	unordered_set<int> considered;
 	for (int terminal : inputGraph.getTerminals()) {
 		for (int neighbor : inputGraph.getInNeighbors(terminal)) {
 			candidates.insert(neighbor);
@@ -20,6 +21,10 @@ void HalfIntegralReduction::reduce(Graph& inputGraph) {
 	
 	while (!candidates.empty()) {
 		int candidate = *candidates.begin();
+		if (considered.find(candidate) == considered.end()) {
+			continue;
+		}
+		considered.insert(candidate);
 		if (inputGraph.isTerminal(candidate)) {
 			continue;
 		}
