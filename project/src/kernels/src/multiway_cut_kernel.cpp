@@ -71,7 +71,18 @@ bool MultiwayCutKernel::contractVertex(Graph& inputGraph,
 			sumRank *= gammoids[0].getRank();
 			continue;
 		}
-		Matroid gammoid = Gammoid::generate(decoratedGraph, galois, decoratedGraph.getSuperSources()); //TODO: contract N[T]?
+		Matroid gammoid;
+		if (decoratedGraph.getSuperSources().empty()) {
+			unordered_set<int> sources;
+			for (int terminal : decoratedGraph.getTerminals()) {
+				for (int neighbor : decoratedGroup.getInNeighbors()) {
+					sources.insert(neighbor);
+				}
+			}
+			gammoid = Gammoid::generate(decoratedGraph, galois, sources); 
+		} else {
+			gammoid = Gammoid::generate(decoratedGraph, galois, decoratedGraph.getSuperSources()); 
+		}
 		gammoids.push_back(gammoid);
 		sumRank *= gammoid.getRank();
 		
