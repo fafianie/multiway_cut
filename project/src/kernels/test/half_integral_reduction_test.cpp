@@ -15,11 +15,9 @@ int main(int argc, char* argv[]) {
 	int solution = solver.solve(graph);
 	cout << "solution of reduced instance: " << solution << endl;
 	
-	
 	if (solution != 3) {
 		return 1;
 	}
-	
 
 	return 0;
 }

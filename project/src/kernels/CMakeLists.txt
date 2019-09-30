@@ -1,5 +1,6 @@
 set(SOURCES
- 	src/multiway_cut_kernel.cpp)
+ 	src/multiway_cut_kernel.cpp
+	src/half_integral_reduction.cpp)
 
 add_library(kernels STATIC ${SOURCES})
 target_link_libraries(kernels galois matroids graphs stdafx)
