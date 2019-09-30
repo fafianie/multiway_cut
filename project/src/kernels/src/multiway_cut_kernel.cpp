@@ -118,7 +118,7 @@ bool MultiwayCutKernel::contractVertex(Graph& inputGraph,
 	return false;
 }
 
-Matroid& MultiwayCutKernel::createGammoid(DecoratedGraph& decoratedGraph, Galois* galois) {
+Matroid MultiwayCutKernel::createGammoid(DecoratedGraph& decoratedGraph, Galois* galois) {
 	if (decoratedGraph.getSuperSources().empty()) {
 		unordered_set<int> sources;
 		for (int terminal : decoratedGraph.getTerminals()) {
@@ -130,9 +130,6 @@ Matroid& MultiwayCutKernel::createGammoid(DecoratedGraph& decoratedGraph, Galois
 	}
 	return Gammoid::generate(decoratedGraph, galois, decoratedGraph.getSuperSources()); 
 }
-
-
-
 
 vector<uint64_t> MultiwayCutKernel::sumColumn(int vertex, int sinkCopy, Matroid& uniformMatroid, vector<Matroid>& gammoids, Galois* galois) {
 	//cout << "creating column" << endl;
