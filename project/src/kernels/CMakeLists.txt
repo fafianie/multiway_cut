@@ -9,7 +9,6 @@ if(CPLEX_LIBRARY)
 		)
 endif()
 
-
 add_library(kernels STATIC ${SOURCES})
 target_link_libraries(kernels galois matroids solvers graphs stdafx)
 target_include_directories(kernels PUBLIC ./src)
