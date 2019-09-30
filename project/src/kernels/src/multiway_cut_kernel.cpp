@@ -75,7 +75,7 @@ bool MultiwayCutKernel::contractVertex(Graph& inputGraph,
 		if (decoratedGraph.getSuperSources().empty()) {
 			unordered_set<int> sources;
 			for (int terminal : decoratedGraph.getTerminals()) {
-				for (int neighbor : decoratedGroup.getInNeighbors()) {
+				for (int neighbor : decoratedGraph.getInNeighbors()) {
 					sources.insert(neighbor);
 				}
 			}
