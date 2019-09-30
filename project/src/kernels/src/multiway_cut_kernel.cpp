@@ -83,8 +83,8 @@ bool MultiwayCutKernel::contractVertex(Graph& inputGraph,
 		} else {
 			gammoid = &Gammoid::generate(decoratedGraph, galois, decoratedGraph.getSuperSources()); 
 		}
-		gammoids.push_back(gammoid);
-		sumRank *= gammoid.getRank();
+		gammoids.push_back(*gammoid);
+		sumRank *= gammoid -> getRank();
 		
 		//cout << "gammoid" << endl;
 		//gammoid.display(galois);
