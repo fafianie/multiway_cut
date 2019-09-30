@@ -14,3 +14,11 @@ add_test(GraphOperationsWorks graph_operations_test)
 add_executable(decorated_graph_test test/decorated_graph_test.cpp)
 target_link_libraries(decorated_graph_test graphs stdafx)
 add_test(DecoratedGraphWorks decorated_graph_test)
+
+if(NOT CPLEX_LIBRARY)
+	return()
+endif()
+
+add_executable(planted_instance_test test/planted_instance_test.cpp)
+target_link_libraries(planted_instance_test graphs solvers stdafx)
+add_test(PlantedInstanceWorks planted_instance_test)

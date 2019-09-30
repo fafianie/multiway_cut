@@ -5,5 +5,5 @@
 class HalfIntegralReduction {
 	public:
 	
-		static Graph reduce(Graph&);
+		static void reduce(Graph&);
 };

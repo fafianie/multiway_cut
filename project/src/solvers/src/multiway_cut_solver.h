@@ -9,6 +9,7 @@ class MultiwayCutSolver {
 		MultiwayCutSolver();
 		~MultiwayCutSolver();
 		int solve(Graph&);
+		int leaves();
 
 	private:
 		void printCandidates();//TODO: remove
@@ -30,4 +31,5 @@ class MultiwayCutSolver {
 		std::unordered_set<int> candidates;
 		std::vector<int> boundary;  //-1: not neighbor to any terminal, otherwise i is neighbor to neighbors[i]
 		std::vector<int> status;    //-1: normal, 0: blocked, 1: picked;
+		int leaves = 0;
 };

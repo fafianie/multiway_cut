@@ -1,14 +1,15 @@
 Instance Generation
-	Measure leafs
-	Measure time
+	Measure leafs *
+	Measure time -> do in main script
 	Test
 	Do Gen
 
 Kernel
-	LP reduction
-	if 0 supersources, use terminal neighbors
-	only reduce if too many neighbors
+	LP reduction *
+	test for LP reduction *
+	if 0 supersources, use terminal neighbors *
 	main script with all kernel variants and metrics for one instance
+		only reduce if too many neighbors
 
 Thesis
 	Intro

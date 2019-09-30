@@ -83,9 +83,11 @@ void MultiwayCutSolver::step() {
 			optimalSolution.clear();
 			optimalSolution.insert(optimalSolution.begin(), currentSolution.begin(), currentSolution.end());
 		}
+		leaves++;
 		return;
 	}
 	if (lp >= opt) { 
+		leaves++;
 		return;
 	}
 	
@@ -222,4 +224,8 @@ void MultiwayCutSolver::printCandidates() {
 		cout << candidate << " ";	
 	}
 	cout << endl;
+}
+
+int MultiwayCutSolver::leaves() {
+	return leaves;
 }
