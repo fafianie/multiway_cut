@@ -33,8 +33,6 @@ void HalfIntegralReduction::reduce(Graph& inputGraph) {
 		candidates.erase(candidate);
 		//ensure we don't revisit and get stuck in a loop (should not happen because we either contract or terminate on border
 	}
-	
-	return inputGraph;
 }
 
 
