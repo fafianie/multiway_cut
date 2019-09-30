@@ -71,7 +71,7 @@ bool MultiwayCutKernel::contractVertex(Graph& inputGraph,
 			sumRank *= gammoids[0].getRank();
 			continue;
 		}
-		Matroid gammoid;
+		Matroid& gammoid;
 		if (decoratedGraph.getSuperSources().empty()) {
 			unordered_set<int> sources;
 			for (int terminal : decoratedGraph.getTerminals()) {
