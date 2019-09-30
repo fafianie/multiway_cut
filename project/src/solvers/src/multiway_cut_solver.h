@@ -9,7 +9,7 @@ class MultiwayCutSolver {
 		MultiwayCutSolver();
 		~MultiwayCutSolver();
 		int solve(Graph&);
-		int leaves();
+		int getLeaves();
 
 	private:
 		void printCandidates();//TODO: remove

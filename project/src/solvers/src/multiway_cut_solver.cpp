@@ -226,6 +226,6 @@ void MultiwayCutSolver::printCandidates() {
 	cout << endl;
 }
 
-int MultiwayCutSolver::leaves() {
+int MultiwayCutSolver::getLeaves() {
 	return leaves;
 }
