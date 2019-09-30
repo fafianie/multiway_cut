@@ -71,7 +71,7 @@ bool MultiwayCutKernel::contractVertex(Graph& inputGraph,
 			sumRank *= gammoids[0].getRank();
 			continue;
 		}
-		Matroid gammoid = createGammoid();
+		Matroid gammoid = createGammoid(decoratedGraph, galois);
 		gammoids.push_back(gammoid);
 		sumRank *= gammoid.getRank();
 		
