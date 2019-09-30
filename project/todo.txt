@@ -1,0 +1,19 @@
+Instance Generation
+	Measure leafs
+	Measure time
+	Test
+	Do Gen
+
+Kernel
+	LP reduction
+	if 0 supersources, use terminal neighbors
+	only reduce if too many neighbors
+	main script with all kernel variants and metrics for one instance
+
+Thesis
+	Intro
+	Plan committee
+	Plan where to submit
+	Plan publishing
+	Handle new results
+	Polishing
