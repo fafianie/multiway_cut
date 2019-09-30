@@ -71,20 +71,9 @@ bool MultiwayCutKernel::contractVertex(Graph& inputGraph,
 			sumRank *= gammoids[0].getRank();
 			continue;
 		}
-		Matroid* gammoid;
-		if (decoratedGraph.getSuperSources().empty()) {
-			unordered_set<int> sources;
-			for (int terminal : decoratedGraph.getTerminals()) {
-				for (int neighbor : decoratedGraph.getInNeighbors(terminal)) {
-					sources.insert(neighbor);
-				}
-			}
-			gammoid = &Gammoid::generate(decoratedGraph, galois, sources); 
-		} else {
-			gammoid = &Gammoid::generate(decoratedGraph, galois, decoratedGraph.getSuperSources()); 
-		}
-		gammoids.push_back(*gammoid);
-		sumRank *= gammoid -> getRank();
+		Matroid gammoid = createGammoid();
+		gammoids.push_back(gammoid);
+		sumRank *= gammoid.getRank();
 		
 		//cout << "gammoid" << endl;
 		//gammoid.display(galois);
@@ -128,6 +117,22 @@ bool MultiwayCutKernel::contractVertex(Graph& inputGraph,
 	}
 	return false;
 }
+
+Matroid& MultiwayCutKernel::createGammoid(DecoratedGraph& decoratedGraph, Galois* galois) {
+	if (decoratedGraph.getSuperSources().empty()) {
+		unordered_set<int> sources;
+		for (int terminal : decoratedGraph.getTerminals()) {
+			for (int neighbor : decoratedGraph.getInNeighbors(terminal)) {
+				sources.insert(neighbor);
+			}
+		}
+		return Gammoid::generate(decoratedGraph, galois, sources); 
+	}
+	return Gammoid::generate(decoratedGraph, galois, decoratedGraph.getSuperSources()); 
+}
+
+
+
 
 vector<uint64_t> MultiwayCutKernel::sumColumn(int vertex, int sinkCopy, Matroid& uniformMatroid, vector<Matroid>& gammoids, Galois* galois) {
 	//cout << "creating column" << endl;
