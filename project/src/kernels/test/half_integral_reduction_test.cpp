@@ -12,10 +12,6 @@ int main(int argc, char* argv[]) {
 	HalfIntegralReduction::reduce(graph);
 	graph.normalize();
 	MultiwayCutSolver solver;
-	DGFWriter::write(reducedGraph,
-					"../../resources/test/writers/", 
-					"reducedGraph", 
-					"kernel test");
 	int solution = solver.solve(reducedGraph);
 	cout << "solution of reduced instance: " << solution << endl;
 	
