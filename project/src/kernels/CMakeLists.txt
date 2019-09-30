@@ -3,7 +3,7 @@ set(SOURCES
 	src/half_integral_reduction.cpp)
 
 add_library(kernels STATIC ${SOURCES})
-target_link_libraries(kernels galois matroids graphs stdafx)
+target_link_libraries(kernels galois matroids solvers graphs stdafx)
 target_include_directories(kernels PUBLIC ./src)
 
 add_executable(multiway_cut_kernel_test test/multiway_cut_kernel_test.cpp)
