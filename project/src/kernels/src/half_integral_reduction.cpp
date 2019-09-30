@@ -22,6 +22,7 @@ void HalfIntegralReduction::reduce(Graph& inputGraph) {
 	while (!candidates.empty()) {
 		int candidate = *candidates.begin();
 		if (considered.find(candidate) == considered.end()) {
+			candidates.erase(candidate);
 			continue;
 		}
 		considered.insert(candidate);
