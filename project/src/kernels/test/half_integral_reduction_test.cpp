@@ -32,8 +32,6 @@ int main(int argc, char* argv[]) {
 			cout << "wrong answer" << endl;
 			return 1;
 		}
-	
-		delete solver;
 	}	
 	cout <<  "all correct" << endl;
 	return 0;
