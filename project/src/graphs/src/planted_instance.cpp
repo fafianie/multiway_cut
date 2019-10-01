@@ -3,17 +3,17 @@
 
 using namespace std;
 
-PlantedInstance::PlantedInstance(const int initVertices,
+PlantedInstance::PlantedInstance(const int vertices,
 								 const int clusters,
-								 const int maxTerminals,
+								 const int terminals,
 								 const int edges,
 								 const int hubSize,
 								 const int hubEdges,
-								 const int budget) : Graph(initVertices) {
+								 const int budget) : Graph(vertices) {
 	
 	int edgeBudget = edges;
 	//TODO: better rounding
-	int clusterSize = (initVertices - hubSize) / clusters;
+	int clusterSize = (vertices - hubSize) / clusters;
 	
 	//CREATE HUB EDGES
 	vector<tuple<int, int>> hubEdgeCandidates;
@@ -25,27 +25,27 @@ PlantedInstance::PlantedInstance(const int initVertices,
 	int offset = hubSize;
 	vector<tuple<int, int>> edgeCandidates;
 	for (int cluster = 0; cluster < clusters - 1; cluster++) {
-		if (getTerminals().size() < maxTerminals) {
+		if (getTerminals().size() < terminals) {
 			addTerminal(offset);
 		}
 		createSpanningTree(offset, offset + clusterSize);
 		edgeBudget -= (clusterSize - 1);
 		createEdgeCandidates(edgeCandidates, offset, offset + clusterSize);
 		createClusterToHubCandidates(edgeCandidates, offset, offset + clusterSize, budget);
-		
+		addEdges(edgeCandidates, edgeBudget);
 		offset += clusterSize;
 		
 	
 	}
 	
 	//LAST CLUSTER
-	if (getTerminals().size() < maxTerminals) {
+	if (getTerminals().size() < terminals) {
 			addTerminal(offset);
 	}
-	createSpanningTree(offset, initVertices);
-	edgeBudget -= ((initVertices - offset) - 1);
-	createEdgeCandidates(edgeCandidates, offset, initVertices);
-	createClusterToHubCandidates(edgeCandidates, offset, initVertices, budget);
+	createSpanningTree(offset, vertices);
+	edgeBudget -= vertices - offset - 1;
+	createEdgeCandidates(edgeCandidates, offset, vertices);
+	createClusterToHubCandidates(edgeCandidates, offset, vertices, budget);
 	addEdges(edgeCandidates, edgeBudget);
 	
 }
