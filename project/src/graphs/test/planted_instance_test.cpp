@@ -7,10 +7,10 @@ using namespace std;
 int main(int argc, char* argv[]) {
 	int vertices, clusters, terminals, edges, hubSize, hubEdges, budget;
 						//  vertices	clusters	terminals	edges		hubSize		hubEdges	budget		clust-size 	min edges	max edges
-	vector<int> instance1{	50			4			3			150			5			5			3	}; 	//	11			40			384
-	vector<int> instance2{	100			5			4			500			7			7			4	};  //	18			85			1189
-	vector<int> instance3{	150			6			5			1000		9			9			5	};  //	23			132			2314
-	vector<int> instance4{	200			7			6			1750		11			11			6	};  //	27			182			3742
+	vector<int> instance1{	50			,4			,3			,150		,5			,5			,3	}; 	//	11			40			384
+	vector<int> instance2{	100			,5			,4			,500		,7			,7			,4	};  //	18			85			1189
+	vector<int> instance3{	150			,6			,5			,1000		,9			,9			,5	};  //	23			132			2314
+	vector<int> instance4{	200			,7			,6			,1750		,11			,11			,6	};  //	27			182			3742
 	
 	vector<vector<int>> instances{instance1, instance2, instance3, instance4};
 	
