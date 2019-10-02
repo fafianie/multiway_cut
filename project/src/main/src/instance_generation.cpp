@@ -179,37 +179,21 @@ int main(int argc, char* argv[]) {
 		int hubEdges = instance[5];
 		int budget = instance[6];
 		
-		string name;
-		name.append(vertices);
-		name.append("_");
-		name.append(edges); 
-		name.append("_");
-		name.append(terminals);
-		name.append("_");
-		name.append(budget);
-		string comment;
-		comment.append("Vertices: ");
-		comment.append(vertices);
-		comment.append(", Edges:");
-		comment.append(edges);
-		comment.append(", Clusters:");
-		comment.append(clusters);
-		comment.append(", Terminals: ");
-		comment.append(terminals);
-		comment.append(", HubSize: ");
-		comment.append(hubSize);
-		comment.append(", HubEdges: ");
-		comment.append(hubEdges);
-		comment.append(", Budget: ");
-		comment.append(budget);
+		stringstream nameStream;
+		nameStream << vertices << "_" << edges + "_" << terminals << "_" << budget;
+		string name = nameStream.str();
+		stringstream commentStream;
+		commentStream << "Vertices: " << vertices << ", Edges:" << edges << ", Clusters:"
+					  << clusters << ", Terminals: " << terminals << ", HubSize: ")
+					  << hubSize << ", HubEdges: " << hubEdges << ", Budget: " << budget;
+		string comment = commentStream.str();
 		Metrics metrics;
 		
 		for (int repetition = 0; repetition < repetitions; repetition++) {
 			PlantedInstance graph(vertices, clusters, terminals, edges, hubSize, hubEdges, budget);
-			string dgfName = name;
-			dgfName.append("_(");
-			dgfName.append(repetition);
-			dgfName.append(")");
+			stringstream dgfNameStream;
+			dgfNameStream << name << "_(" << repetition << ")";
+			string dgfName = dgfNameStream.str();
 			cout << "generating " << dgfName << endl;
 			MultiwayCutSolver solver;
 			
@@ -234,24 +218,19 @@ int main(int argc, char* argv[]) {
 			metrics.addEntry(entry);
 			
 			//string dgfName = name + "_(" + repetition + ")" ;
-			string dgfComment = comment;
-			dgfComment.append(" || Repetition: ");
-			dgfComment.append(repetition);
-			dgfComment.append(", SolutionCost: ");
-			dgfComment.append(solutionCost);
-			dgfComment.append(", Duration: ");
-			dgfComment.append(duration);
-			dgfComment.append(", Leaves: ");
-			dgfComment.append(leaves);
+			stringstream dgfCommentStream;
+			dgfCommentStream << comment << " || Repetition: ") << repetition << ", SolutionCost: "
+							 << solutionCost << ", Duration: " << duration << ", Leaves: " << leaves;
+			string dgfComment = dgfCommentStream.str();
 			DGFWriter::write(graph, path, dgfName, dgfComment);
 			
 			
 		}
-		string metricsName = name;
-		metricsName.append("_metrics");
-		string metricsComment = "Metrics for ";
-		metricsComment.append(name);
-		MetricsWriter::write(metrics, path, metricsName, "");
+		stringstream metricsNameStream;
+		metricsNameStream << name << string("_metrics");
+		string metricsName = metricsNameStream.str();
+		string metricsComment = string("Metrics for ") + comment;
+		MetricsWriter::write(metrics, path, metricsName, metricsComment);
 	}
 	return 0;
 }
