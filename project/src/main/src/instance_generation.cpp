@@ -207,15 +207,15 @@ int main(int argc, char* argv[]) {
 			map<string, string> entry;
 			entry.insert(make_pair("graph", dgfName));
 			entry.insert(make_pair("vertices", to_string(vertices)));
-			//entry.insert(make_pair("clusters", string("") + clusters));
-			//entry.insert(make_pair("terminals", string("") + terminals));
-			//entry.insert(make_pair("edges", string("") + edges));
-			//entry.insert(make_pair("hubSize", string("") + hubSize));
-			//entry.insert(make_pair("hubEdges", string("") + hubEdges));
-			//entry.insert(make_pair("budget", string("") + udget));
-			//entry.insert(make_pair("solutionCost", string("") + solutionCost));
-			//entry.insert(make_pair("duration", string("") + duration));
-			//entry.insert(make_pair("leaves", string("") + leaves));
+			entry.insert(make_pair("clusters", to_string(clusters)));
+			entry.insert(make_pair("terminals", to_string(terminals)));
+			entry.insert(make_pair("edges", to_string(edges)));
+			entry.insert(make_pair("hubSize", to_string(hubSize)));
+			entry.insert(make_pair("hubEdges", to_string(hubEdges)));
+			entry.insert(make_pair("budget", to_string(budget)));
+			entry.insert(make_pair("solutionCost", to_string(solutionCost)));
+			entry.insert(make_pair("duration", to_string(duration)));
+			entry.insert(make_pair("leaves", to_string(leaves)));
 			metrics.addEntry(entry);
 			
 			//string dgfName = name + "_(" + repetition + ")" ;
