@@ -179,7 +179,7 @@ int main(int argc, char* argv[]) {
 		int hubEdges = instance[5];
 		int budget = instance[6];
 		string name = vertices + string("_") + edges + string("_") + terminals string("_") + budget;
-		string comment = string("Vertices: ") + vertices + string(", Edges:") + edges + string(", Clusters:") + clusters + string(", Terminals: ") + terminals + string(", HubSize: ") + hubSize + string(", HubEdges: ") + hubEdges + string(", Budget:") + budget;
+		string comment = string("Vertices: ") + vertices + string(", Edges:") + edges + string(", Clusters:") + clusters + string(", Terminals: ") + terminals + string(", HubSize: ") + hubSize + string(", HubEdges: ") + hubEdges + string(", Budget: ") + budget;
 		Metrics metrics;
 		
 		for (int repetition = 0; repetition < repetitions; repetition++) {
@@ -195,7 +195,7 @@ int main(int argc, char* argv[]) {
 			int leaves = solver.getLeaves();
 			
 			map<string, string> entry;
-			entry.insert(make_pair("graph", dgfName));
+			entry.insert(make_pair("graph", "" + dgfName));
 			entry.insert(make_pair("vertices", vertices));
 			entry.insert(make_pair("clusters", clusters));
 			entry.insert(make_pair("terminals", terminals));
@@ -209,13 +209,13 @@ int main(int argc, char* argv[]) {
 			metrics.addEntry(entry);
 			
 			//string dgfName = name + "_(" + repetition + ")" ;
-			string dgfComment = "" + comment + " || Repetition: " + repetition + ", SolutionCost: " + solutionCost + ", Duration: " + duration + ", Leaves:" + leaves;
+			string dgfComment = comment + string(" || Repetition: ") + repetition + string(", SolutionCost: ") + solutionCost + string(", Duration: ") + duration + string(", Leaves: ") + leaves;
 			DGFWriter::write(graph, path, dgfName, dgfComment);
 			
 			
 		}
-		string metricsName = "" + name + "_metrics";
-		string metricsComment = "Metrics for " + comment;
+		string metricsName = name + string("_metrics");
+		string metricsComment = string("Metrics for ") + comment;
 		MetricsWriter::write(metrics, path, metricsName, "");
 	}
 	return 0;
