@@ -205,8 +205,8 @@ int main(int argc, char* argv[]) {
 			int leaves = solver.getLeaves();
 			
 			map<string, string> entry;
-			entry.insert(make_pair("graph", to_string(dgfName)));
-			//entry.insert(make_pair("vertices", to_string("") + vertices));
+			entry.insert(make_pair("graph", dgfName));
+			entry.insert(make_pair("vertices", to_string(vertices)));
 			//entry.insert(make_pair("clusters", string("") + clusters));
 			//entry.insert(make_pair("terminals", string("") + terminals));
 			//entry.insert(make_pair("edges", string("") + edges));
