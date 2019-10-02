@@ -220,7 +220,7 @@ int main(int argc, char* argv[]) {
 			
 			//string dgfName = name + "_(" + repetition + ")" ;
 			stringstream dgfCommentStream;
-			dgfCommentStream << comment << " || Repetition: ") << repetition << ", SolutionCost: "
+			dgfCommentStream << comment << " || Repetition: " << repetition << ", SolutionCost: "
 							 << solutionCost << ", Duration: " << duration << ", Leaves: " << leaves;
 			string dgfComment = dgfCommentStream.str();
 			DGFWriter::write(graph, path, dgfName, dgfComment);
