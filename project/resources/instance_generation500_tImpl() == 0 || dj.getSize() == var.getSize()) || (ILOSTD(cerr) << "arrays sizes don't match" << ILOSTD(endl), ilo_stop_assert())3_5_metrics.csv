@@ -1,0 +1,12 @@
+Metrics for Vertices: 500, Edges:4000, Clusters:4, Terminals: 3, HubSize: 7, HubEdges: 7, Budget: 5
+budget,clusters,duration,edges,graph,hubEdges,hubSize,leaves,solutionCost,terminals,vertices
+5,4,514,4000,500_tImpl() == 0 || dj.getSize() == var.getSize()) || (ILOSTD(cerr) << "arrays sizes don't match" << ILOSTD(endl), ilo_stop_assert())3_5_(0),7,7,1,5,3,500
+5,4,853,4000,500_tImpl() == 0 || dj.getSize() == var.getSize()) || (ILOSTD(cerr) << "arrays sizes don't match" << ILOSTD(endl), ilo_stop_assert())3_5_(1),7,7,1,5,3,500
+5,4,567,4000,500_tImpl() == 0 || dj.getSize() == var.getSize()) || (ILOSTD(cerr) << "arrays sizes don't match" << ILOSTD(endl), ilo_stop_assert())3_5_(2),7,7,1,5,3,500
+5,4,527,4000,500_tImpl() == 0 || dj.getSize() == var.getSize()) || (ILOSTD(cerr) << "arrays sizes don't match" << ILOSTD(endl), ilo_stop_assert())3_5_(3),7,7,1,5,3,500
+5,4,557,4000,500_tImpl() == 0 || dj.getSize() == var.getSize()) || (ILOSTD(cerr) << "arrays sizes don't match" << ILOSTD(endl), ilo_stop_assert())3_5_(4),7,7,1,5,3,500
+5,4,757,4000,500_tImpl() == 0 || dj.getSize() == var.getSize()) || (ILOSTD(cerr) << "arrays sizes don't match" << ILOSTD(endl), ilo_stop_assert())3_5_(5),7,7,1,5,3,500
+5,4,792,4000,500_tImpl() == 0 || dj.getSize() == var.getSize()) || (ILOSTD(cerr) << "arrays sizes don't match" << ILOSTD(endl), ilo_stop_assert())3_5_(6),7,7,1,5,3,500
+5,4,541,4000,500_tImpl() == 0 || dj.getSize() == var.getSize()) || (ILOSTD(cerr) << "arrays sizes don't match" << ILOSTD(endl), ilo_stop_assert())3_5_(7),7,7,1,5,3,500
+5,4,535,4000,500_tImpl() == 0 || dj.getSize() == var.getSize()) || (ILOSTD(cerr) << "arrays sizes don't match" << ILOSTD(endl), ilo_stop_assert())3_5_(8),7,7,1,5,3,500
+5,4,604,4000,500_tImpl() == 0 || dj.getSize() == var.getSize()) || (ILOSTD(cerr) << "arrays sizes don't match" << ILOSTD(endl), ilo_stop_assert())3_5_(9),7,7,1,5,3,500

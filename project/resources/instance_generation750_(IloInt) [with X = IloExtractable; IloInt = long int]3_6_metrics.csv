@@ -1,0 +1,12 @@
+Metrics for Vertices: 750, Edges:5750, Clusters:4, Terminals: 3, HubSize: 8, HubEdges: 8, Budget: 6
+budget,clusters,duration,edges,graph,hubEdges,hubSize,leaves,solutionCost,terminals,vertices
+6,4,1191,5750,750_(IloInt) [with X = IloExtractable; IloInt = long int]3_6_(0),8,8,1,6,3,750
+6,4,778,5750,750_(IloInt) [with X = IloExtractable; IloInt = long int]3_6_(1),8,8,1,6,3,750
+6,4,1264,5750,750_(IloInt) [with X = IloExtractable; IloInt = long int]3_6_(2),8,8,1,6,3,750
+6,4,1196,5750,750_(IloInt) [with X = IloExtractable; IloInt = long int]3_6_(3),8,8,1,6,3,750
+6,4,1216,5750,750_(IloInt) [with X = IloExtractable; IloInt = long int]3_6_(4),8,8,1,6,3,750
+6,4,775,5750,750_(IloInt) [with X = IloExtractable; IloInt = long int]3_6_(5),8,8,1,6,3,750
+6,4,1311,5750,750_(IloInt) [with X = IloExtractable; IloInt = long int]3_6_(6),8,8,1,6,3,750
+6,4,863,5750,750_(IloInt) [with X = IloExtractable; IloInt = long int]3_6_(7),8,8,1,6,3,750
+6,4,792,5750,750_(IloInt) [with X = IloExtractable; IloInt = long int]3_6_(8),8,8,1,6,3,750
+6,4,1215,5750,750_(IloInt) [with X = IloExtractable; IloInt = long int]3_6_(9),8,8,1,6,3,750

@@ -1,0 +1,12 @@
+Metrics for Vertices: 2500, Edges:16500, Clusters:8, Terminals: 7, HubSize: 11, HubEdges: 11, Budget: 10
+budget,clusters,duration,edges,graph,hubEdges,hubSize,leaves,solutionCost,terminals,vertices
+10,8,21743,16500,2500_ionOperationsAddonIloCplexIloObjective7_10_(0),11,11,1,10,7,2500
+10,8,22642,16500,2500_ionOperationsAddonIloCplexIloObjective7_10_(1),11,11,1,10,7,2500
+10,8,16859,16500,2500_ionOperationsAddonIloCplexIloObjective7_10_(2),11,11,1,10,7,2500
+10,8,21248,16500,2500_ionOperationsAddonIloCplexIloObjective7_10_(3),11,11,1,10,7,2500
+10,8,8641,16500,2500_ionOperationsAddonIloCplexIloObjective7_10_(4),11,11,1,10,7,2500
+10,8,22233,16500,2500_ionOperationsAddonIloCplexIloObjective7_10_(5),11,11,1,10,7,2500
+10,8,21934,16500,2500_ionOperationsAddonIloCplexIloObjective7_10_(6),11,11,1,10,7,2500
+10,8,8099,16500,2500_ionOperationsAddonIloCplexIloObjective7_10_(7),11,11,1,10,7,2500
+10,8,21062,16500,2500_ionOperationsAddonIloCplexIloObjective7_10_(8),11,11,1,10,7,2500
+10,8,21035,16500,2500_ionOperationsAddonIloCplexIloObjective7_10_(9),11,11,1,10,7,2500
