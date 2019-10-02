@@ -16,3 +16,14 @@ Thesis
 	Plan publishing
 	Handle new results
 	Polishing
+
+
+
+int vertices = 150;
+int clusters = 6;
+int hubSize = 9;
+int budget = 5;
+int clusterSize = (vertices - hubSize) / clusters;
+int minEdges = (clusterSize-1) * clusters;
+int maxEdges =  ((clusterSize * clusterSize - 1) / 2) * clusters	+ ((hubSize * hubSize - 1) / 2) + (clusterSize * budget * clusters);
+return "" + clusterSize + ", " + minEdges + ", " + maxEdges;

@@ -32,10 +32,7 @@ PlantedInstance::PlantedInstance(const int vertices,
 		edgeBudget -= (clusterSize - 1);
 		createEdgeCandidates(edgeCandidates, offset, offset + clusterSize);
 		createClusterToHubCandidates(edgeCandidates, offset, offset + clusterSize, budget);
-		addEdges(edgeCandidates, edgeBudget);
 		offset += clusterSize;
-		
-	
 	}
 	
 	//LAST CLUSTER
