@@ -178,13 +178,13 @@ int main(int argc, char* argv[]) {
 		int hubSize = instance[4];
 		int hubEdges = instance[5];
 		int budget = instance[6];
-		string name = "" + vertices + "_" + edges + "_" + terminals "_" + budget;
-		string comment = "Vertices: " + vertices + ", Edges:" + edges + ", Clusters:" + clusters + ", Terminals: " + terminals + ", HubSize: " + hubSize + ", HubEdges: " + hubEdges + ", Budget:" + budget;
+		string name = vertices + string("_") + edges + string("_") + terminals string("_") + budget;
+		string comment = string("Vertices: ") + vertices + string(", Edges:") + edges + string(", Clusters:") + clusters + string(", Terminals: ") + terminals + string(", HubSize: ") + hubSize + string(", HubEdges: ") + hubEdges + string(", Budget:") + budget;
 		Metrics metrics;
 		
 		for (int repetition = 0; repetition < repetitions; repetition++) {
 			PlantedInstance graph(vertices, clusters, terminals, edges, hubSize, hubEdges, budget);
-			string dgfName = "" + name + "_(" + repetition + ")";
+			string dgfName = name + string("_(") + repetition + string(")");
 			cout << "generating " << dgfName << endl;
 			MultiwayCutSolver solver;
 			
@@ -196,16 +196,16 @@ int main(int argc, char* argv[]) {
 			
 			map<string, string> entry;
 			entry.insert(make_pair("graph", dgfName));
-			entry.insert(make_pair("vertices", "" + vertices));
-			entry.insert(make_pair("clusters", "" + clusters));
-			entry.insert(make_pair("terminals", "" + terminals));
-			entry.insert(make_pair("edges", "" + edges));
-			entry.insert(make_pair("hubSize", "" + hubSize));
-			entry.insert(make_pair("hubEdges", "" + hubEdges));
-			entry.insert(make_pair("budget", "" + budget));
-			entry.insert(make_pair("solutionCost", "" + solutionCost));
-			entry.insert(make_pair("duration", "" + duration));
-			entry.insert(make_pair("leaves", "" + leaves));
+			entry.insert(make_pair("vertices", vertices));
+			entry.insert(make_pair("clusters", clusters));
+			entry.insert(make_pair("terminals", terminals));
+			entry.insert(make_pair("edges", edges));
+			entry.insert(make_pair("hubSize", hubSize));
+			entry.insert(make_pair("hubEdges", hubEdges));
+			entry.insert(make_pair("budget", budget));
+			entry.insert(make_pair("solutionCost", solutionCost));
+			entry.insert(make_pair("duration", duration));
+			entry.insert(make_pair("leaves", leaves));
 			metrics.addEntry(entry);
 			
 			//string dgfName = name + "_(" + repetition + ")" ;
