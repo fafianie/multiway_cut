@@ -178,7 +178,7 @@ int main(int argc, char* argv[]) {
 		int hubSize = instance[4];
 		int hubEdges = instance[5];
 		int budget = instance[6];
-		string name = vertices + "_" + edges + "_" + terminals "_" + budget
+		string name = "" + vertices + "_" + edges + "_" + terminals "_" + budget;
 		string comment = "Vertices: " + vertices + ", Edges:" + edges + ", Clusters:" + clusters + ", Terminals: " + terminals + ", HubSize: " + hubSize + ", HubEdges: " + hubEdges + ", Budget:" + budget;
 		Metrics metrics;
 		
