@@ -3,6 +3,7 @@
 #include "multiway_cut_solver.h"
 #include "dgf_writer.h"
 #include "metrics_writer.h"
+#include "planted_instance.h"
 
 using namespace std;
 
