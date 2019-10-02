@@ -184,7 +184,7 @@ int main(int argc, char* argv[]) {
 		
 		for (int repetition = 0; repetition < repetitions; repetition++) {
 			PlantedInstance graph(vertices, clusters, terminals, edges, hubSize, hubEdges, budget);
-			string dgfName = name + "_(" + repetition + ")" ;
+			string dgfName = name + "_(" + repetition + ")";
 			cout << "generating " << dgfName << endl;
 			MultiwayCutSolver solver;
 			
@@ -208,9 +208,9 @@ int main(int argc, char* argv[]) {
 			entry.insert(make_pair("leaves", "" + leaves));
 			metrics.addEntry(entry);
 			
-			string dgfName = name + "_(" + repetition + ")" ;
+			//string dgfName = name + "_(" + repetition + ")" ;
 			string dgfComment = comment + " || Repetition: " + repetition + ", SolutionCost: " + solutionCost + ", Duration: " + duration + ", Leaves:" + leaves;
-			DGFWriter::write(input, path, dgfName, dgfComment);
+			DGFWriter::write(graph, path, dgfName, dgfComment);
 			
 			
 		}
