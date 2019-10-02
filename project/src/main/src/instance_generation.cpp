@@ -184,7 +184,7 @@ int main(int argc, char* argv[]) {
 		string name = nameStream.str();
 		stringstream commentStream;
 		commentStream << "Vertices: " << vertices << ", Edges:" << edges << ", Clusters:"
-					  << clusters << ", Terminals: " << terminals << ", HubSize: ")
+					  << clusters << ", Terminals: " << terminals << ", HubSize: "
 					  << hubSize << ", HubEdges: " << hubEdges << ", Budget: " << budget;
 		string comment = commentStream.str();
 		Metrics metrics;
