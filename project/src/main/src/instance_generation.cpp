@@ -195,17 +195,17 @@ int main(int argc, char* argv[]) {
 			int leaves = solver.getLeaves();
 			
 			map<string, string> entry;
-			entry.insert(make_pair("graph", string("") + dgfName));
-			entry.insert(make_pair("vertices", string("") + vertices));
-			entry.insert(make_pair("clusters", string("") + clusters));
-			entry.insert(make_pair("terminals", string("") + terminals));
-			entry.insert(make_pair("edges", string("") + edges));
-			entry.insert(make_pair("hubSize", string("") + hubSize));
-			entry.insert(make_pair("hubEdges", string("") + hubEdges));
-			entry.insert(make_pair("budget", string("") + udget));
-			entry.insert(make_pair("solutionCost", string("") + solutionCost));
-			entry.insert(make_pair("duration", string("") + duration));
-			entry.insert(make_pair("leaves", string("") + leaves));
+			//entry.insert(make_pair("graph", string("") + dgfName));
+			//entry.insert(make_pair("vertices", string("") + vertices));
+			//entry.insert(make_pair("clusters", string("") + clusters));
+			//entry.insert(make_pair("terminals", string("") + terminals));
+			//entry.insert(make_pair("edges", string("") + edges));
+			//entry.insert(make_pair("hubSize", string("") + hubSize));
+			//entry.insert(make_pair("hubEdges", string("") + hubEdges));
+			//entry.insert(make_pair("budget", string("") + udget));
+			//entry.insert(make_pair("solutionCost", string("") + solutionCost));
+			//entry.insert(make_pair("duration", string("") + duration));
+			//entry.insert(make_pair("leaves", string("") + leaves));
 			metrics.addEntry(entry);
 			
 			//string dgfName = name + "_(" + repetition + ")" ;
