@@ -1,0 +1,12 @@
+Metrics for Vertices: 3250, Edges:21000, Clusters:11, Terminals: 10, HubSize: 14, HubEdges: 14, Budget: 13
+budget,clusters,duration,edges,graph,hubEdges,hubSize,leaves,solutionCost,terminals,vertices
+13,11,16525,21000,3250_icient of an aggregate expression10_13_(0),14,14,1,13,10,3250
+13,11,46699,21000,3250_icient of an aggregate expression10_13_(1),14,14,1,13,10,3250
+13,11,46495,21000,3250_icient of an aggregate expression10_13_(2),14,14,1,13,10,3250
+13,11,17570,21000,3250_icient of an aggregate expression10_13_(3),14,14,1,13,10,3250
+13,11,17748,21000,3250_icient of an aggregate expression10_13_(4),14,14,1,13,10,3250
+13,11,50669,21000,3250_icient of an aggregate expression10_13_(5),14,14,1,13,10,3250
+13,11,17588,21000,3250_icient of an aggregate expression10_13_(6),14,14,1,13,10,3250
+13,11,16962,21000,3250_icient of an aggregate expression10_13_(7),14,14,1,13,10,3250
+13,11,16646,21000,3250_icient of an aggregate expression10_13_(8),14,14,1,13,10,3250
+13,11,16941,21000,3250_icient of an aggregate expression10_13_(9),14,14,1,13,10,3250

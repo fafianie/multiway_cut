@@ -1,0 +1,12 @@
+Metrics for Vertices: 1000, Edges:8000, Clusters:5, Terminals: 4, HubSize: 7, HubEdges: 7, Budget: 5
+budget,clusters,duration,edges,graph,hubEdges,hubSize,leaves,solutionCost,terminals,vertices
+5,5,1562,8000,1000_ GSA ADP Schedule Contract with IBM Corp.4_5_(0),7,7,1,5,4,1000
+5,5,2573,8000,1000_ GSA ADP Schedule Contract with IBM Corp.4_5_(1),7,7,1,5,4,1000
+5,5,2648,8000,1000_ GSA ADP Schedule Contract with IBM Corp.4_5_(2),7,7,1,5,4,1000
+5,5,2501,8000,1000_ GSA ADP Schedule Contract with IBM Corp.4_5_(3),7,7,1,5,4,1000
+5,5,1582,8000,1000_ GSA ADP Schedule Contract with IBM Corp.4_5_(4),7,7,1,5,4,1000
+5,5,1580,8000,1000_ GSA ADP Schedule Contract with IBM Corp.4_5_(5),7,7,1,5,4,1000
+5,5,1545,8000,1000_ GSA ADP Schedule Contract with IBM Corp.4_5_(6),7,7,1,5,4,1000
+5,5,1560,8000,1000_ GSA ADP Schedule Contract with IBM Corp.4_5_(7),7,7,1,5,4,1000
+5,5,1564,8000,1000_ GSA ADP Schedule Contract with IBM Corp.4_5_(8),7,7,1,5,4,1000
+5,5,1521,8000,1000_ GSA ADP Schedule Contract with IBM Corp.4_5_(9),7,7,1,5,4,1000

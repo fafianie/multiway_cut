@@ -3,11 +3,12 @@
 #include "multiway_cut_solver.h"
 #include "dgf_writer.h"
 #include "metrics_writer.h"
+#include "planted_instance.h"
 
 using namespace std;
 
 const int repetitions = 10;
-const string path = "../../resources/instance_generation";
+const string path = "../../resources/instance_generation/";
 
 int main(int argc, char* argv[]) {
 		
@@ -178,14 +179,24 @@ int main(int argc, char* argv[]) {
 		int hubSize = instance[4];
 		int hubEdges = instance[5];
 		int budget = instance[6];
-		string name = vertices + "_" + edges + "_" + terminals "_" + budget
-		string comment = "Vertices: " + vertices + ", Edges:" + edges + ", Clusters:" + clusters + ", Terminals: " + terminals + ", HubSize: " + hubSize + ", HubEdges: " + hubEdges + ", Budget:" + budget;
+		
+		stringstream nameStream;
+		nameStream << vertices << "_" << edges + "_" << terminals << "_" << budget;
+		string name = nameStream.str();
+		stringstream commentStream;
+		commentStream << "Vertices: " << vertices << ", Edges:" << edges << ", Clusters:"
+					  << clusters << ", Terminals: " << terminals << ", HubSize: "
+					  << hubSize << ", HubEdges: " << hubEdges << ", Budget: " << budget;
+		string comment = commentStream.str();
 		Metrics metrics;
 		
 		for (int repetition = 0; repetition < repetitions; repetition++) {
 			PlantedInstance graph(vertices, clusters, terminals, edges, hubSize, hubEdges, budget);
-			string dgfName = name + "_(" + repetition + ")" ;
-			cout << "generating " << dgfName << endl;
+			stringstream dgfNameStream;
+			dgfNameStream << name << "_(" << repetition << ")";
+			string dgfName = dgfNameStream.str();
+			strign display = dgfName;
+			cout << "generating " << display << endl;
 			MultiwayCutSolver solver;
 			
 			auto start = chrono::high_resolution_clock::now();
@@ -196,27 +207,32 @@ int main(int argc, char* argv[]) {
 			
 			map<string, string> entry;
 			entry.insert(make_pair("graph", dgfName));
-			entry.insert(make_pair("vertices", "" + vertices));
-			entry.insert(make_pair("clusters", "" + clusters));
-			entry.insert(make_pair("terminals", "" + terminals));
-			entry.insert(make_pair("edges", "" + edges));
-			entry.insert(make_pair("hubSize", "" + hubSize));
-			entry.insert(make_pair("hubEdges", "" + hubEdges));
-			entry.insert(make_pair("budget", "" + budget));
-			entry.insert(make_pair("solutionCost", "" + solutionCost));
-			entry.insert(make_pair("duration", "" + duration));
-			entry.insert(make_pair("leaves", "" + leaves));
+			entry.insert(make_pair("vertices", to_string(vertices)));
+			entry.insert(make_pair("clusters", to_string(clusters)));
+			entry.insert(make_pair("terminals", to_string(terminals)));
+			entry.insert(make_pair("edges", to_string(edges)));
+			entry.insert(make_pair("hubSize", to_string(hubSize)));
+			entry.insert(make_pair("hubEdges", to_string(hubEdges)));
+			entry.insert(make_pair("budget", to_string(budget)));
+			entry.insert(make_pair("solutionCost", to_string(solutionCost)));
+			entry.insert(make_pair("duration", to_string(duration)));
+			entry.insert(make_pair("leaves", to_string(leaves)));
 			metrics.addEntry(entry);
 			
-			string dgfName = name + "_(" + repetition + ")" ;
-			string dgfComment = comment + " || Repetition: " + repetition + ", SolutionCost: " + solutionCost + ", Duration: " + duration + ", Leaves:" + leaves;
-			DGFWriter::write(input, path, dgfName, dgfComment);
+			//string dgfName = name + "_(" + repetition + ")" ;
+			stringstream dgfCommentStream;
+			dgfCommentStream << comment << " || Repetition: " << repetition << ", SolutionCost: "
+							 << solutionCost << ", Duration: " << duration << ", Leaves: " << leaves;
+			string dgfComment = dgfCommentStream.str();
+			DGFWriter::write(graph, path, dgfName, dgfComment);
 			
 			
 		}
-		string metricsName = name + "_metrics";
-		string metricsComment = "Metrics for " + comment;
-		MetricsWriter::write(metrics, path, metricsName, "");
+		stringstream metricsNameStream;
+		metricsNameStream << name << string("_metrics");
+		string metricsName = metricsNameStream.str();
+		string metricsComment = string("Metrics for ") + comment;
+		MetricsWriter::write(metrics, path, metricsName, metricsComment);
 	}
 	return 0;
 }
