@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "graph.h"
 #include "multiway_cut_solver.h"
+#include "planted_intance.h"
 
 using namespace std;
 
