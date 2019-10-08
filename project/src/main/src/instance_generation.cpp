@@ -197,7 +197,7 @@ int main(int argc, char* argv[]) {
 			dgfNameStream << name << "_(" << repetition << ")";
 			string dgfName = dgfNameStream.str();
 			string display = dgfName;
-			cout << "generating " << display << endl;
+			//cout << "generating " << display << endl;
 			MultiwayCutSolver solver;
 			
 			auto start = chrono::high_resolution_clock::now();
