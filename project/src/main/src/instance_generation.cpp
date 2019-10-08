@@ -178,8 +178,15 @@ int main(int argc, char* argv[]) {
 		int hubSize = instance[4];
 		int hubEdges = instance[5];
 		int budget = instance[6];
-		string name = vertices + "_" + edges + "_" + terminals "_" + budget
-		string comment = "Vertices: " + vertices + ", Edges:" + edges + ", Clusters:" + clusters + ", Terminals: " + terminals + ", HubSize: " + hubSize + ", HubEdges: " + hubEdges + ", Budget:" + budget;
+		
+		stringstream nameStream;
+		nameStream << vertices << "_" << edges + "_" << terminals << "_" << budget;
+		string name = nameStream.str();
+		stringstream commentStream;
+		commentStream << "Vertices: " << vertices << ", Edges:" << edges << ", Clusters:"
+					  << clusters << ", Terminals: " << terminals << ", HubSize: "
+					  << hubSize << ", HubEdges: " << hubEdges << ", Budget: " << budget;
+		string comment = commentStream.str();
 		Metrics metrics;
 		
 		for (int repetition = 0; repetition < repetitions; repetition++) {
@@ -199,27 +206,29 @@ int main(int argc, char* argv[]) {
 			int leaves = solver.getLeaves();
 			
 			map<string, string> entry;
-			entry.insert(make_pair("graph", dgfName));
-			entry.insert(make_pair("vertices", "" + vertices));
-			entry.insert(make_pair("clusters", "" + clusters));
-			entry.insert(make_pair("terminals", "" + terminals));
-			entry.insert(make_pair("edges", "" + edges));
-			entry.insert(make_pair("hubSize", "" + hubSize));
-			entry.insert(make_pair("hubEdges", "" + hubEdges));
-			entry.insert(make_pair("budget", "" + budget));
-			entry.insert(make_pair("solutionCost", "" + solutionCost));
-			entry.insert(make_pair("duration", "" + duration));
-			entry.insert(make_pair("leaves", "" + leaves));
+			entry.insert(make_pair("01) graph", dgfName));
+			entry.insert(make_pair("02) vertices", to_string(vertices)));
+			entry.insert(make_pair("03) clusters", to_string(clusters)));
+			entry.insert(make_pair("04) terminals", to_string(terminals)));
+			entry.insert(make_pair("05) edges", to_string(edges)));
+			entry.insert(make_pair("06) hubSize", to_string(hubSize)));
+			entry.insert(make_pair("07) hubEdges", to_string(hubEdges)));
+			entry.insert(make_pair("08) budget", to_string(budget)));
+			entry.insert(make_pair("09) solutionCost", to_string(solutionCost)));
+			entry.insert(make_pair("10) duration", to_string(duration)));
+			entry.insert(make_pair("11) leaves", to_string(leaves)));
 			metrics.addEntry(entry);
 			
-			string dgfName = name + "_(" + repetition + ")" ;
-			string dgfComment = comment + " || Repetition: " + repetition + ", SolutionCost: " + solutionCost + ", Duration: " + duration + ", Leaves:" + leaves;
+			stringstream dgfCommentStream;
+			dgfCommentStream << comment << " || Repetition: " << repetition << ", SolutionCost: "
+							 << solutionCost << ", Duration: " << duration << ", Leaves: " << leaves;
+			string dgfComment = dgfCommentStream.str();
 			DGFWriter::write(input, path, dgfName, dgfComment);
-			
-			
 		}
-		string metricsName = name + "_metrics";
-		string metricsComment = "Metrics for " + comment;
+		stringstream metricsNameStream;
+		metricsNameStream << name << "_metrics";
+		string metricsName = metricsNameStream.str();
+		string metricsComment = string("Metrics for ") + comment;
 		MetricsWriter::write(metrics, path, metricsName, "");
 	}
 	return 0;
