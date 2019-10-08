@@ -7,7 +7,7 @@
 using namespace std;
 
 const int repetitions = 10;
-const string path = "../../resources/instance_generation";
+const string path = "../../resources/instance_generation/";
 
 int main(int argc, char* argv[]) {
 		
