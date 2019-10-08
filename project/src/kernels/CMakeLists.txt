@@ -23,7 +23,7 @@ target_link_libraries(multiway_cut_kernel_test graphs readers writers solvers ke
 
 add_executable(half_integral_reduction_test test/half_integral_reduction_test.cpp)
 target_link_libraries(half_integral_reduction_test graphs readers solvers kernels stdafx)
-#add_test(HalfIntegralReductionIsCorrect half_integral_reduction_test)
+add_test(HalfIntegralReductionIsCorrect half_integral_reduction_test)
  
 
 
