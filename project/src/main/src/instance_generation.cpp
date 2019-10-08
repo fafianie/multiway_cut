@@ -223,7 +223,7 @@ int main(int argc, char* argv[]) {
 			dgfCommentStream << comment << " || Repetition: " << repetition << ", SolutionCost: "
 							 << solutionCost << ", Duration: " << duration << ", Leaves: " << leaves;
 			string dgfComment = dgfCommentStream.str();
-			DGFWriter::write(input, path, dgfName, dgfComment);
+			DGFWriter::write(graph, path, dgfName, dgfComment);
 		}
 		stringstream metricsNameStream;
 		metricsNameStream << name << "_metrics";
