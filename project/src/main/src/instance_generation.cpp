@@ -195,7 +195,7 @@ int main(int argc, char* argv[]) {
 			stringstream dgfNameStream;
 			dgfNameStream << name << "_(" << repetition << ")";
 			string dgfName = dgfNameStream.str();
-			strign display = dgfName;
+			string display = dgfName;
 			cout << "generating " << display << endl;
 			MultiwayCutSolver solver;
 			
