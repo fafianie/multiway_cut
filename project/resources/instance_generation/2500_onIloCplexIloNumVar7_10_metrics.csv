@@ -1,0 +1,12 @@
+
+01) graph,02) vertices,03) clusters,04) terminals,05) edges,06) hubSize,07) hubEdges,08) budget,09) solutionCost,10) duration,11) leaves
+2500_onIloCplexIloNumVar7_10_(0),2500,8,7,16500,11,11,10,10,19757,1
+2500_onIloCplexIloNumVar7_10_(1),2500,8,7,16500,11,11,10,10,20280,1
+2500_onIloCplexIloNumVar7_10_(2),2500,8,7,16500,11,11,10,10,17841,1
+2500_onIloCplexIloNumVar7_10_(3),2500,8,7,16500,11,11,10,10,20343,1
+2500_onIloCplexIloNumVar7_10_(4),2500,8,7,16500,11,11,10,10,7890,1
+2500_onIloCplexIloNumVar7_10_(5),2500,8,7,16500,11,11,10,10,22701,1
+2500_onIloCplexIloNumVar7_10_(6),2500,8,7,16500,11,11,10,10,21979,1
+2500_onIloCplexIloNumVar7_10_(7),2500,8,7,16500,11,11,10,10,8379,1
+2500_onIloCplexIloNumVar7_10_(8),2500,8,7,16500,11,11,10,10,21508,1
+2500_onIloCplexIloNumVar7_10_(9),2500,8,7,16500,11,11,10,10,21233,1
